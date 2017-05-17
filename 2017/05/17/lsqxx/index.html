@@ -101,7 +101,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-05-17</span>
-            <span class="time">14:21:01</span>
+            <span class="time">19:01:40</span>
           </span>
           
           <!--  Categories  -->
@@ -116,7 +116,7 @@
           <div class="post-tags text-muted">
             Tags: 
 
-<a class="tag" href="/tags/data-structures/">#data structures</a> <a class="tag" href="/tags/teach/">#teach</a>
+<a class="tag" href="/tags/teach/">#teach</a> <a class="tag" href="/tags/data-structures/">#data structures</a>
 
 
           </div>
@@ -127,7 +127,7 @@
 <h1 id="链式前向星"><a href="#链式前向星" class="headerlink" title="链式前向星"></a>链式前向星</h1><hr>
 <p>链式前向星的主要就是下面这几行了<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v,<span class="keyword">int</span> w)</span></span></div><div class="line">&#123;</div><div class="line">    edge[cnt].c= w;</div><div class="line">    edge[cnt].to = v;</div><div class="line">    edge[cnt].next = head[u];</div><div class="line">    head[u] = cnt++;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
-<p>###介绍一下<br>第一个出场的是edge.c——权重<br>好的，我们看到紧随其后的是edge.to——这条边的终点/*前两个还是很好理解的<br>然后就是最最大佬的部分，edge.next——它指向同一起点的上一条边<br>我们使用链式前向星时常常会看到这么一条语句for(i=head[u];i;i=e[i].next)//插个介绍，head[u]代表以u为起点的边上一次出现的边的编号<br>我们可以使用它进行一个bfs<br>举个栗子<br><img src="http://i2.muimg.com/588926/a4a294814e79454d.jpg" alt=""></p>
+<h3 id="介绍一下"><a href="#介绍一下" class="headerlink" title="介绍一下"></a>介绍一下</h3><p>第一个出场的是edge.c——权重<br>好的，我们看到紧随其后的是edge.to——这条边的终点/*前两个还是很好理解的<br>然后就是最最大佬的部分，edge.next——它指向同一起点的上一条边<br>我们使用链式前向星时常常会看到这么一条语句for(i=head[u];i;i=e[i].next)//插个介绍，head[u]代表以u为起点的边上一次出现的边的编号<br>我们可以使用它进行一个bfs<br>举个栗子<br><img src="http://i2.muimg.com/588926/a4a294814e79454d.jpg" alt=""></p>
 
         </div>
       </div>
