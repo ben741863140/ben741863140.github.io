@@ -101,7 +101,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-05-18</span>
-            <span class="time">13:33:47</span>
+            <span class="time">23:25:58</span>
           </span>
           
           <!--  Categories  -->
@@ -123,7 +123,7 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>简单讲解链式前向星<br><a id="more"></a></p>
+          <p>简单讲解邻接表<br><a id="more"></a></p>
 <h1 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a><font color="Blue">邻接表</font></h1><hr>
 <p>看完链式前向星之后，我们来看一下它的小伙伴————邻接表。邻接表相对于普通矩阵记录边和查找边速度会更加快，唯一的不同就是构造起来代码量会更多，下面直接先上代码</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=m;i++)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;ui,&amp;vi,&amp;ti);</div><div class="line">            a[ui][<span class="number">0</span>]++;<span class="comment">//ui是起点，这里记录以ui为起点的边的数量</span></div><div class="line">            a[vi][<span class="number">0</span>]++;<span class="comment">//同上</span></div><div class="line">            a[ui][a[ui][<span class="number">0</span>]]=i;<span class="comment">//这个是边的编号</span></div><div class="line">            a[vi][a[vi][<span class="number">0</span>]]=i+m;<span class="comment">//同上</span></div><div class="line">            l[i+m][<span class="number">1</span>]=ui;<span class="comment">//记录编号为i+m的边的终点</span></div><div class="line">            l[i+m][<span class="number">2</span>]=ti;<span class="comment">//记录编号为i+m的边的权值</span></div><div class="line">            l[i][<span class="number">1</span>]=vi;<span class="comment">//同上上</span></div><div class="line">            l[i][<span class="number">2</span>]=ti;<span class="comment">//同上上</span></div><div class="line">        &#125;</div></pre></td></tr></table></figure>
