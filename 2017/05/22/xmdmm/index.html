@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Ming Li">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="小明的密码"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="Leon&#39;s Blog"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Leon's Blog</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-light.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">小明的密码</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/ben741863140">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:ben741863140@163.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Ming Li</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-05-22</span>
+            <span class="time">14:10:31</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/teach/">teach</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/teach/">#teach</a> <a class="tag" href="/tags/problem-solve/">#problem solve</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <h1 id="小明的密码"><a href="#小明的密码" class="headerlink" title="小明的密码"></a><font color="Blue">小明的密码</font></h1><a id="more"></a>
+<p>题型: 编程题   语言: 无限制</p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><font color="Blue">问题描述</font></h2><p>描述小明的密码由N（1&lt;=N&lt;=12）个数字构成，每个数字都可以是0至9中任意一个数字，但小明的密码还有<br>一个特点就是密码中连续的M（1&lt;=M&lt;=4）个数字的和是质数，现给定M和N，求满足条件的密码共有多少<br>个？</p>
+<hr>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a><font color="Blue">输入格式</font></h2><p>第1行是T，case数量，此后T行，每行两个数，N和M</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a><font color="Blue">输出格式</font></h2><p>每个case输出一个满足条件的密码总数</p>
+<p>输入样例2<br>1 1<br>2 1</p>
+<p>输出样例4<br>16</p>
+<hr>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a><font color="Blue">题解</font></h2><p>1.简单方法：用欧拉筛先找出质数，然后递归<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">long</span> v[<span class="number">100</span>]= &#123;<span class="number">0</span>&#125;,prime[<span class="number">50</span>]= &#123;<span class="number">0</span>&#125;,prin=<span class="number">0</span>,n,m,ans,a[<span class="number">20</span>];</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Euler</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    v[<span class="number">0</span>]=<span class="number">1</span>; v[<span class="number">1</span>]=<span class="number">1</span>;</div><div class="line">    <span class="keyword">long</span> i,j;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">2</span>; i&lt;=<span class="number">100</span>; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(!v[i]) prime[prin++]=i;</div><div class="line">        <span class="keyword">for</span>(j=<span class="number">0</span>; j&lt;prin; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(i*prime[j]&gt;<span class="number">100</span>) <span class="keyword">break</span>;</div><div class="line">            v[i*prime[j]]=prime[j];</div><div class="line">            <span class="keyword">if</span>(!i%prime[j])</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">long</span> w)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">long</span> temp;</div><div class="line">    <span class="keyword">if</span>(w==n+<span class="number">1</span>) &#123;ans++; <span class="keyword">return</span>;&#125;</div><div class="line">    <span class="keyword">if</span>(w&lt;m)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">long</span> i=<span class="number">0</span>; i&lt;=<span class="number">9</span>; i++)</div><div class="line">        &#123;</div><div class="line">            a[w]=i;</div><div class="line">            solve(w+<span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">for</span>(<span class="keyword">long</span> i=<span class="number">0</span>; i&lt;=<span class="number">9</span>; i++)</div><div class="line">    &#123;</div><div class="line">        temp=<span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">long</span> j=m; j&gt;<span class="number">1</span>; j--)</div><div class="line">            temp+=a[w-j+<span class="number">1</span>];</div><div class="line">        temp+=i;</div><div class="line">        <span class="keyword">if</span>(!v[temp]) &#123;a[w]=i; solve(w+<span class="number">1</span>);&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line">main()</div><div class="line">&#123;</div><div class="line">  <span class="keyword">long</span> i,j,casen;</div><div class="line">  <span class="built_in">scanf</span>(<span class="string">"%ld"</span>,&amp;casen);</div><div class="line">  Euler();</div><div class="line">  <span class="keyword">while</span>(casen--)</div><div class="line"> &#123;</div><div class="line">  ans=<span class="number">0</span>;</div><div class="line">  <span class="built_in">scanf</span>(<span class="string">"%ld%ld"</span>,&amp;n,&amp;m);</div><div class="line">  <span class="keyword">if</span>(m!=<span class="number">1</span>)</div><div class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;=<span class="number">9</span>; i++)</div><div class="line">  &#123;</div><div class="line">      a[<span class="number">1</span>]=i;</div><div class="line">      solve(<span class="number">2</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">else</span></div><div class="line">  &#123;</div><div class="line">      ans=<span class="number">1</span>;</div><div class="line">      <span class="keyword">for</span>(i=<span class="number">1</span>; i&lt;=n; i++)</div><div class="line">      ans*=<span class="number">4</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>,ans);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>2.用数位dp快速求解</p>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a><font color="Blue">写在最后</font></h2><hr>
+<p>其实我们在面对同一道题的时候，往往会有多种解法，在这题里面，因为时间限制给的比较宽松，所以简单的递归就可以解决，当然正解应该是用数位dp。只能说，当你有更简单的方法水过去的时候，不要一开始就码正解。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Belong to <a target="_blank" href="https://github.com/ben741863140">Leon.</a>
+		  Inspired By <a target="_blank" href="https://github.com/DevRoss">DevRoss.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="http://shineleon.cn/">Hexo.</a>
+		<p class="copyright text-muted">
+		<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+本站总访问量 <span id="busuanzi_value_site_pv"></span> 次, 访客数 <span id="busuanzi_value_site_uv"></span> 人次, 本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
