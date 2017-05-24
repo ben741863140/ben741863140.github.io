@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Ming Li">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="Takio的滑板鞋"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="Leon&#39;s Blog"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Leon's Blog</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-light.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">Takio的滑板鞋</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/ben741863140">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:ben741863140@163.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Ming Li</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-05-24</span>
+            <span class="time">16:04:51</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/teach/">teach</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/teach/">#teach</a> <a class="tag" href="/tags/problem-solve/">#problem solve</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>题解，方法：普通dfs<br><a id="more"></a></p>
+<h1 id="17973-Takio的滑板鞋"><a href="#17973-Takio的滑板鞋" class="headerlink" title="17973 Takio的滑板鞋"></a><font color="Blue">17973 Takio的滑板鞋</font></h1><p>时间限制:1000MS  内存限制:65535K<br>提交次数:79 通过次数:15 收入:28</p>
+<p>题型: 编程题   语言: G++;GCC;VC;</p>
+<h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a><font color="Blue">Description</font></h2><p>某一天SCAU_ACM校队的Takio去了第二个城市打比赛<br>这里的人们称它为魅力之都<br>时间过的很快比赛已经打完</p>
+<p>他想他必须要离开<br>当他正要走时他看到了一家专卖店<br>那就是他要的滑板鞋<br>他的滑板鞋时尚时尚最时尚</p>
+<p>回家的路上他情不自禁<br>摩擦 摩擦<br>在这光滑的地上摩擦</p>
+<p>月光下他看到自己的身影<br>有时很远有时很近<br>感到一种力量驱使他的脚步</p>
+<p>有了滑板鞋天黑都不怕<br>一步两步一步两步<br>一步一步似爪牙<br>似魔鬼的步伐</p>
+<p>Takio想知道他是否能找出一条回家的路径，使得他回家步伐的步长为一步两步一步两步……，若能，Takio则可解锁成就“魔鬼的步伐”。</p>
+<p>Details：<br>1.第奇数歩的步长为一步，第偶数歩的步长为两步，步数从1开始，第一步的步长为1，且Takio到家时的最后一步的步长必须为2（回家路径上的步长为1212……12）<br>2.已经过的位置不能再次经过。<br>3.不能经过或踩到障碍上。<br>4.若当前歩的步长为2，则需向同一方向移动两步。</p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a><font color="Blue">输入格式</font></h2><p>有多组测试数据（≤20）<br>每组测试数据的第一行是两个正整数n, m（1 &lt;= n, m &lt;= 8），代表平面区域的大小。<br>每组测试数据的第二行到第n + 1行是一个矩阵，代表二维平面的布局，s为Takio现在所在的位置，t为Takio的家，#为障碍，*为可到达区域<br>输入以EOF结束。</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a><font color="Blue">输出格式</font></h2><p>对于每组测试数据，输出一行，若Takio可解锁成就“魔鬼的步伐”则输出”Yes”，否则输出”No”。</p>
+<h2 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例"></a><font color="Blue">输入样例</font></h2><p>5 7</p>
+<p>######*</p>
+<p>#<strong><em>s</em>#
+</strong>#<strong><em>#<br>t#</em>#</strong>#<br><strong>*</strong>#*</p>
+<p>5 7</p>
+<p>######<em><br><em>**</em>s</em>#<br><strong>#*</strong>#<br>t#<em>#<strong>#<br>**</strong></em>#*</p>
+<h2 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例"></a><font color="Blue">输出样例</font></h2><p>No<br>Yes</p>
+<hr>
+<h2 id="做题思路"><a href="#做题思路" class="headerlink" title="做题思路"></a><font color="Blue">做题思路</font></h2><p>这是一道很经典的深搜题，没有用到剪枝是它成为水题的一大原因，下面讲讲思路。<br>首先，我们需要扫图：可以用矩阵来储存（因为边界问题，矩阵需要开大两个单位，不然扫到边界会报错） 扫到#记录是0 扫到*和s和t都记录是1 然后用四个变量记住起点和终点的坐标。（扫图是很关键的，建议自己做完扫图后用输出语句检查自己的矩阵有没有打错）<br>然后我们开始深度搜索，从起点开始往它周围的四个方向各走一步（如果没有障碍），将它走到的位置的坐标和走的步数传去下一个递归里，然后开头加个判断，如果坐标和步数符合终点要求就返回1，然后输出答案，如果不是的话，我们继续开始判断，会不会到了终点可是步数为1，这样我们就要返回0，代表这样走不行。然后我们通过上层递归传过来的步数和位置判断下一步要怎么走，记住，如果我们要走两步，两步都要判断是畅通的，而且两步的方向是不能改变的，再用新到的位置和走的步数进行传递，直到最后递归回来。 PS：记住走过的地方要暂时把点删掉，等递归回来后再把点复原，不然会重复走。<br>至于那个表要怎么打出来，我是这样的，我先用一个while（1）做来回循环，然后最后那里加了一个if（（s=gechar（））==EOF） break；就可以实现不限次读取图了，然后用flag来记录找到路没有，方便打印。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="Blue">代码</font></h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> x2,y2,t[<span class="number">15</span>][<span class="number">15</span>];</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> flag=<span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span>(x==x2&amp;&amp;y==y2&amp;&amp;b==<span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(x==x2&amp;&amp;y==y2&amp;&amp;b==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span>(b==<span class="number">2</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(t[x<span class="number">-1</span>][y]) &#123;t[x<span class="number">-1</span>][y]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x<span class="number">-1</span>,y,<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x<span class="number">-1</span>][y]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x+<span class="number">1</span>][y]) &#123;t[x+<span class="number">1</span>][y]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x+<span class="number">1</span>,y,<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x+<span class="number">1</span>][y]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x][y<span class="number">-1</span>]) &#123;t[x][y<span class="number">-1</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x,y<span class="number">-1</span>,<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x][y<span class="number">-1</span>]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x][y+<span class="number">1</span>]) &#123;t[x][y+<span class="number">1</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x,y+<span class="number">1</span>,<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x][y+<span class="number">1</span>]=<span class="number">1</span>;&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(b==<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(t[x<span class="number">-1</span>][y]&amp;&amp;t[x<span class="number">-2</span>][y]) &#123;t[x<span class="number">-1</span>][y]=<span class="number">0</span>; t[x<span class="number">-2</span>][y]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x<span class="number">-2</span>,y,<span class="number">2</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x<span class="number">-1</span>][y]=<span class="number">1</span>; t[x<span class="number">-2</span>][y]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x+<span class="number">1</span>][y]&amp;&amp;t[x+<span class="number">2</span>][y]) &#123;t[x+<span class="number">1</span>][y]=<span class="number">0</span>; t[x+<span class="number">2</span>][y]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x+<span class="number">2</span>,y,<span class="number">2</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x+<span class="number">1</span>][y]=<span class="number">1</span>; t[x+<span class="number">2</span>][y]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x][y<span class="number">-1</span>]&amp;&amp;t[x][y<span class="number">-2</span>]) &#123;t[x][y<span class="number">-1</span>]=<span class="number">0</span>; t[x][y<span class="number">-2</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x,y<span class="number">-2</span>,<span class="number">2</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x][y<span class="number">-1</span>]=<span class="number">1</span>; t[x][y<span class="number">-2</span>]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x][y+<span class="number">1</span>]&amp;&amp;t[x][y+<span class="number">2</span>]) &#123;t[x][y+<span class="number">1</span>]=<span class="number">0</span>; t[x][y+<span class="number">2</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x,y+<span class="number">2</span>,<span class="number">2</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x][y+<span class="number">1</span>]=<span class="number">1</span>; t[x][y+<span class="number">2</span>]=<span class="number">1</span>;&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line">main()</div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> n,m,i,j,k,l,x1,y1,flag;</div><div class="line">    <span class="keyword">char</span> s;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        flag=<span class="number">0</span>;</div><div class="line">        <span class="built_in">memset</span>(t,<span class="number">0</span>,<span class="keyword">sizeof</span>(t));</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;m);</div><div class="line">        getchar();</div><div class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>; i&lt;=n; i++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">for</span>(j=<span class="number">1</span>; j&lt;=m; j++)</div><div class="line">            &#123;</div><div class="line">                s=getchar();</div><div class="line">                <span class="keyword">if</span>(s==<span class="string">'#'</span>) <span class="keyword">continue</span>;</div><div class="line">                t[i][j]=<span class="number">1</span>;</div><div class="line">                <span class="keyword">if</span>(s==<span class="string">'s'</span>)</div><div class="line">                &#123;</div><div class="line">                    x1=i;</div><div class="line">                    y1=j;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(s==<span class="string">'t'</span>)</div><div class="line">                &#123;</div><div class="line">                    x2=i;</div><div class="line">                    y2=j;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            getchar();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(t[x1<span class="number">-1</span>][y1]) &#123;t[x1<span class="number">-1</span>][y1]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x1<span class="number">-1</span>,y1,<span class="number">1</span>)) flag=<span class="number">1</span>; t[x1<span class="number">-1</span>][y1]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(!flag) <span class="keyword">if</span>(t[x1+<span class="number">1</span>][y1]) &#123;t[x1+<span class="number">1</span>][y1]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x1+<span class="number">1</span>,y1,<span class="number">1</span>)) flag=<span class="number">1</span>; t[x1+<span class="number">1</span>][y1]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(!flag) <span class="keyword">if</span>(t[x1][y1<span class="number">-1</span>]) &#123;t[x1][y1<span class="number">-1</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x1,y1<span class="number">-1</span>,<span class="number">1</span>)) flag=<span class="number">1</span>; t[x1][y1<span class="number">-1</span>]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(!flag) <span class="keyword">if</span>(t[x1][y1+<span class="number">1</span>]) &#123;t[x1][y1+<span class="number">1</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x1,y1+<span class="number">1</span>,<span class="number">1</span>)) flag=<span class="number">1</span>; t[x1][y1+<span class="number">1</span>]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="comment">/*for(i=0;i&lt;n;i++)</span></div><div class="line">        &#123;for(j=0;j&lt;m;j++)</div><div class="line">            printf("%d",t[i][j]);</div><div class="line">          printf("\n");</div><div class="line">        &#125;*/</div><div class="line">        <span class="keyword">if</span>(flag) <span class="built_in">printf</span>(<span class="string">"Yes\n"</span>); <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"No\n"</span>);</div><div class="line">        <span class="keyword">if</span>((s=getchar())==EOF) <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>这题只考到了普通dfs，而再深一层就是记忆化dfs了，因为有了记忆化，时间会进一步缩短，当然难度也会大一丢丢。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Belong to <a target="_blank" href="https://github.com/ben741863140">Leon.</a>
+		  Inspired By <a target="_blank" href="https://github.com/DevRoss">DevRoss.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="http://shineleon.cn/">Hexo.</a>
+		<p class="copyright text-muted">
+		<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+本站总访问量 <span id="busuanzi_value_site_pv"></span> 次, 访客数 <span id="busuanzi_value_site_uv"></span> 人次, 本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
