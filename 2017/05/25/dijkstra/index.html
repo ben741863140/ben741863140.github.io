@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Ming Li">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="最短路算法(1)"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="Leon&#39;s Blog"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Leon's Blog</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-light.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">最短路算法(1)</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/ben741863140">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:ben741863140@163.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Ming Li</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-05-25</span>
+            <span class="time">22:41:28</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/teach/">teach</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/teach/">#teach</a> <a class="tag" href="/tags/data-structures/">#data structures</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>普通dijkstra<br><a id="more"></a></p>
+<h1 id="Dijkstra-O-n²"><a href="#Dijkstra-O-n²" class="headerlink" title="Dijkstra(O(n²))"></a><font color="Blue">Dijkstra(O(n²))</font></h1><h2 id="算法叙述"><a href="#算法叙述" class="headerlink" title="算法叙述"></a><font color="Blue">算法叙述</font></h2><p>对于一个有向图或无向图，所有边权为正（边用邻接矩阵的形式给出），给定a和b，求a到b的最短路，保证a一定能够到达b。这条最短路是否一定存在呢？答案是肯定的。相反，最长路就不一定了，由于边权为正，如果遇到有环的时候，可以一直在这个环上走，因为要找最长的，这样就使得路径越变越长，永无止境，所以对于正权图，在可达的情况下最短路一定存在，最长路则不一定存在。这里先讨论正权图的最短路问题。<br>      最短路满足最优子结构性质，所以是一个<strong>动态规划</strong>问题。最短路的最优子结构可以描述为：<br>      D(s, t) = {Vs … Vi … Vj … Vt}表示s到t的最短路，其中i和j是这条路径上的两个中间结点，那么D(i, j)必定是i到j的最短路，这个性质是显然的，可以用反证法证明。<br>      基于上面的最优子结构性质，如果存在这样一条最短路D(s, t) = {Vs … Vi Vt}，其中i和t是最短路上相邻的点，那么D(s, i) = {Vs … Vi} 必定是s到i的最短路。Dijkstra算法就是基于这样一个性质，通过最短路径长度递增，逐渐生成最短路。<br>      Dijkstra算法是最经典的最短路算法，用于计算正权图的<strong>单源最短路</strong>（Single Source Shortest Path，源点给定，通过该算法可以求出起点到所有点的最短路），它是基于这样一个事实：如果源点到x点的最短路已经求出，并且保存在d[x] ( 可以将它理解为D(s, x) )上，那么可以利用x去更新 x能够直接到达的点 的最短路。即：<br>      d[y] = min{ d[y], d[x] + w(x, y) }<br>      y为x能够直接到达的点，w(x, y) 则表示x-&gt;y这条有向边的边权<br>      具体算法描述如下：对于图G = <v, e="">，源点为s，d[i]表示s到i的最短路，visit[i]表示d[i]是否已经确定(布尔值)。</v,></p>
+<blockquote>
+<pre><code> 1) 初始化 所有顶点 d[i] = INF, visit[i] = false，令d[s] = 0；
+ 2) 从所有visit[i]为false的顶点中找到一个d[i]值最小的，令x = i; 如果找不到，算法结束；
+ 3) 标记visit[x] = true, 更新和x直接相邻的所有顶点y的最短路： d[y] = min{ d[y], d[x] + w(x, y) }
+（第三步中如果y和x并不是直接相邻，则令w(x, y) = INF）
+</code></pre></blockquote>
+<hr>
+<h2 id="图的存储"><a href="#图的存储" class="headerlink" title="图的存储"></a><font color="Blue">图的存储</font></h2><p>以上算法的时间复杂度为<strong>O(n^2)</strong>，n为结点个数，即每次找一个d[i]值最小的，总共n次，每次找到后对其它所有顶点进行更新，更新n次。由于算法复杂度是和点有关，并且平方级别的，所以还是需要考虑一下点数较多而边数较少的情况，接下来以图一-2-1为例讨论一下边的存储方式。<br><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_003.png" alt=""></p>
+<hr>
+<p>邻接矩阵是直接利用一个二维数组对边的关系进行存储，矩阵的第i行第j列的值 表示 i -&gt; j 这条边的权值；特殊的，如果不存在这条边，用一个特殊标记来表示；如果i == j，则权值为0。它的优点是实现非常简单，而且很容易理解；缺点也很明显，如果这个图是一个非常稀疏的图，图中边很少，但是点很多，就会造成非常大的内存浪费，点数过大的时候根本就无法存储。图一-2-2展示了图一-2-1的邻接矩阵表示法。<br><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_004.png" alt=""></p>
+<hr>
+<p><a href="http://shineleon.cn/2017/05/18/ljb/" target="_blank" rel="external">邻接表</a>是图中常用的存储结构之一，每个顶点都有一个链表，这个链表的数据表示和当前顶点直接相邻的顶点（如果边有权值，还需要保存边权信息）。邻接表的优点是对于稀疏图不会有数据浪费，缺点就是实现相对麻烦，需要自己实现链表，动态分配内存。图一-2-3展示了图一-2-1的邻接表表示法。<br><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_005.png" alt=""></p>
+<hr>
+<p>前向星是以存储边的方式来存储图，先将边读入并存储在连续的数组中，然后按照边的起点进行排序，这样数组中起点相等的边就能够在数组中进行连续访问了。它的优点是实现简单，容易理解，缺点是需要在所有边都读入完毕的情况下对所有边进行一次排序，带来了时间开销，实用性也较差，只适合离线算法。图一-2-4展示了图一-2-1的前向星表示法。<br><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_006.png" alt=""></p>
+<hr>
+<p>那么用哪种数据结构才能满足所有图的需求呢？这里介绍一种新的数据结构一一<a href="http://shineleon.cn/2017/05/17/lsqxx/" target="_blank" rel="external">链式前向星</a>。</p>
+<p>初始化所有的head[i] = INF，当前边总数 edgeCount = 0<br>每读入一条边，调用addEdge(u, v, w)，具体函数的实现如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> w)</span> </span>&#123;</div><div class="line">        edge[ edgeCount ] = EDGE(u, v, w, head[u]);</div><div class="line">        head[u] = edgeCount ++;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这个函数的含义是每加入一条边(u, v)，就在原有的链表结构的首部插入这条边，使得每次插入的时间复杂度为O(1)，所以链表的边的顺序和读入顺序正好是逆序的。这种结构在无论是稠密的还是稀疏的图上都有非常好的表现，空间上没有浪费，时间上也是最小开销。<br>       调用的时候只要通过head[i]就能访问到由 i 出发的第一条边的编号，通过编号到edge数组进行索引可以得到边的具体信息，然后根据这条边的next域可以得到第二条边的编号，以此类推，直到next域为INF（这里的INF即head数组初始化的那个值，一般取-1即可）。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Belong to <a target="_blank" href="https://github.com/ben741863140">Leon.</a>
+		  Inspired By <a target="_blank" href="https://github.com/DevRoss">DevRoss.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="http://shineleon.cn/">Hexo.</a>
+		<p class="copyright text-muted">
+		<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+本站总访问量 <span id="busuanzi_value_site_pv"></span> 次, 访客数 <span id="busuanzi_value_site_uv"></span> 人次, 本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
