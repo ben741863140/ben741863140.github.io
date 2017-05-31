@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Ming Li">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="POJ-2236 Wireless Network"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="Leon&#39;s Blog"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://yoursite.comundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Leon's Blog</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-light.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">POJ-2236 Wireless Network</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/ben741863140">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:ben741863140@163.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Ming Li</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-05-31</span>
+            <span class="time">22:08:42</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/teach/">teach</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/teach/">#teach</a> <a class="tag" href="/tags/problem-solve/">#problem solve</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>简单并查集题解<br><a id="more"></a></p>
+<h1 id="Wireless-Network"><a href="#Wireless-Network" class="headerlink" title="Wireless Network "></a><font color="Blue">Wireless Network </font></h1><p>原题链接：<a href="https://vjudge.net/contest/165746#problem/A" target="_blank" rel="external">https://vjudge.net/contest/165746#problem/A</a></p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><font color="Blue">问题描述</font></h2><p>An earthquake takes place in Southeast Asia. The ACM (Asia Cooperated Medical team) have set up a wireless network with the lap computers, but an unexpected aftershock attacked, all computers in the network were all broken. The computers are repaired one by one, and the network gradually began to work again. Because of the hardware restricts, each computer can only directly communicate with the computers that are not farther than d meters from it. But every computer can be regarded as the intermediary of the communication between two other computers, that is to say computer A and computer B can communicate if computer A and computer B can communicate directly or there is a computer C that can communicate with both A and B. </p>
+<p>In the process of repairing the network, workers can take two kinds of operations at every moment, repairing a computer, or testing if two computers can communicate. Your job is to answer all the testing operations. </p>
+<hr>
+<h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a><font color="Blue">题意</font></h3><p>有n台电脑，给出这n台电脑的坐标，所有电脑的初始状态全部是断电的，电脑与电脑之间如果要直接相连，必须是距离相差在最大范围d以内。现在进行一系列操作，按要求输出。<br>操作一共有2种：<br>1.开启一台电脑的电源。<br>2.查询两台电脑是否能相互联系（直接、间接），若能，则输出SUCCESS，若不能，则输出FAIL。</p>
+<hr>
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a><font color="Blue">Input</font></h3><p>The first line contains two integers N and d (1 &lt;= N &lt;= 1001, 0 &lt;= d &lt;= 20000). Here N is the number of computers, which are numbered from 1 to N, and D is the maximum distance two computers can communicate directly. In the next N lines, each contains two integers xi, yi (0 &lt;= xi, yi &lt;= 10000), which is the coordinate of N computers. From the (N+1)-th line to the end of input, there are operations, which are carried out one by one. Each line contains an operation in one of following two formats: </p>
+<ol>
+<li>“O p” (1 &lt;= p &lt;= N), which means repairing computer p. </li>
+<li>“S p q” (1 &lt;= p, q &lt;= N), which means testing whether computer p and q can communicate. </li>
+</ol>
+<p>The input will not exceed 300000 lines. </p>
+<hr>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a><font color="Blue">Output</font></h3><p>For each Testing operation, print “SUCCESS” if the two computers can communicate, or “FAIL” if not.</p>
+<hr>
+<h3 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a><font color="Blue">Sample Input</font></h3><p>4 1<br>0 1<br>0 2<br>0 3<br>0 4<br>O 1<br>O 2<br>O 4<br>S 1 4<br>O 3<br>S 1 4</p>
+<hr>
+<h3 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a><font color="Blue">Sample Output</font></h3><p>FAIL<br>SUCCESS</p>
+<hr>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a><font color="Blue">题解</font></h2><blockquote>
+<p>题意很简单，就是一个普通的并查集，我们要做的就是每次激活了一台电脑就从1-n扫一次，找到激活了，而且在它距离里的电脑，跟它做一次并查集。当然，这里的并查集做了优化，就是同时指向了它的最高级祖先，这样做的效果就是8秒的程序2秒跑完了。</p>
+</blockquote>
+<hr>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="Blue">代码</font></h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;set&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stack&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bitset&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> mem(a) memset(a,0,sizeof(a))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i,a,n) for(int i=a; i&lt;n; i++)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep1(i,a,n) for(int i=n-1; i&gt;=a; i--)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> s(a) scanf(<span class="meta-string">"%d"</span>,&amp;a)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> test(a) cout&lt;&lt;a&lt;&lt;endl</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> test2(a,b) cout&lt;&lt;a&lt;&lt;<span class="meta-string">" "</span>&lt;&lt;b&lt;&lt;endl</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</div><div class="line"><span class="comment">//const int MAX = 1016;</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">1e3</span>+<span class="number">10</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">0x3f3f3f3f</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod = <span class="number">1e9</span>+<span class="number">7</span>;</div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a[N][<span class="number">2</span>],v[N],f[N];</div><div class="line"><span class="keyword">int</span> d;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">calculate</span><span class="params">(<span class="keyword">int</span> x1,<span class="keyword">int</span> x2,<span class="keyword">int</span> y1,<span class="keyword">int</span> y2)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">find_father</span><span class="params">(<span class="keyword">int</span> x)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> root=x,temp;</div><div class="line">    <span class="keyword">while</span>(f[root]!=root) root=f[root];</div><div class="line">    <span class="keyword">while</span>(f[x]!=x)</div><div class="line">    &#123;</div><div class="line">        temp=x;</div><div class="line">        x=f[x];</div><div class="line">        f[temp]=root;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> x;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">combine_father</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> x)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(calculate(a[i][<span class="number">0</span>],a[x][<span class="number">0</span>],a[i][<span class="number">1</span>],a[x][<span class="number">1</span>])&gt;d*d) <span class="keyword">return</span>;</div><div class="line">    x=find_father(x);</div><div class="line">    i=find_father(i);</div><div class="line">    <span class="keyword">if</span>(i!=x) f[x]=i;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    mem(v);</div><div class="line">    mem(a);</div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    <span class="keyword">char</span> choice;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;d);</div><div class="line">    rep(i,<span class="number">0</span>,n)</div><div class="line">     &#123;</div><div class="line">         <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;a[i][<span class="number">0</span>],&amp;a[i][<span class="number">1</span>]);</div><div class="line">         f[i]=i;</div><div class="line">     &#125;</div><div class="line">    getchar();</div><div class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%c"</span>,&amp;choice)!=EOF)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(choice==<span class="string">'S'</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> x,y;</div><div class="line">            <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;x,&amp;y);</div><div class="line">            x--; y--;</div><div class="line">            getchar();</div><div class="line">            <span class="keyword">if</span>(find_father(x)==find_father(y))</div><div class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">"SUCCESS"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            <span class="keyword">else</span></div><div class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">"FAIL"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> x;</div><div class="line">            s(x);</div><div class="line">            x--;</div><div class="line">            getchar();</div><div class="line">            v[x]=<span class="literal">true</span>;</div><div class="line">            rep(i,<span class="number">0</span>,n)</div><div class="line">            <span class="keyword">if</span>(i!=x&amp;&amp;v[i])</div><div class="line">             combine_father(i,x);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2> #define IOS ios::sync_with_stdio(false);cin.tie(0) 
+<p>这句就是让我在这题里wa了5次的罪归祸首!!! 其实这句话是为了能让cin的扫入方式改变，然后它的速度就能媲美scanf，然而，因为它的存在，<font color="Red">scanf和printf就不能使用了</font>，否则会出现bug！！<br>所以一句话，早用scanf，早accepted.</p>
+<hr>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Belong to <a target="_blank" href="https://github.com/ben741863140">Leon.</a>
+		  Inspired By <a target="_blank" href="https://github.com/DevRoss">DevRoss.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="http://shineleon.cn/">Hexo.</a>
+		<p class="copyright text-muted">
+		<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+本站总访问量 <span id="busuanzi_value_site_pv"></span> 次, 访客数 <span id="busuanzi_value_site_uv"></span> 人次, 本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
