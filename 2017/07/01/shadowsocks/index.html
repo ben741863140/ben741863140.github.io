@@ -101,7 +101,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-07-01</span>
-            <span class="time">12:07:11</span>
+            <span class="time">12:15:49</span>
           </span>
           
           <!--  Categories  -->
@@ -124,7 +124,7 @@
         <!-- Post Main Content -->
         <div class="post-content">
           <p>在VPN即将被封的情况下，我们要怎么继续翻墙<br><a id="more"></a></p>
-<h1 id="用Shadowsocks的简易教程"><a href="#用Shadowsocks的简易教程" class="headerlink" title="用Shadowsocks的简易教程"></a><font color="Blue">用Shadowsocks的简易教程</font></h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面 "></a><font color="Blue">写在前面 </font></h2><p>先做一个比较简单的新手帖，毕竟博主也是刚接触这没多久，各位大佬请轻喷</p>
+<h1 id="用Shadowsocks的简易教程"><a href="#用Shadowsocks的简易教程" class="headerlink" title="用Shadowsocks的简易教程"></a><font color="Blue">用Shadowsocks的简易教程</font></h1><p>先做一个比较简单的新手帖，毕竟博主也是刚接触这没多久，各位大佬请轻喷</p>
 <hr>
 <h2 id="故事背景"><a href="#故事背景" class="headerlink" title="故事背景"></a><font color="Blue">故事背景</font></h2><p>GFW对于VPN的封杀无时无刻不在进行，最典型的就是GFW早已可以准确识别OpenVPN，原理是利用协议在握手阶段的某些特征来检测，从而可以达成瞬间阻断OpenVPN连接，很有可能你连第一次连接都连不上就被检测到了。而且这还没完，你胆敢用OpenVPN的后果，就是服务器IP立马被照顾，所有不能被识别的加密流量均会被阻断。所以现在使用VPN，不能使用原生的OpenVPN。必须使用变式的OpenVPN或者其他类的VPN软件。比如说给流量做混淆，再比如使用GFW目前无法识别的VPN，比如：SoftEther VPN。</p>
 <p>GFW对于VPN是坚决封杀的，目前引入的<strong>流量检测</strong>技术，识别流量类型，导致很多VPN都跪了。加之目前的“有罪推定”这一蛋疼的方式，导致一切加密手段都变成了浮云。无论你使用多复杂的加密手段都没用，GFW会认为所有他认不出来的加密浏览都是“犯罪嫌疑人”，并对这些流量进行监控。如果满足<strong>一定的条件</strong>，GFW将会判定“罪名成立”并处“暂时截断所有不能识别的加密浏览”等类似处罚，也就是“死缓”，如果屡教不改者判以“死刑立即执行”，予以永久封IP处罚。</p>
