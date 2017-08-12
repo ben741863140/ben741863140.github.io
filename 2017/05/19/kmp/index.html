@@ -101,7 +101,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-05-19</span>
-            <span class="time">10:38:11</span>
+            <span class="time">21:39:33</span>
           </span>
           
           <!--  Categories  -->
@@ -125,7 +125,7 @@
         <div class="post-content">
           <p>关于KMP算法的next数组<br><a id="more"></a></p>
 <h1 id="KMP的next数组"><a href="#KMP的next数组" class="headerlink" title="KMP的next数组"></a><font color="Blue">KMP的next数组</font></h1><hr>
-<p>一如既往先上代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=m;i++)</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">next</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">   next[<span class="number">1</span>]=<span class="number">0</span>; next[<span class="number">2</span>]=<span class="number">1</span>; i=<span class="number">2</span>; j=<span class="number">1</span>; n=<span class="built_in">strlen</span>(o);</div><div class="line">   <span class="keyword">while</span>(i&lt;n)</div><div class="line">   &#123;</div><div class="line">      <span class="keyword">if</span>(j==<span class="number">0</span>||o[i]==o[j]) &#123;i++; j++; next[i]=j;&#125;</div><div class="line">      <span class="keyword">else</span> j=next[j];</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>一如既往先上代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">next</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">   next[<span class="number">1</span>]=<span class="number">0</span>; next[<span class="number">2</span>]=<span class="number">1</span>; i=<span class="number">2</span>; j=<span class="number">1</span>; n=<span class="built_in">strlen</span>(o);</div><div class="line">   <span class="keyword">while</span>(i&lt;n)</div><div class="line">   &#123;</div><div class="line">      <span class="keyword">if</span>(j==<span class="number">0</span>||o[i]==o[j]) &#123;i++; j++; next[i]=j;&#125;</div><div class="line">      <span class="keyword">else</span> j=next[j];</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
 <h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><blockquote>
 <p>程序做到了两点:</p>
