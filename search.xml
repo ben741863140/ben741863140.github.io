@@ -287,6 +287,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Something About This Blog]]></title>
+    <url>%2F2017%2F05%2F16%2Fsomething-about-this-blog%2F</url>
+    <content type="text"><![CDATA[关于本博客和博主的一些小事~ Something About This Blog 本人大一狗，在牛逼哄哄的室友带领下，一起学习怎么建blog，这也是第一篇文章啦，本博客主要用于： 整理知识，学习笔记 发布日记，杂文，所见所想 发布题解 博主竞赛中的经历 2013-10 初次接触Pascal2014-4 初次参加编程类竞赛2015-4 初次在编程类竞赛中获奖（NOIP二等）2016-9 开始接触C语言2017-1 在大学新生赛中获奖（第一）2017-1 开始接触C++2017-4 在大学校赛中获奖（二等）2017-5 在ACM广东省赛中获奖（银奖）至今 学习ing PS:博主这些都是上不了台面的小奖，所以还在认真学习T T 12345int main()&#123; printf("!(give up&amp;&amp;stopped)"); return 0;&#125; 写在最后 博主建起这个blog也不知道会不会持续更新，但是只要有时间就一定会坚持下去。 博主也愿意把自己一些微不足道的小见解和经历分享给大家。（当然多数是用来做题解） 不管怎么样，这blog也算是也是建起来啦~ 在此，本人由衷地说一句：欢迎你的到来！ end]]></content>
+      <categories>
+        <category>Normal</category>
+      </categories>
+      <tags>
+        <tag>Normal</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Hello World]]></title>
     <url>%2F2017%2F05%2F12%2Fhello-world%2F</url>
     <content type="text"><![CDATA[How to build this blog?Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>

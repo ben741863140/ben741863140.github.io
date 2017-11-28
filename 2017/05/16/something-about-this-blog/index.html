@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>STL之优先队列 | Leon&#39;s Blog</title>
+  <title>Something About This Blog | Leon&#39;s Blog</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="优先队列简单教程">
-<meta name="keywords" content="teach">
+  <meta name="description" content="关于本博客和博主的一些小事~">
+<meta name="keywords" content="Normal">
 <meta property="og:type" content="article">
-<meta property="og:title" content="STL之优先队列">
-<meta property="og:url" content="http://yoursite.com/2017/06/14/priority-queue/index.html">
+<meta property="og:title" content="Something About This Blog">
+<meta property="og:url" content="http://yoursite.com/2017/05/16/something-about-this-blog/index.html">
 <meta property="og:site_name" content="Leon&#39;s Blog">
-<meta property="og:description" content="优先队列简单教程">
-<meta property="og:updated_time" content="2017-06-14T08:35:09.905Z">
+<meta property="og:description" content="关于本博客和博主的一些小事~">
+<meta property="og:updated_time" content="2017-11-28T09:15:16.625Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="STL之优先队列">
-<meta name="twitter:description" content="优先队列简单教程">
+<meta name="twitter:title" content="Something About This Blog">
+<meta name="twitter:description" content="关于本博客和博主的一些小事~">
   
     <link rel="alternative" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
   
@@ -177,11 +177,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-priority-queue" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-something-about-this-blog" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/06/14/priority-queue/" class="article-date">
-  	<time datetime="2017-06-14T08:34:03.000Z" itemprop="datePublished">2017-06-14</time>
+      <a href="/2017/05/16/something-about-this-blog/" class="article-date">
+  	<time datetime="2017-05-16T04:00:29.000Z" itemprop="datePublished">2017-05-16</time>
 </a>
     </div>
   
@@ -194,7 +194,9 @@
         
   
     <h1 class="article-title" itemprop="name">
-      STL之优先队列
+      Something About This Blog
+      
+          <span class="title-pop-out">[置顶]</a>
       
     </h1>
   
@@ -204,12 +206,12 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/teach/">teach</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Normal/">Normal</a></li></ul>
 	</div>
 
         
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/teach/">teach</a>
+	<a class="article-category-link" href="/categories/Normal/">Normal</a>
 	</div>
 
 
@@ -220,20 +222,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>优先队列简单教程<br><a id="more"></a></p>
-<h1 id="STL之优先队列"><a href="#STL之优先队列" class="headerlink" title="STL之优先队列"></a>STL之优先队列</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>先做一个超级简单的新手帖，教教大家怎么正确的使用STL里面的优先队列priority_queue.</p>
-<hr>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>priority_queue是STL里面事先已经实现好的<a href="http://shineleon.cn/2017/05/23/dpx/" target="_blank" rel="external">堆排序</a>，构成了一个可以直接输出最大值或者最小值，查询时间只需要<strong>O(logn)</strong>的调用函数，它的基本语句如下</p>
+        <p>关于本博客和博主的一些小事~<br><a id="more"></a></p>
+<h1 id="Something-About-This-Blog"><a href="#Something-About-This-Blog" class="headerlink" title="Something About This Blog"></a><font color="Blue">Something About This Blog</font></h1><hr>
+<p>本人大一狗，在<font color="Red">牛逼哄哄的室友</font>带领下，一起学习怎么建blog，这也是第一篇文章啦，本博客主要用于：</p>
 <blockquote>
-<p>priority_queue<int,vector<int>,less<int>&gt; q; //&lt;需要存储的类型,不定长数组,是小顶堆还是大顶堆&gt; q:优先队列的名字<br>(PS: less是从大到小输出，greater是从小到大输出，最后两项可以不写，默认是大顶堆，也就是less)<br>q.empty()//查询队列是否有元素，有就返回true，否则false<br>q.push(a)//让a入队<br>q.pop()//让队头元素出队<br>q.top()//查询现在队头的元素</int></int,vector<int></p>
+<ul>
+<li>整理知识，学习笔记</li>
+<li>发布日记，杂文，所见所想</li>
+<li>发布题解</li>
+</ul>
 </blockquote>
 <hr>
-<h2 id="简单应用"><a href="#简单应用" class="headerlink" title="简单应用"></a>简单应用</h2><h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
-<h3 id="队列声明"><a href="#队列声明" class="headerlink" title="队列声明"></a>队列声明</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">priority_queue&lt;<span class="keyword">int</span>&gt; q;</div></pre></td></tr></table></figure>
-<h3 id="队列操作"><a href="#队列操作" class="headerlink" title="队列操作"></a>队列操作</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(!q.empty()) q.pop();<span class="comment">/*先清空队列（好习惯要有）*/</span></div><div class="line">    q.push(<span class="number">1</span>);<span class="comment">/*将1放入队列*/</span></div><div class="line">    <span class="keyword">int</span> a=<span class="number">3</span>;</div><div class="line">    q.push(a);<span class="comment">/*将3放入队列*/</span></div><div class="line">    <span class="built_in">cout</span> &lt;&lt; q.top() &lt;&lt; <span class="built_in">endl</span>;<span class="comment">/*将队头元素3输出*/</span></div><div class="line">    q.pop();<span class="comment">/*将队头元素3弹出队列*/</span></div><div class="line">    <span class="built_in">cout</span> &lt;&lt; q.top() &lt;&lt; <span class="built_in">endl</span>;<span class="comment">/*将队头元素1输出*/</span></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="博主竞赛中的经历"><a href="#博主竞赛中的经历" class="headerlink" title="博主竞赛中的经历"></a><font color="Blue">博主竞赛中的经历</font></h2><hr>
+<blockquote>
+<p>2013-10  初次接触Pascal<br>2014-4   初次参加编程类竞赛<br>2015-4   初次在编程类竞赛中获奖（NOIP二等）<br>2016-9   开始接触C语言<br>2017-1   在大学新生赛中获奖（第一）<br>2017-1   开始接触C++<br>2017-4   在大学校赛中获奖（二等）<br>2017-5   在ACM广东省赛中获奖（银奖）<br>至今     学习ing</p>
+<font color="Black">PS:博主这些都是上不了台面的小奖，所以还在认真学习T T</font>
+
+
+
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">   <span class="built_in">printf</span>(<span class="string">"!(give up&amp;&amp;stopped)"</span>);</div><div class="line">   <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>当然强大的STL里面除了优先队列还有普通队列，还有栈，还有pair，map之类的，在后续的题目里面，更多更好的操作就是把它们联合起来一起用，这也会在我之后的blog里写到~</p>
-<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><hr>
+<p>博主建起这个blog也不知道会不会持续更新，但是只要有时间就一定会坚持下去。 博主也愿意把自己一些微不足道的小见解和经历分享给大家。（当然多数是用来做题解） 不管怎么样，这blog也算是也是建起来啦~ 在此，本人由衷地说一句：欢迎你的到来！</p>
+<p>end</p>
 
       
     </div>
@@ -243,18 +255,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/01/shadowsocks/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/05/16/homework/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">&lt;</strong>
       <div class="article-nav-title">
         
-          shadowsocks的简单介绍
+          教务信息管理系统
         
       </div>
     </a>
   
   
-    <a href="/2017/06/14/sjhf/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">数据恢复</div>
+    <a href="/2017/05/12/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -264,7 +276,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="priority-queue" data-title="STL之优先队列" data-url="http://yoursite.com/2017/06/14/priority-queue/"  data-images="http://p04dvrje5.bkt.clouddn.com/default-banner-dark.jpeg" data-content="STL之优先队列">
+<div class="ds-share share" data-thread-key="something-about-this-blog" data-title="Something About This Blog" data-url="http://yoursite.com/2017/05/16/something-about-this-blog/"  data-images="http://p04dvrje5.bkt.clouddn.com/default-banner-dark.jpeg" data-content="Something About This Blog">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
