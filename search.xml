@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[建立属于自己的私人网盘]]></title>
+    <url>%2F2017%2F11%2F13%2Fbuildseafile%2F</url>
+    <content type="text"><![CDATA[建立Seafile网盘教程 Windows建立方法写在前面由于博主最近服务器有点多，于是就弄了个seafile来玩玩，谁知道一玩之下才发现，原来seafile使用起来是这么便捷！ Seafile介绍这是我见过的第一款有客户端，网页版的私人网盘，关键是可以在线预览修改代码，并支持多人同时修改，留言，所以，它可以作为很好的一个多人合作的平台。 同时，它可以自动备份历史版本的文件！ 当然，它还可以选择性共享给用户组，或者单独用户，甚至可以申请一个上传链接，让人免登陆把文件传到自己的文件夹里，这个功能也是得点赞，不过它作为客户端可以变成一个挂载盘，这样让我们使用起来更加方便了~！(PS: APP的功能也有照片自动备份等等)]]></content>
+      <categories>
+        <category>teach</category>
+      </categories>
+      <tags>
+        <tag>teach</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[后缀自动机]]></title>
     <url>%2F2017%2F09%2F18%2Fhzzdj%2F</url>
     <content type="text"><![CDATA[待更新…]]></content>

@@ -1,129 +1,219 @@
 <!DOCTYPE html>
 <html>
-  <!-- Html Head Tag-->
-  <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="Ming Li">
-  <!-- Open Graph Data -->
-  <meta property="og:title" content="最短路算法(1)"/>
-  <meta property="og:description" content="" />
-  <meta property="og:site_name" content="Leon&#39;s Blog"/>
-  <meta property="og:type" content="article" />
-  <meta property="og:image" content="http://yoursite.comundefined"/>
+<head>
+  <meta charset="utf-8">
   
-    <link rel="alternate" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.ico">
+  <title>最短路算法(1) | Leon&#39;s Blog</title>
+
+  <!-- keywords -->
   
 
-  <!-- Site Title -->
-  <title>Leon's Blog</title>
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <!-- Custom CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="普通dijkstra">
+<meta name="keywords" content="teach,data structures">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最短路算法(1)">
+<meta property="og:url" content="http://yoursite.com/2017/05/25/dijkstra/index.html">
+<meta property="og:site_name" content="Leon&#39;s Blog">
+<meta property="og:description" content="普通dijkstra">
+<meta property="og:image" content="http://images.cppblog.com/cppblog_com/menjitianya/cfys_003.png">
+<meta property="og:image" content="http://images.cppblog.com/cppblog_com/menjitianya/cfys_004.png">
+<meta property="og:image" content="http://images.cppblog.com/cppblog_com/menjitianya/cfys_005.png">
+<meta property="og:image" content="http://images.cppblog.com/cppblog_com/menjitianya/cfys_006.png">
+<meta property="og:updated_time" content="2017-05-25T14:41:18.428Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最短路算法(1)">
+<meta name="twitter:description" content="普通dijkstra">
+<meta name="twitter:image" content="http://images.cppblog.com/cppblog_com/menjitianya/cfys_003.png">
   
-  <link rel="stylesheet" href="/css/style.light.css">
-
-  <!-- Google Analytics -->
+    <link rel="alternative" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
   
 
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
 </head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
 
-  <body>
-    <!-- Page Header -->
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Ming Li</a></h1>
+		</hgroup>
 
+		
 
-<header class="site-header header-background" style="background-image: url(/img/default-banner-light.jpg)">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="page-title with-background-image">
-          <p class="title">最短路算法(1)</p>
-          <p class="subtitle"></p>
-        </div>
-        <div class="site-menu with-background-image">
-          <ul>
-            
-              <li>
-                <a href="/">
-                  
-                  Home
-                  
-                </a>
-              </li>
-            
-              <li>
-                <a href="/archives">
-                  
-                  Archives
-                  
-                </a>
-              </li>
-            
-              <li>
-                <a href="https://github.com/ben741863140">
-                  
-                  Github
-                  
-                </a>
-              </li>
-            
-              <li>
-                <a href="mailto:ben741863140@163.com">
-                  
-                  Email
-                  
-                </a>
-              </li>
-            
-          </ul>
-        </div>
-      </div>
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/MC/" style="font-size: 10px;">MC</a> <a href="/tags/Normal/" style="font-size: 10px;">Normal</a> <a href="/tags/Offical/" style="font-size: 10px;">Offical</a> <a href="/tags/Tool/" style="font-size: 12px;">Tool</a> <a href="/tags/Video/" style="font-size: 10px;">Video</a> <a href="/tags/application/" style="font-size: 10px;">application</a> <a href="/tags/data-structures/" style="font-size: 18px;">data structures</a> <a href="/tags/game/" style="font-size: 14px;">game</a> <a href="/tags/problem-solve/" style="font-size: 16px;">problem solve</a> <a href="/tags/teach/" style="font-size: 20px;">teach</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
     </div>
-  </div>
-</header>
-
-
-<article>
-  <div class="container typo">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-info text-muted">
-          
-            <!-- Author -->
-            <span class="author info">By Ming Li</span>
-          
-          <!-- Date -->
-          <span class="date-time info">On
-            <span class="date">2017-05-25</span>
-            <span class="time">00:27:34</span>
-          </span>
-          
-          <!--  Categories  -->
-            <span class="categories info">Under 
-
-<a href="/categories/teach/">teach</a>
-</span>
-          
-        </div>
-        <!-- Tags -->
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Ming Li</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Ming Li</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-dijkstra" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/25/dijkstra/" class="article-date">
+  	<time datetime="2017-05-25T14:20:06.000Z" itemprop="datePublished">2017-05-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
-          <div class="post-tags text-muted">
-            Tags: 
+  
+    <h1 class="article-title" itemprop="name">
+      最短路算法(1)
+      
+    </h1>
+  
 
-<a class="tag" href="/tags/teach/">#teach</a> <a class="tag" href="/tags/data-structures/">#data structures</a>
-
-
-          </div>
+      </header>
+      
+      <div class="article-info article-info-post">
         
-        <!-- Post Main Content -->
-        <div class="post-content">
-          <p>普通dijkstra<br><a id="more"></a></p>
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-structures/">data structures</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/teach/">teach</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/teach/">teach</a>
+	</div>
+
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>普通dijkstra<br><a id="more"></a></p>
 <h1 id="Dijkstra-O-n²"><a href="#Dijkstra-O-n²" class="headerlink" title="Dijkstra(O(n²))"></a><font color="Blue">Dijkstra(O(n²))</font></h1><h2 id="算法叙述"><a href="#算法叙述" class="headerlink" title="算法叙述"></a><font color="Blue">算法叙述</font></h2><p>对于一个有向图或无向图，所有边权为正（边用邻接矩阵的形式给出），给定a和b，求a到b的最短路，保证a一定能够到达b。这条最短路是否一定存在呢？答案是肯定的。相反，最长路就不一定了，由于边权为正，如果遇到有环的时候，可以一直在这个环上走，因为要找最长的，这样就使得路径越变越长，永无止境，所以对于正权图，在可达的情况下最短路一定存在，最长路则不一定存在。这里先讨论正权图的最短路问题。<br>      最短路满足最优子结构性质，所以是一个<strong>动态规划</strong>问题。最短路的最优子结构可以描述为：<br>      D(s, t) = {Vs … Vi … Vj … Vt}表示s到t的最短路，其中i和j是这条路径上的两个中间结点，那么D(i, j)必定是i到j的最短路，这个性质是显然的，可以用反证法证明。<br>      基于上面的最优子结构性质，如果存在这样一条最短路D(s, t) = {Vs … Vi Vt}，其中i和t是最短路上相邻的点，那么D(s, i) = {Vs … Vi} 必定是s到i的最短路。Dijkstra算法就是基于这样一个性质，通过最短路径长度递增，逐渐生成最短路。<br>      Dijkstra算法是最经典的最短路算法，用于计算正权图的<strong>单源最短路</strong>（Single Source Shortest Path，源点给定，通过该算法可以求出起点到所有点的最短路），它是基于这样一个事实：如果源点到x点的最短路已经求出，并且保存在d[x] ( 可以将它理解为D(s, x) )上，那么可以利用x去更新 x能够直接到达的点 的最短路。即：<br>      d[y] = min{ d[y], d[x] + w(x, y) }<br>      y为x能够直接到达的点，w(x, y) 则表示x-&gt;y这条有向边的边权<br>      具体算法描述如下：对于图G = <v, e="">，源点为s，d[i]表示s到i的最短路，visit[i]表示d[i]是否已经确定(布尔值)。</v,></p>
 <blockquote>
 <pre><code> 1) 初始化 所有顶点 d[i] = INF, visit[i] = false，令d[s] = 0；
@@ -144,46 +234,125 @@
 <p>初始化所有的head[i] = INF，当前边总数 edgeCount = 0<br>每读入一条边，调用addEdge(u, v, w)，具体函数的实现如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> w)</span> </span>&#123;</div><div class="line">        edge[ edgeCount ] = EDGE(u, v, w, head[u]);</div><div class="line">        head[u] = edgeCount ++;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 <p>这个函数的含义是每加入一条边(u, v)，就在原有的链表结构的首部插入这条边，使得每次插入的时间复杂度为O(1)，所以链表的边的顺序和读入顺序正好是逆序的。这种结构在无论是稠密的还是稀疏的图上都有非常好的表现，空间上没有浪费，时间上也是最小开销。<br>       调用的时候只要通过head[i]就能访问到由 i 出发的第一条边的编号，通过编号到edge数组进行索引可以得到边的具体信息，然后根据这条边的next域可以得到第二条边的编号，以此类推，直到next域为INF（这里的INF即head数组初始化的那个值，一般取-1即可）。</p>
 
-        </div>
-		<object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="300" height="225"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-      </div>
+      
     </div>
+    
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/31/dij-dui/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          最短路算法(2)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/24/Takiodhbx/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Takio的滑板鞋</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
 </article>
 
 
-
-    <!-- Footer -->
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <p class="copyright text-muted">
-          Belong to <a target="_blank" href="https://github.com/ben741863140">Leon.</a>
-		  Inspired By <a target="_blank" href="https://github.com/DevRoss">DevRoss.</a>
-        <p class="copyright text-muted">
-          Powered By <a target="_blank" href="http://shineleon.cn/">Hexo.</a>
-		<p class="copyright text-muted">
-		<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-本站总访问量 <span id="busuanzi_value_site_pv"></span> 次, 访客数 <span id="busuanzi_value_site_uv"></span> 人次, 本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
-        </p>
+<div class="ds-share share" data-thread-key="dijkstra" data-title="最短路算法(1)" data-url="http://yoursite.com/2017/05/25/dijkstra/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="最短路算法(1)">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
       </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'shineleon'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2017 Ming Li
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
     </div>
   </div>
 </footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
-    <!-- After Footer Scripts -->
-<script src="/js/highlight.pack.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function(event) {
-    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
-    codeBlocks.forEach(function(block, index) {
-      hljs.highlightBlock(block);
-    });
-  });
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
 </script>
 
-  </body>
-</html>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
 
+
+  </div>
+</body>
+</html>
