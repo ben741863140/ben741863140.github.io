@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/09/18/hzzdj/</loc>
+    <lastmod>2018-05-11T16:10:44.898Z</lastmod>
+    <data>
+        <display>
+        <title>后缀自动机</title>
+        <pubTime>2017-09-18T15:56:27.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/05/16/something-about-this-blog/</loc>
     <lastmod>2018-05-11T15:29:03.547Z</lastmod>
     <data>
@@ -78,21 +93,6 @@
              
               <breadCrumb title="teach" url="http://yoursite.com/categories/teach/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/09/18/hzzdj/</loc>
-    <lastmod>2017-11-11T16:24:24.192Z</lastmod>
-    <data>
-        <display>
-        <title>后缀自动机</title>
-        <pubTime>2017-09-18T15:56:27.000Z</pubTime>
-        
-         
-           
         </display>
     </data>
     </url>
