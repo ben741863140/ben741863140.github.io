@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/05/16/something-about-this-blog/</loc>
+    <lastmod>2018-05-11T15:29:03.547Z</lastmod>
+    <data>
+        <display>
+        <title>Something About This Blog</title>
+        <pubTime>2017-05-16T04:00:29.000Z</pubTime>
+        
+        <tag>Normal</tag>
+         
+         
+           
+             
+              <breadCrumb title="Normal" url="http://yoursite.com/categories/Normal/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2018/01/09/cjfx/</loc>
     <lastmod>2018-01-10T14:39:20.039Z</lastmod>
     <data>
@@ -17,26 +37,6 @@
            
              
               <breadCrumb title="teach" url="http://yoursite.com/categories/teach/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/05/16/something-about-this-blog/</loc>
-    <lastmod>2017-11-28T09:25:36.724Z</lastmod>
-    <data>
-        <display>
-        <title>Something About This Blog</title>
-        <pubTime>2017-05-16T04:00:29.000Z</pubTime>
-        
-        <tag>Normal</tag>
-         
-         
-           
-             
-              <breadCrumb title="Normal" url="http://yoursite.com/categories/Normal/"/>
           
         </display>
     </data>
