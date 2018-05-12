@@ -9,17 +9,17 @@
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="后缀自动机·基本概念时间限制:10000ms单点时限:1000ms内存限制:256MB 描述小Hi：今天我们来学习一个强大的字符串处理工具：后缀自动机（Suffix Automaton，简称SAM）。对于一个字符串S，它对应的后缀自动机是一个最小的确定有限状态自动机（DFA），接受且只接受S的后缀。 小Hi：比如对于字符串S=”aabbabd”，它的后缀自动机是： 其中红色状态是终结状态。你可以发">
+  <meta name="description" content="后缀自动机例题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="后缀自动机">
 <meta property="og:url" content="http://yoursite.com/2018/05/12/hzzdj/index.html">
 <meta property="og:site_name" content="Leon&#39;s Blog">
-<meta property="og:description" content="后缀自动机·基本概念时间限制:10000ms单点时限:1000ms内存限制:256MB 描述小Hi：今天我们来学习一个强大的字符串处理工具：后缀自动机（Suffix Automaton，简称SAM）。对于一个字符串S，它对应的后缀自动机是一个最小的确定有限状态自动机（DFA），接受且只接受S的后缀。 小Hi：比如对于字符串S=”aabbabd”，它的后缀自动机是： 其中红色状态是终结状态。你可以发">
+<meta property="og:description" content="后缀自动机例题">
 <meta property="og:image" content="http://media.hihocoder.com/problem_images/20161203/14807564643248.png">
-<meta property="og:updated_time" content="2018-05-11T16:13:09.251Z">
+<meta property="og:updated_time" content="2018-05-12T04:10:35.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="后缀自动机">
-<meta name="twitter:description" content="后缀自动机·基本概念时间限制:10000ms单点时限:1000ms内存限制:256MB 描述小Hi：今天我们来学习一个强大的字符串处理工具：后缀自动机（Suffix Automaton，简称SAM）。对于一个字符串S，它对应的后缀自动机是一个最小的确定有限状态自动机（DFA），接受且只接受S的后缀。 小Hi：比如对于字符串S=”aabbabd”，它的后缀自动机是： 其中红色状态是终结状态。你可以发">
+<meta name="twitter:description" content="后缀自动机例题">
 <meta name="twitter:image" content="http://media.hihocoder.com/problem_images/20161203/14807564643248.png">
   
     <link rel="alternative" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
@@ -215,7 +215,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="后缀自动机·基本概念"><a href="#后缀自动机·基本概念" class="headerlink" title="后缀自动机·基本概念"></a>后缀自动机·基本概念</h1><p>时间限制:10000ms<br>单点时限:1000ms<br>内存限制:256MB</p>
+        <p>后缀自动机例题<br><a id="more"></a></p>
+<h1 id="后缀自动机·基本概念"><a href="#后缀自动机·基本概念" class="headerlink" title="后缀自动机·基本概念"></a>后缀自动机·基本概念</h1><p>时间限制:10000ms<br>单点时限:1000ms<br>内存限制:256MB</p>
 <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>小Hi：今天我们来学习一个强大的字符串处理工具：后缀自动机（Suffix Automaton，简称SAM）。对于一个字符串S，它<strong>对应的后缀自动机是一个最小的确定有限状态自动机（DFA），接受且只接受S的后缀。</strong></p>
 <p>小Hi：比如对于字符串S=”aabbabd”，它的后缀自动机是：<br><img src="http://media.hihocoder.com/problem_images/20161203/14807564643248.png" alt=""></p>
 <p>其中红色状态是终结状态。你可以发现对于S的后缀，我们都可以从S出发沿着字符标示的路径（蓝色实线）转移，最终到达终结状态。例如”bd”对应的路径是S59，”abd”对应的路径是S189，”abbabd”对应的路径是S184679。而对于不是S后缀的字符串，你会发现从S出发，最后会到达非终结状态或者“无路可走”。<strong>特别的，对于S的子串，最终会到达一个合法状态。例如”abba”路径是S1846，”bbab”路径是S5467。而对于其他不是S子串的字符串，最终会“无路可走”。</strong>例如”aba”对应S18X，”aaba”对应S123X。（X表示没有转移匹配该字符）</p>
