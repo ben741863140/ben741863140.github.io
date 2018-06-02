@@ -4,15 +4,44 @@
 
     
   <url>
+    <loc>http://yoursite.com/2018/06/02/excute-time/</loc>
+    <lastmod>2018-06-02T11:16:46.138Z</lastmod>
+    <data>
+        <display>
+        <title>8086ASM实现DOSBOX下计算任意程序执行时间</title>
+        <pubTime>2018-06-02T11:04:12.000Z</pubTime>
+        
+        <tag>teach</tag>
+         
+        <tag>Tool</tag>
+         
+         
+           
+             
+              <breadCrumb title="Tool" url="http://yoursite.com/categories/Tool/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2018/05/12/hzzdj/</loc>
-    <lastmod>2018-05-12T04:24:44.436Z</lastmod>
+    <lastmod>2018-06-02T11:05:53.633Z</lastmod>
     <data>
         <display>
         <title>后缀自动机</title>
         <pubTime>2018-05-12T15:56:27.000Z</pubTime>
         
+        <tag>teach</tag>
+         
+        <tag>problem solve</tag>
+         
          
            
+             
+              <breadCrumb title="teach" url="http://yoursite.com/categories/teach/"/>
+          
         </display>
     </data>
     </url>
