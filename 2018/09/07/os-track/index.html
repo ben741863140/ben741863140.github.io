@@ -3,25 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>8086ASM实现DOSBOX下计算任意程序执行时间 | Leon&#39;s Blog</title>
+  <title>python简单模拟几种磁道运行模式 | Leon&#39;s Blog</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="初学汇编">
-<meta name="keywords" content="teach,Tool">
+  <meta name="description" content="回顾操作系统的磁道扫描">
+<meta name="keywords" content="teach">
 <meta property="og:type" content="article">
-<meta property="og:title" content="8086ASM实现DOSBOX下计算任意程序执行时间">
-<meta property="og:url" content="http://yoursite.com/2018/06/02/excute-time/index.html">
+<meta property="og:title" content="python简单模拟几种磁道运行模式">
+<meta property="og:url" content="http://yoursite.com/2018/09/07/os-track/index.html">
 <meta property="og:site_name" content="Leon&#39;s Blog">
-<meta property="og:description" content="初学汇编">
-<meta property="og:image" content="http://p04dvrje5.bkt.clouddn.com/J$K_%7BRK$%5DP0NQ3RS%7D0%282F1C.jpg">
-<meta property="og:updated_time" content="2018-06-02T11:16:46.138Z">
+<meta property="og:description" content="回顾操作系统的磁道扫描">
+<meta property="og:updated_time" content="2018-09-07T12:47:58.798Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="8086ASM实现DOSBOX下计算任意程序执行时间">
-<meta name="twitter:description" content="初学汇编">
-<meta name="twitter:image" content="http://p04dvrje5.bkt.clouddn.com/J$K_%7BRK$%5DP0NQ3RS%7D0%282F1C.jpg">
+<meta name="twitter:title" content="python简单模拟几种磁道运行模式">
+<meta name="twitter:description" content="回顾操作系统的磁道扫描">
   
     <link rel="alternative" href="/atom.xml" title="Leon&#39;s Blog" type="application/atom+xml">
   
@@ -179,11 +177,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-excute-time" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-os-track" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/06/02/excute-time/" class="article-date">
-  	<time datetime="2018-06-02T11:04:12.000Z" itemprop="datePublished">2018-06-02</time>
+      <a href="/2018/09/07/os-track/" class="article-date">
+  	<time datetime="2018-09-07T12:44:12.000Z" itemprop="datePublished">2018-09-07</time>
 </a>
     </div>
   
@@ -196,7 +194,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      8086ASM实现DOSBOX下计算任意程序执行时间
+      python简单模拟几种磁道运行模式
       
     </h1>
   
@@ -206,12 +204,12 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tool/">Tool</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/teach/">teach</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/teach/">teach</a></li></ul>
 	</div>
 
         
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/Tool/">Tool</a>
+	<a class="article-category-link" href="/categories/teach/">teach</a>
 	</div>
 
 
@@ -222,12 +220,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>初学汇编<br><a id="more"></a></p>
-<h1 id="8086ASM实现DOSBOX下计算任意程序执行时间"><a href="#8086ASM实现DOSBOX下计算任意程序执行时间" class="headerlink" title="8086ASM实现DOSBOX下计算任意程序执行时间"></a><font color="Blue">8086ASM实现DOSBOX下计算任意程序执行时间</font></h1><hr>
-<h2 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a><font color="Blue">功能说明</font></h2><p>程序实现效果如下<br><img src="http://p04dvrje5.bkt.clouddn.com/J$K_%7BRK$%5DP0NQ3RS%7D0%282F1C.jpg" alt=""></p>
-<p><a href="http://139.199.186.146:8000/f/907267a1d7/?raw=1" target="_blank" rel="external">代码链接</a></p>
-<hr>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a><font color="Blue">参考资料</font></h2><p><a href="http://www.docin.com/p-1446341005.html" target="_blank" rel="external">传送门</a></p>
+        <p>回顾操作系统的磁道扫描<br><a id="more"></a></p>
+<h1 id="python简单模拟几种磁道运行模式"><a href="#python简单模拟几种磁道运行模式" class="headerlink" title="python简单模拟几种磁道运行模式"></a><font color="Blue">python简单模拟几种磁道运行模式</font></h1><hr>
+<h2 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a><font color="Blue">功能说明</font></h2><p>输入起始位置(不超过1500)，程序会自动随机生成400个磁道访问序列，按不同的方式进行访问。<br>由于实现起来比较简单，在此不详细讲解。</p>
+<p><a href="https://pastebin.ubuntu.com/p/dPVTX3GWjD/" target="_blank" rel="external">代码链接</a></p>
 <hr>
 
       
@@ -238,18 +234,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/09/07/os-track/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          python简单模拟几种磁道运行模式
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/05/12/hzzdj/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">后缀自动机</div>
+    <a href="/2018/06/02/excute-time/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">8086ASM实现DOSBOX下计算任意程序执行时间</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -259,7 +246,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="excute-time" data-title="8086ASM实现DOSBOX下计算任意程序执行时间" data-url="http://yoursite.com/2018/06/02/excute-time/"  data-images="http://p04dvrje5.bkt.clouddn.com/default-banner-dark.jpeg" data-content="8086ASM实现DOSBOX下计算任意程序执行时间">
+<div class="ds-share share" data-thread-key="os-track" data-title="python简单模拟几种磁道运行模式" data-url="http://yoursite.com/2018/09/07/os-track/"  data-images="http://p04dvrje5.bkt.clouddn.com/default-banner-dark.jpeg" data-content="python简单模拟几种磁道运行模式">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>

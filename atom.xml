@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-06-02T11:16:46.138Z</updated>
+  <updated>2018-09-07T12:47:58.798Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python简单模拟几种磁道运行模式</title>
+    <link href="http://yoursite.com/2018/09/07/os-track/"/>
+    <id>http://yoursite.com/2018/09/07/os-track/</id>
+    <published>2018-09-07T12:44:12.000Z</published>
+    <updated>2018-09-07T12:47:58.798Z</updated>
+    
+    <content type="html"><![CDATA[<p>回顾操作系统的磁道扫描<br><a id="more"></a></p><h1 id="python简单模拟几种磁道运行模式"><a href="#python简单模拟几种磁道运行模式" class="headerlink" title="python简单模拟几种磁道运行模式"></a><font color="Blue">python简单模拟几种磁道运行模式</font></h1><hr><h2 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a><font color="Blue">功能说明</font></h2><p>输入起始位置(不超过1500)，程序会自动随机生成400个磁道访问序列，按不同的方式进行访问。<br>由于实现起来比较简单，在此不详细讲解。</p><p><a href="https://pastebin.ubuntu.com/p/dPVTX3GWjD/" target="_blank" rel="external">代码链接</a></p><hr>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;回顾操作系统的磁道扫描&lt;br&gt;
+    
+    </summary>
+    
+      <category term="teach" scheme="http://yoursite.com/categories/teach/"/>
+    
+    
+      <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
+    
+  </entry>
   
   <entry>
     <title>8086ASM实现DOSBOX下计算任意程序执行时间</title>
@@ -205,28 +227,6 @@
   </entry>
   
   <entry>
-    <title>邝斌的ACM模板</title>
-    <link href="http://yoursite.com/2017/07/17/kuangbin/"/>
-    <id>http://yoursite.com/2017/07/17/kuangbin/</id>
-    <published>2017-07-17T13:14:32.000Z</published>
-    <updated>2017-07-17T13:17:18.628Z</updated>
-    
-    <content type="html"><![CDATA[<p>在线预览以及下载<br><a id="more"></a></p><h1 id="资源分享：邝斌的模板"><a href="#资源分享：邝斌的模板" class="headerlink" title="资源分享：邝斌的模板"></a>资源分享：邝斌的模板</h1><p>下载地址:<a href="http://www.yunzhan365.com/78391187.html" target="_blank" rel="external">点这里</a></p><hr>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在线预览以及下载&lt;br&gt;
-    
-    </summary>
-    
-      <category term="teach" scheme="http://yoursite.com/categories/teach/"/>
-    
-    
-      <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
-    
-  </entry>
-  
-  <entry>
     <title>背包九讲</title>
     <link href="http://yoursite.com/2017/07/17/bbjj/"/>
     <id>http://yoursite.com/2017/07/17/bbjj/</id>
@@ -238,6 +238,28 @@
     <summary type="html">
     
       &lt;p&gt;背包九讲&lt;br&gt;
+    
+    </summary>
+    
+      <category term="teach" scheme="http://yoursite.com/categories/teach/"/>
+    
+    
+      <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>邝斌的ACM模板</title>
+    <link href="http://yoursite.com/2017/07/17/kuangbin/"/>
+    <id>http://yoursite.com/2017/07/17/kuangbin/</id>
+    <published>2017-07-17T13:14:32.000Z</published>
+    <updated>2017-07-17T13:17:18.628Z</updated>
+    
+    <content type="html"><![CDATA[<p>在线预览以及下载<br><a id="more"></a></p><h1 id="资源分享：邝斌的模板"><a href="#资源分享：邝斌的模板" class="headerlink" title="资源分享：邝斌的模板"></a>资源分享：邝斌的模板</h1><p>下载地址:<a href="http://www.yunzhan365.com/78391187.html" target="_blank" rel="external">点这里</a></p><hr>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在线预览以及下载&lt;br&gt;
     
     </summary>
     
@@ -448,34 +470,6 @@
     <summary type="html">
     
       &lt;p&gt;堆排序实现及讲解&lt;br&gt;
-    
-    </summary>
-    
-      <category term="teach" scheme="http://yoursite.com/categories/teach/"/>
-    
-    
-      <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
-    
-      <category term="data structures" scheme="http://yoursite.com/tags/data-structures/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>差分约束</title>
-    <link href="http://yoursite.com/2017/05/23/cfys/"/>
-    <id>http://yoursite.com/2017/05/23/cfys/</id>
-    <published>2017-05-22T16:46:41.000Z</published>
-    <updated>2017-05-22T16:56:46.561Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="http://www.cppblog.com/menjitianya/archive/2015/11/19/212292.html" target="_blank" rel="external">传送门</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;a href=&quot;http://www.cppblog.com/menjitianya/archive/2015/11/19/212292.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;传送门&lt;/a&gt;&lt;/p&gt;
-
-      
     
     </summary>
     
