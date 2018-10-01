@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-09-07T12:47:58.798Z</updated>
+  <updated>2018-10-01T06:02:13.625Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一个微信管理多个微信消息</title>
+    <link href="http://yoursite.com/2018/10/01/twowechat/"/>
+    <id>http://yoursite.com/2018/10/01/twowechat/</id>
+    <published>2018-10-01T06:00:58.000Z</published>
+    <updated>2018-10-01T06:02:13.625Z</updated>
+    
+    <content type="html"><![CDATA[<p>微信的呼叫转移功能<br><a id="more"></a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;微信的呼叫转移功能&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Tool" scheme="http://yoursite.com/categories/Tool/"/>
+    
+    
+      <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
+    
+      <category term="Tool" scheme="http://yoursite.com/tags/Tool/"/>
+    
+  </entry>
   
   <entry>
     <title>python简单模拟几种磁道运行模式</title>
@@ -159,9 +183,9 @@
     <link href="http://yoursite.com/2017/08/20/bkgj/"/>
     <id>http://yoursite.com/2017/08/20/bkgj/</id>
     <published>2017-08-20T14:37:49.000Z</published>
-    <updated>2017-09-24T16:21:48.451Z</updated>
+    <updated>2018-10-01T06:03:07.604Z</updated>
     
-    <content type="html"><![CDATA[<p>博客中的小插件分享<br><a id="more"></a></p><h1 id="博客小插件"><a href="#博客小插件" class="headerlink" title="博客小插件"></a><font color="Blue">博客小插件</font></h1><hr><h2 id="小插件简介"><a href="#小插件简介" class="headerlink" title="小插件简介"></a><font color="Blue">小插件简介</font></h2><p>这个网站是作者的博客，主要是针对google小工具模块而开发的，使用起来很简单，只要将代码复制到博客的源码(html)模式下就可以实现挂件展示啦。。。你可以# <font color="Red">养养鱼、龟、狗、仓鼠等各式各样的虚拟宠物</font>，是很讨人喜欢的博客装饰。。。</p><p><img src="http://img.youquhome.com/uploads/2011/05/abowman.jpg" alt=""></p><p><a href="http://abowman.com/google-modules/" target="_blank" rel="external">传送门</a></p><hr><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a><font color="Blue">使用方法</font></h2><p>选择一个你喜欢的挂件，页面会提供一组代码，将它们复制粘贴至你博客的源码(html)模式下即可。</p><hr><h2 id="同类型网站，留着备用"><a href="#同类型网站，留着备用" class="headerlink" title="同类型网站，留着备用"></a><font color="Blue">同类型网站，留着备用</font></h2><p><a href="http://www.crazyprofile.com/" target="_blank" rel="external">Crazy Profile</a>MySpace网站相关头像、图标、模板、挂件，除了模板，其它的都可通用。（网友一见钟情提供）</p><p>——34-97-F6-72-6F-1E</p>]]></content>
+    <content type="html"><![CDATA[<p>博客中的小插件分享<br><a id="more"></a></p><h2 id="软件简介"><a href="#软件简介" class="headerlink" title="软件简介"></a><font color="#0099ff">软件简介</font></h2><pre><code>&gt; 由于手机只能开一个微信，而又不想下载多开应用，因此我花了点时间做了一个可以挂载在自己家中的电脑，或者服务器上的微信机器人，能够把微信收到的消息转发到另一个微信上，然后另一个微信也可以控制它进行回复消息，或者主动找朋友聊天。这样，手机上只需要登录一个微信，就能同时收到多个微信的消息并进行回复了。</code></pre><h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a><font color="#0099ff">使用说明</font></h2><h3 id="使用前准备"><a href="#使用前准备" class="headerlink" title="使用前准备:"></a>使用前准备:</h3><blockquote><ol><li>将接受微信消息的主微信(称作:B)备注名改为：黎明（第一步一定要先做好！！！ 不然程序会异常退出！！）</li><li>双击启动器，启动软件</li><li>把命令窗口调到适合大小，扫描二维码登录需要被操控的微信(称作:A)<br><img src="http://p04dvrje5.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180930170752.jpg" alt=""></li></ol></blockquote><hr><h3 id="接收消息功能"><a href="#接收消息功能" class="headerlink" title="接收消息功能:"></a>接收消息功能:</h3><blockquote><ol><li>当朋友发送消息给A时，A会在消息前面加上该朋友的备注名，并转发给B</li><li>当群聊中有消息给A时，A会在消息前面加上群聊名称以及发送人的昵称，并转发给B<br><img src="http://p04dvrje5.bkt.clouddn.com/227678728070706722.jpg" alt=""></li></ol></blockquote><hr><h3 id="发送消息功能"><a href="#发送消息功能" class="headerlink" title="发送消息功能:"></a>发送消息功能:</h3><blockquote><ol><li>B输入回复命令，如: 回复路人甲，然后发送给A，A会将聊天对象设置为路人甲</li><li>B输入回复群聊命令，如:回复群组1，然后发送给A，A会将聊天对象设为群组1</li><li>B发送消息给A，A会自动把消息发送给聊天对象，聊天对象可以自行选择</li></ol></blockquote><p><img src="http://p04dvrje5.bkt.clouddn.com/880931927602998110.jpg" alt=""><br><img src="http://p04dvrje5.bkt.clouddn.com/54300443044990034.jpg" alt=""></p><h3 id="屏蔽消息功能"><a href="#屏蔽消息功能" class="headerlink" title="屏蔽消息功能:"></a>屏蔽消息功能:</h3><blockquote><ol><li>B输入屏蔽命令，如: 屏蔽路人甲/群组1，然后发送给A，A不会转发路人甲/群组1的所有消息</li><li>B输入取消屏蔽命令，如:取消屏蔽路人甲/群组1，然后发送给A，A会开始转发路人甲/群组1的所有消息</li></ol></blockquote><p><img src="http://p04dvrje5.bkt.clouddn.com/333847855467226009.jpg" alt=""><br><img src="http://p04dvrje5.bkt.clouddn.com/578987462056415841.jpg" alt=""></p><h3 id="同一部手机中，微信手机端登出A账号，登录B账号教程："><a href="#同一部手机中，微信手机端登出A账号，登录B账号教程：" class="headerlink" title="同一部手机中，微信手机端登出A账号，登录B账号教程："></a>同一部手机中，微信手机端登出A账号，登录B账号教程：</h3><blockquote><p>由于底层使用网页版微信实现，因此如果按常规登出了A账号之后，机器人也会跟着退出登录，因此需要按照以下步骤进行操作</p><ol><li>断开网络</li><li>选择退出A微信账号（注意，不能联网退出！！！）</li><li>等待20秒后，输入B账号的账号名和密码，再打开网络进行登录</li></ol></blockquote><hr><blockquote><p>当电脑的命令窗口中，没有出现Log out字样时，表示网页版微信没有退出，以上步骤操作成功！<br>如果出现了Log out字样，需要重新进行操作</p></blockquote><hr><blockquote><p>PS:目前机器人不能转发特殊消息，如红包，小程序，合并的聊天记录，其余消息均能转发，包括语音，视频等等。<br>为了更好地进行消息回复，建议给常用的聊天对象起容易输入的备注名。</p></blockquote><hr><h2 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a><font color="#0099ff">下载链接</font></h2><p><a href="https://pan.baidu.com/s/1VXbadZk3c1icYITcKx6hpQ" target="_blank" rel="external">下载链接</a> 密码:adrq</p>]]></content>
     
     <summary type="html">
     
@@ -227,28 +251,6 @@
   </entry>
   
   <entry>
-    <title>背包九讲</title>
-    <link href="http://yoursite.com/2017/07/17/bbjj/"/>
-    <id>http://yoursite.com/2017/07/17/bbjj/</id>
-    <published>2017-07-17T13:14:32.000Z</published>
-    <updated>2017-07-19T15:25:03.101Z</updated>
-    
-    <content type="html"><![CDATA[<p>背包九讲<br><a id="more"></a></p><h1 id="资源分享：背包九讲"><a href="#资源分享：背包九讲" class="headerlink" title="资源分享：背包九讲"></a>资源分享：背包九讲</h1><p>下载地址:<a href="http://www.yunzhan365.com/read/eoph/daev/index.html#p=1" target="_blank" rel="external">点这里</a></p><hr>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;背包九讲&lt;br&gt;
-    
-    </summary>
-    
-      <category term="teach" scheme="http://yoursite.com/categories/teach/"/>
-    
-    
-      <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
-    
-  </entry>
-  
-  <entry>
     <title>邝斌的ACM模板</title>
     <link href="http://yoursite.com/2017/07/17/kuangbin/"/>
     <id>http://yoursite.com/2017/07/17/kuangbin/</id>
@@ -260,6 +262,28 @@
     <summary type="html">
     
       &lt;p&gt;在线预览以及下载&lt;br&gt;
+    
+    </summary>
+    
+      <category term="teach" scheme="http://yoursite.com/categories/teach/"/>
+    
+    
+      <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>背包九讲</title>
+    <link href="http://yoursite.com/2017/07/17/bbjj/"/>
+    <id>http://yoursite.com/2017/07/17/bbjj/</id>
+    <published>2017-07-17T13:14:32.000Z</published>
+    <updated>2017-07-19T15:25:03.101Z</updated>
+    
+    <content type="html"><![CDATA[<p>背包九讲<br><a id="more"></a></p><h1 id="资源分享：背包九讲"><a href="#资源分享：背包九讲" class="headerlink" title="资源分享：背包九讲"></a>资源分享：背包九讲</h1><p>下载地址:<a href="http://www.yunzhan365.com/read/eoph/daev/index.html#p=1" target="_blank" rel="external">点这里</a></p><hr>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;背包九讲&lt;br&gt;
     
     </summary>
     
@@ -455,30 +479,6 @@
       <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
     
       <category term="problem solve" scheme="http://yoursite.com/tags/problem-solve/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>堆排序</title>
-    <link href="http://yoursite.com/2017/05/23/dpx/"/>
-    <id>http://yoursite.com/2017/05/23/dpx/</id>
-    <published>2017-05-23T15:35:04.000Z</published>
-    <updated>2017-05-23T15:53:24.165Z</updated>
-    
-    <content type="html"><![CDATA[<p>堆排序实现及讲解<br><a id="more"></a></p><h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><hr><h2 id="代码核心思想"><a href="#代码核心思想" class="headerlink" title="代码核心思想"></a>代码核心思想</h2><p>其实只要你的程序保证两点，代码就可以正确运行</p><blockquote><p>1.根节点是最大的<br>2.对图中所有的树而言，左子树和右子树是整棵树<strong>次大和第三大的数</strong>（最重要的）</p></blockquote><p>我想说的是，堆排序已经有一种线段树的思想在里面了，只要加上延迟标记，它就是一棵线段树。</p><hr><h2 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h2><p>大顶堆：<br>    一开始从树的最下方开始对每个节点的子树进行操作，使得左子树和右子树中最大的数和该子树根节点比较，如果是比根节点大的就交换，并且交换后将被换下来的根节点向下做同样操作。<br>    如果是根节点最大，就不用继续向下比较了，因为下面的子树都满足了上述条件。<br>    到达二叉树的根节点之后，将根节点输出，然后将根节点和最后一个节点的数交换，并删除最后一个节点。<br>    对二叉树的根节点做一开始的操作，即：根节点的左右子树选出最大和根节点比较，根节点若比该数更小则交换，<strong>同时被向下交换后的根节点就跟它的新左右子树进行同样操作</strong>，直到无法操作。</p><hr><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i,a,n) for(int i=a; i&lt;n; i++)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep1(i,a,n) for(int i=n-1; i&gt;=a; i--)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> s(a) scanf(<span class="meta-string">"%d"</span>,&amp;a)</span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a[<span class="number">100</span>];</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">down</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> n)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> temp=a[x];</div><div class="line">    <span class="keyword">int</span> j=x*<span class="number">2</span>+<span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span>(j&lt;n)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(j+<span class="number">1</span>&lt;n&amp;&amp;a[j]&lt;a[j+<span class="number">1</span>])</div><div class="line">           j++;</div><div class="line">        <span class="keyword">if</span>(a[j]&gt;temp)</div><div class="line">            a[x]=a[j];</div><div class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        x=j;</div><div class="line">        j=x*<span class="number">2</span>+<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    a[x]=temp;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    s(n);</div><div class="line">    rep(i,<span class="number">0</span>,n)</div><div class="line">      s(a[i]);</div><div class="line">    rep1(i,<span class="number">0</span>,n)</div><div class="line">      down(i,n);</div><div class="line">    rep1(i,<span class="number">0</span>,n)</div><div class="line">    &#123;</div><div class="line">        down(<span class="number">0</span>,i+<span class="number">1</span>);</div><div class="line">        rep(j,<span class="number">0</span>,n)</div><div class="line">          <span class="built_in">printf</span>(<span class="string">"%d "</span>,a[j]);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">        <span class="keyword">int</span> temp=a[i];</div><div class="line">        a[i]=a[<span class="number">0</span>];</div><div class="line">        a[<span class="number">0</span>]=temp;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;堆排序实现及讲解&lt;br&gt;
-    
-    </summary>
-    
-      <category term="teach" scheme="http://yoursite.com/categories/teach/"/>
-    
-    
-      <category term="teach" scheme="http://yoursite.com/tags/teach/"/>
-    
-      <category term="data structures" scheme="http://yoursite.com/tags/data-structures/"/>
     
   </entry>
   

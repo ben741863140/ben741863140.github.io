@@ -1,352 +1,1181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[python简单模拟几种磁道运行模式]]></title>
-    <url>%2F2018%2F09%2F07%2Fos-track%2F</url>
-    <content type="text"><![CDATA[回顾操作系统的磁道扫描 python简单模拟几种磁道运行模式 功能说明输入起始位置(不超过1500)，程序会自动随机生成400个磁道访问序列，按不同的方式进行访问。由于实现起来比较简单，在此不详细讲解。 代码链接]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[8086ASM实现DOSBOX下计算任意程序执行时间]]></title>
-    <url>%2F2018%2F06%2F02%2Fexcute-time%2F</url>
-    <content type="text"><![CDATA[初学汇编 8086ASM实现DOSBOX下计算任意程序执行时间 功能说明程序实现效果如下 代码链接 参考资料传送门]]></content>
-      <categories>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>Tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[后缀自动机]]></title>
-    <url>%2F2018%2F05%2F12%2Fhzzdj%2F</url>
-    <content type="text"><![CDATA[后缀自动机例题 后缀自动机·基本概念时间限制:10000ms单点时限:1000ms内存限制:256MB 描述小Hi：今天我们来学习一个强大的字符串处理工具：后缀自动机（Suffix Automaton，简称SAM）。对于一个字符串S，它对应的后缀自动机是一个最小的确定有限状态自动机（DFA），接受且只接受S的后缀。 小Hi：比如对于字符串S=”aabbabd”，它的后缀自动机是： 其中红色状态是终结状态。你可以发现对于S的后缀，我们都可以从S出发沿着字符标示的路径（蓝色实线）转移，最终到达终结状态。例如”bd”对应的路径是S59，”abd”对应的路径是S189，”abbabd”对应的路径是S184679。而对于不是S后缀的字符串，你会发现从S出发，最后会到达非终结状态或者“无路可走”。特别的，对于S的子串，最终会到达一个合法状态。例如”abba”路径是S1846，”bbab”路径是S5467。而对于其他不是S子串的字符串，最终会“无路可走”。例如”aba”对应S18X，”aaba”对应S123X。（X表示没有转移匹配该字符） 小Ho：好像很厉害的样子！对于任意字符串都能构造出一个SAM吗？另外图中那些绿色虚线是什么？ 小Hi：是的，任意字符串都能构造出一个SAM。我们知道SAM本质上是一个DFA，DFA可以用一个五元组&lt;字符集，状态集，转移函数、起始状态、终结状态集&gt;来表示。下面我们将依次介绍对于一个给定的字符串S如何确定它对应的 状态集 和 转移函数 。至于那些绿色虚线虽然不是DFA的一部分，却是SAM的重要部分，有了这些链接SAM是如虎添翼. SAM的States小Hi：这一节我们将介绍给定一个字符串S，如何确定S对应的SAM有哪些状态。首先我们先介绍一个概念 子串的结束位置集合endpos。对于S的一个子串s，endpos(s) = s在S中所有出现的结束位置集合。还是以S=”aabbabd”为例，endpos(“ab”) = {3, 6}，因为”ab”一共出现了2次，结束位置分别是3和6。同理endpos(“a”) = {1, 2, 5}, endpos(“abba”) = {5}。小Hi：我们把S的所有子串的endpos都求出来。如果两个子串的endpos相等，就把这两个子串归为一类。最终这些endpos的等价类就构成的SAM的状态集合。例如对于S=”aabbabd”： 状态 子串 endpos S 空串 {0,1,2,3,4,5,6} 1 a {1,2,5} 2 aa {2} 3 aab {3} 4 aabb,abb,bb {4} 5 b {3,4,6} 6 aabba,abba,bba,ba {5} 7 aabbab,abbab,bbab,bab {6} 8 ab {3,6} 9 aabbabd,abbabd,bbabd,babd,abd,bd,d {7} 小Ho：这些状态恰好就是上面SAM图中的状态。 小Hi：没错。此外，这些状态还有一些美妙的性质，且等我一一道来。首先对于S的两个子串s1和s2，不妨设length(s1) &lt;= length(s2)，那么 s1是s2的后缀当且仅当endpos(s1) ⊇ endpos(s2)，s1不是s2的后缀当且仅当endpos(s1) ∩ endpos(s2) = ∅。 小Ho：我验证一下啊… 比如”ab”是”aabbab”的后缀，而endpos(“ab”)={3,6}，endpos(“aabbab”)={6}，是成立的。”b”是”ab”的后缀，endpos(“b”)={3,4,6}, endpos(“ab”)={3,6}也是成立的。”ab”不是”abb”的后缀，endpos(“ab”)={3,6}，endpos(“abb”)={4}，两者没有交集也是成立的。怎么证明呢？ 小Hi：证明还是比较直观的。首先证明s1是s2的后缀=&gt;endpos(s1)⊇endpos(s2)：既然s1是s2后缀，所以每次s2出现时s1以必然伴随出现，所以有endpos(s1)⊇endpos(s2)。再证明endpos(s1)⊇endpos(s2)=&gt;s1是s2的后缀：我们知道对于S的子串s2，endpos(s2)不会是空集，所以endpos(s1)⊇endpos(s2)=&gt;存在结束位置x使得s1结束于x，并且s2也结束于x，又length(s1) &lt;=length(s2)，所以s1是s2的后缀。综上我们可知 s1是s2的后缀当且仅当endpos(s1) ⊇ endpos(s2)。s1不是s2的后缀当且仅当endpos(s1) ∩ endpos(s2) = ∅是一个简单的推论，不再赘述。 小Ho：我好像对SAM的状态有一些认识了！我刚才看上面的表格就觉得SAM的一个状态里包含的子串好像有规律。考虑到SAM中的一个状态包含的子串都具有相同的endpos，那它们应该都互为后缀？ 小Hi：你观察力还挺敏锐的。下面我们就来讲讲一个状态包含的子串究竟有什么关系。上文提到我们把S的所有子串按endpos分类，每一类就代表一个状态，所以我们可以认为一个状态包含了若干个子串。我们用substrings(st)表示状态st中包含的所有子串的集合，longest(st)表示st包含的最长的子串，shortest(st)表示st包含的最短的子串。例如对于状态7，substring(7)={aabbab,abbab,bbab,bab}，longest(7)=aabbab，shortest(7)=bab。 小Hi：对于一个状态st，以及任意s∈substrings(st)，都有s是longest(st)的后缀。证明比较容易，因为endpos(s)=endpos(longest(st))，所以endpos(s) ⊇ endpos(longest(st))，根据我们刚才证明的结论有s是longest(st)的后缀。 小Hi：此外，对于一个状态st，以及任意的longest(st)的后缀s，如果s的长度满足：length(shortest(st)) &lt;= length(s) &lt;= length(longsest(st))，那么s∈substrings(st)。证明也是比较容易，因为：length(shortest(st)) &lt;= length(s) &lt;= length(longsest(st))，所以endpos(shortest(st)) ⊇ endpos(s) ⊇ endpos(longest(st))， 又endpos(shortest(st)) = endpos(longest(st))，所以endpos(shortest(st)) = endpos(s) = endpos(longest(st))，所以s∈substrings(st)。 小Ho：这么说来，substrings(st)包含的是longest(st)的一系列连续后缀？ 小Hi：没错。比如你看状态7中包含的就是aabbab的长度分别是6，5，4，3的后缀；状态6包含的是aabba的长度分别是5，4，3，2的后缀。 SAM的Suffix Links小Hi：前面我们讲到substrings(st)包含的是longest(st)的一系列连续后缀。这连续的后缀在某个地方会“断掉”。比如状态7，包含的子串依次是aabbab,abbab,bbab,bab。按照连续的规律下一个子串应该是”ab”，但是”ab”没在状态7里，你能想到这是为什么么？ 小Ho：aabbab,abbab,bbab,bab的endpos都是{6}，下一个”ab”当然也在结束位置6出现过，但是”ab”还在结束位置3出现过，所以”ab”比aabbab,abbab,bbab,bab出现次数更多，于是就被分配到一个新的状态中了。 小Hi：没错，当longest(st)的某个后缀s在新的位置出现时，就会“断掉”，s会属于新的状态。比如上例中”ab”就属于状态8，endpos(“ab”}={3,6}。当我们进一步考虑”ab”的下一个后缀”b”时，也会遇到相同的情况：”b”还在新的位置4出现过，所以endpos(“b”)={3,4,6}，b属于状态5。在接下去处理”b”的后缀我们会遇到空串，endpos(“”)={0,1,2,3,4,5,6}，状态是起始状态S。 小Hi：于是我们可以发现一条状态序列：7-&gt;8-&gt;5-&gt;S。这个序列的意义是longest(7)即aabbab的后缀依次在状态7、8、5、S中。我们用Suffix Link这一串状态链接起来，这条link就是上图中的绿色虚线。 小Ho：原来如此。 小Hi：Suffix Links后面会有妙用，我们暂且按下不表。 SAM的Transition Function小Hi：最后我们来介绍SAM的转移函数。对于一个状态st，我们首先找到从它开始下一个遇到的字符可能是哪些。我们将st遇到的下一个字符集合记作next(st)，有next(st) = {S[i+1] | i ∈ endpos(st)}。例如next(S)={S[1], S[2], S[3], S[4], S[5], S[6], S[7]}={a, b, d}，next(8)={S[4], S[7]}={b, d}。 小Hi：对于一个状态st来说和一个next(st)中的字符c，你会发现substrings(st)中的所有子串后面接上一个字符c之后，新的子串仍然都属于同一个状态。比如对于状态4，next(4)={a}，aabb,abb,bb后面接上字符a得到aabba，abba，bba，这些子串都属于状态6。 小Hi：所以我们对于一个状态st和一个字符c∈next(st)，可以定义转移函数trans(st, c) = x | longest(st) + c ∈ substrings(x) 。换句话说，我们在longest(st)（随便哪个子串都会得到相同的结果）后面接上一个字符c得到一个新的子串s，找到包含s的状态x，那么trans(st, c)就等于x。 小Ho：吼~ 终于把SAM中各个部分搞明白了。 小Hi：SAM的构造有时空复杂度均为O(length(S))的算法，我们将在后面介绍。这一期你可以先用暴力算法依照定义构造SAM，先对SAM有个直观认识再说。 小Ho：没问题，暴力算法我最拿手了。我先写程序去了。 输入第一行包含一个字符串S，S长度不超过50。 第二行包含一个整数N，表示询问的数目。(1 &lt;= N &lt;= 10) 以下N行每行包括一个S的子串s，s不为空串。 输出对于每一个询问s，求出包含s的状态st，输出一行依次包含shortest(st)、longest(st)和endpos(st)。其中endpos(st)由小到大输出，之间用一个空格分割。 样例输入aabbabd 5 b abbab aa aabbab bb 样例输出b b 3 4 6 bab aabbab 6 aa aa 2 bab aabbab 6 bb aabb 4]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>problem solve</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[成绩分析系统（Javafx）]]></title>
-    <url>%2F2018%2F01%2F09%2Fcjfx%2F</url>
-    <content type="text"><![CDATA[简易成绩分析系统 成绩分析系统（Javafx）写在前面最近闲着无聊，研究了一下用javafx的scenebuilder怎么写一些简易的程序，发现开发起来真的很容易，界面只要直接拖拉，只要自己用它提供的接口把功能补齐就好了，大大地缩短了开发时间，因此在这里给各位老铁一个简易的成绩分析系统提供使用参考。 软件介绍程序可以动态分析用户提供的数据，实时修改统计表也能动态改变算是这个系统最大的卖点，同时，可以在表格里直接双击编辑成绩，并且表格可以自动排序（这个是javafx自带的功能）。不得不说，因为这些功能，做开发的时候是缩短了许多时间。同时，我也自己加了一些功能，例如直接可以查询表格里面的某些关键字，筛选出自己想找的某些人，然后可以即可修改他们的成绩（修改后返回全部人的表格的时候，会发现他们的成绩也会同步改变），方便用户操作，以及如果已存在该班该课程的成绩单，会提醒已经存在，是否覆盖，以防数据丢失。可以说是一个能实际应用的小程序了。 主界面 修改操作 统计图动态改变 实时查询 防止覆盖提醒 下载戳这(附源码)]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[建立属于自己的私人网盘]]></title>
-    <url>%2F2017%2F11%2F13%2Fbuildseafile%2F</url>
-    <content type="text"><![CDATA[建立Seafile网盘教程 Windows建立方法写在前面由于博主最近服务器有点多，于是就弄了个seafile来玩玩，谁知道一玩之下才发现，原来seafile使用起来是这么便捷！ Seafile介绍这是我见过的第一款有客户端，网页版的私人网盘，关键是可以在线预览修改代码，并支持多人同时修改，留言，所以，它可以作为很好的一个多人合作的平台。 同时，它可以自动备份历史版本的文件！ 当然，它还可以选择性共享给用户组，或者单独用户，甚至可以申请一个上传链接，让人免登陆把文件传到自己的文件夹里，这个功能也是得点赞，不过它作为客户端可以变成一个挂载盘，这样让我们使用起来更加方便了~！(PS: APP的功能也有照片自动备份等等)]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[优酷爱奇艺会员电影教程]]></title>
-    <url>%2F2017%2F09%2F16%2Fykhy%2F</url>
-    <content type="text"><![CDATA[某些特殊的操作技巧！ 想免费看会员电影吗？ 无意中发现一个网站，可以免费看优酷爱奇艺会员电影，或者是想免广告，都可以用哦~ 以优酷会员电影为例 我想看这部电影，首先要点进去这部电影，然后复制链接~ 之后打开这个链接→点我 把复制好的链接粘贴在这里 输入223366 最后尽情享受吧~]]></content>
-      <categories>
-        <category>game</category>
-      </categories>
-      <tags>
-        <tag>game</tag>
-        <tag>Video</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[博客小挂件]]></title>
-    <url>%2F2017%2F08%2F20%2Fbkgj%2F</url>
-    <content type="text"><![CDATA[博客中的小插件分享 博客小插件 小插件简介这个网站是作者的博客，主要是针对google小工具模块而开发的，使用起来很简单，只要将代码复制到博客的源码(html)模式下就可以实现挂件展示啦。。。你可以# 养养鱼、龟、狗、仓鼠等各式各样的虚拟宠物，是很讨人喜欢的博客装饰。。。 传送门 使用方法选择一个你喜欢的挂件，页面会提供一组代码，将它们复制粘贴至你博客的源码(html)模式下即可。 同类型网站，留着备用Crazy ProfileMySpace网站相关头像、图标、模板、挂件，除了模板，其它的都可通用。（网友一见钟情提供） ——34-97-F6-72-6F-1E]]></content>
-      <categories>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>Tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[跨平台便签]]></title>
-    <url>%2F2017%2F08%2F12%2Ft%2F</url>
-    <content type="text"><![CDATA[跨平台便签共享 安利一发便利的便签网址 电脑到手机 安卓到苹果 想要快速的传输网站或文本，只需要用这个跨平台便签，一键粘贴，巨方便！！！（室友做的安利一发） 点这里 代码粘贴网址: 点这里]]></content>
-      <categories>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>Tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[敌兵布阵]]></title>
-    <url>%2F2017%2F07%2F17%2Fdbbz%2F</url>
-    <content type="text"><![CDATA[树状数组 敌兵布阵 Time Limit: 2000/1000 MS (Java/Others) Memory Limit: 65536/32768 K (Java/Others)Total Submission(s): 85661 Accepted Submission(s): 36126 问题描述C国的死对头A国这段时间正在进行军事演习，所以C国间谍头子Derek和他手下Tidy又开始忙乎了。A国在海岸线沿直线布置了N个工兵营地,Derek和Tidy的任务就是要监视这些工兵营地的活动情况。由于采取了某种先进的监测手段，所以每个工兵营地的人数C国都掌握的一清二楚,每个工兵营地的人数都有可能发生变动，可能增加或减少若干人手,但这些都逃不过C国的监视。中央情报局要研究敌人究竟演习什么战术,所以Tidy要随时向Derek汇报某一段连续的工兵营地一共有多少人,例如Derek问:“Tidy,马上汇报第3个营地到第10个营地共有多少人!”Tidy就要马上开始计算这一段的总人数并汇报。但敌兵营地的人数经常变动，而Derek每次询问的段都不一样，所以Tidy不得不每次都一个一个营地的去数，很快就精疲力尽了，Derek对Tidy的计算速度越来越不满:”你个死肥仔，算得这么慢，我炒你鱿鱼!”Tidy想：“你自己来算算看，这可真是一项累人的工作!我恨不得你炒我鱿鱼呢!”无奈之下，Tidy只好打电话向计算机专家Windbreaker求救,Windbreaker说：“死肥仔，叫你平时做多点acm题和看多点算法书，现在尝到苦果了吧!”Tidy说：”我知错了。。。”但Windbreaker已经挂掉电话了。Tidy很苦恼，这么算他真的会崩溃的，聪明的读者，你能写个程序帮他完成这项工作吗？不过如果你的程序效率不够高的话，Tidy还是会受到Derek的责骂的. Input第一行一个整数T，表示有T组数据。每组数据第一行一个正整数N（N&lt;=50000）,表示敌人有N个工兵营地，接下来有N个正整数,第i个正整数ai代表第i个工兵营地里开始时有ai个人（1&lt;=ai&lt;=50）。接下来每行有一条命令，命令有4种形式：(1) Add i j,i和j为正整数,表示第i个营地增加j个人（j不超过30）(2)Sub i j ,i和j为正整数,表示第i个营地减少j个人（j不超过30）;(3)Query i j ,i和j为正整数,i&lt;=j，表示询问第i到第j个营地的总人数;(4)End 表示结束，这条命令在每组数据最后出现;每组数据最多有40000条命令 Output对第i组数据,首先输出“Case i:”和回车,对于每个Query询问，输出一个整数并回车,表示询问的段中的总人数,这个数保持在int以内。 Sample Input1101 2 3 4 5 6 7 8 9 10Query 1 3Add 3 6Query 2 7Sub 10 2Add 6 3Query 3 10End Sample OutputCase 1:63359 代码123456789101112#include&lt;iostream&gt;#include&lt;cstring&gt;#include&lt;cstdio&gt;#include&lt;cmath&gt;#include&lt;algorithm&gt;#include&lt;string&gt;#include&lt;vector&gt;#include&lt;queue&gt;#include&lt;set&gt;#include&lt;stack&gt;#include&lt;map&gt;using namespace std; 123456#define rep(i,a,n) for(i=a; i&lt;n; i++)#define rep1(i,a,n) for(i=n-1; i&gt;=a; i--)#define ll long long#define mem(a) memset(a,0,sizeof(a))#define memb(a) memset(a,false,sizeof(a))#define INF 0x3f3f3f3f 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667int a[50005];int n;int lowbit(int i)&#123; return i&amp;(-i);&#125;void update(int i,int v)&#123; while(i&lt;=n) &#123; a[i]+=v; i+=lowbit(i); &#125;&#125;int sum(int i)&#123; int ans=0; while(i&gt;0) &#123; ans+=a[i]; i-=lowbit(i); &#125; return ans;&#125;int main()&#123;#ifdef test freopen("in.txt","r",stdin);#endif int casen,t=1,i,j,temp,num; string s; scanf("%d",&amp;casen); while(casen--) &#123; mem(a); scanf("%d",&amp;n); rep(i,1,n+1) &#123; scanf("%ld",&amp;temp); update(i,temp); &#125; printf("Case %d:\n",t); cin &gt;&gt; s; while(s!="End") &#123; if(s=="Add") &#123; scanf("%d%d",&amp;i,&amp;num); update(i,num); &#125; else if(s=="Query") &#123; scanf("%d%d",&amp;i,&amp;j); temp=sum(j)-sum(i-1); printf("%d\n",temp); &#125; else if(s=="Sub") &#123; scanf("%d%d",&amp;i,&amp;num); update(i,-num); &#125; cin &gt;&gt; s; &#125; t++; &#125; return 0;&#125; 写在最后记得清空数组]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>problem solve</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[背包九讲]]></title>
-    <url>%2F2017%2F07%2F17%2Fbbjj%2F</url>
-    <content type="text"><![CDATA[背包九讲 资源分享：背包九讲下载地址:点这里]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[邝斌的ACM模板]]></title>
-    <url>%2F2017%2F07%2F17%2Fkuangbin%2F</url>
-    <content type="text"><![CDATA[在线预览以及下载 资源分享：邝斌的模板下载地址:点这里]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[shadowsocks的简单介绍]]></title>
-    <url>%2F2017%2F07%2F01%2Fshadowsocks%2F</url>
-    <content type="text"><![CDATA[在VPN即将被封的情况下，我们要怎么继续翻墙 用Shadowsocks的简易教程先做一个比较简单的新手帖，毕竟博主也是刚接触这没多久，各位大佬请轻喷 故事背景GFW对于VPN的封杀无时无刻不在进行，最典型的就是GFW早已可以准确识别OpenVPN，原理是利用协议在握手阶段的某些特征来检测，从而可以达成瞬间阻断OpenVPN连接，很有可能你连第一次连接都连不上就被检测到了。而且这还没完，你胆敢用OpenVPN的后果，就是服务器IP立马被照顾，所有不能被识别的加密流量均会被阻断。所以现在使用VPN，不能使用原生的OpenVPN。必须使用变式的OpenVPN或者其他类的VPN软件。比如说给流量做混淆，再比如使用GFW目前无法识别的VPN，比如：SoftEther VPN。 GFW对于VPN是坚决封杀的，目前引入的流量检测技术，识别流量类型，导致很多VPN都跪了。加之目前的“有罪推定”这一蛋疼的方式，导致一切加密手段都变成了浮云。无论你使用多复杂的加密手段都没用，GFW会认为所有他认不出来的加密浏览都是“犯罪嫌疑人”，并对这些流量进行监控。如果满足一定的条件，GFW将会判定“罪名成立”并处“暂时截断所有不能识别的加密浏览”等类似处罚，也就是“死缓”，如果屡教不改者判以“死刑立即执行”，予以永久封IP处罚。 总之能代理就先代理，代理不行再挂VPN，VPN要少用，万一被检测出来，后果很严重。。说不定你花钱买的VPN就这么跪了，钱就白瞎进去了。 shadowsocks介绍shadowsocks是一款轻量级socks5代理，在安卓机子上很出名。使用Linux服务器做代理，必须有国外代理服务器，手机版提供了一个公共代理，速度尚可。 注意，注意！！也就是说，当你发现你手机提供的公共代理是能让你翻墙的，如果对速度没有过多要求，你就可以不用再看部署教程了！ 优点：使用完整Linux服务器代理而不是GAE这种功能受限的Web host，shadowsocks可以完整代理你所有类型的流量。跨平台，主流操作系统均有支持的客户端。 缺点：受限于代理服务器的连接速度，除非你使用离你所在地距离较近的国外代理服务器，否则速度上很难达到goagent的速度。 部署教程服务端部分 首先你需要有一台在国外，也就是不会被墙的服务器，那么这些服务器大都比较廉价，而想要找到一台物美价廉的则需要你耐心去等待啦，这里博主分享的是搬瓦工的服务器。（PS：请翻墙后点开链接） 在注册完账号和选择好自己想要的配置之后，购买完毕，就可以开始部署了~（PS：配置就看一下是多少个人用的吧，一般小水管也能在Youtube上看看视频的。) 先在SERVERICE里面找到自己刚刚购买的服务器，然后选KiwiVM进入界面 在这里，我们可以选择让自己的服务器定位在哪里，当然地方不一样，网速体验也不一样 然后，我们可以在shadsocks server里面，找到自己服务器ss的password，还有IP以及端口。 那么，我们的服务端就搞定了~ 客户端部分先下载shadowsocksWindows版Mac版Andorid版iOS请直接应用商店搜索 Wingy（免费）或者Shadowrocket(收费)或者Potatso（收费） 博主比较懒，因此只用Windows版做例子，其他包括手机也是同样方法配置就好 首先，运行shadsocks 选择服务器一栏，编辑服务器 按照在服务器上面已经填好的配置，依次填入IP，端口，密码，验证方式，其他可以自动忽略，然后点击添加 系统代理模式可以选择PAC模式（就是它会智能识别，是用你的代理上某个网站快，还是直接上这个网站快），或者全局模式（PAC上不了的网就直接换全局，全部走代理来上，一般问题都能解决） 最后就可以尽情享受翻墙的乐趣啦~ 写在最后用了代理来翻墙，我们是会有流量加密的，也就是说，GFW是看不到你在上什么网站的（嘿嘿），那么如果你想知道连着自己的代理的人在上什么网站，你也可以去自己的服务器上看（嘿嘿），最后，别忘了给你的服务器续费哦~]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>application</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[STL之优先队列]]></title>
-    <url>%2F2017%2F06%2F14%2Fpriority-queue%2F</url>
-    <content type="text"><![CDATA[优先队列简单教程 STL之优先队列写在前面先做一个超级简单的新手帖，教教大家怎么正确的使用STL里面的优先队列priority_queue. 简介priority_queue是STL里面事先已经实现好的堆排序，构成了一个可以直接输出最大值或者最小值，查询时间只需要O(logn)的调用函数，它的基本语句如下 priority_queue]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[数据恢复]]></title>
-    <url>%2F2017%2F06%2F14%2Fsjhf%2F</url>
-    <content type="text"><![CDATA[数据恢复教程 数据恢复写在前面由于博主今天要恢复一些被误删了的文件，特地花了一个下午去找免费，有效的数据恢复软件，皇天不负有心人，不少文件都被抢救回来了，但是还有很多没有T T 注意事项 1.在文件被误删后，立刻停止对该盘的读写操作，要保证文件不会被覆盖损坏掉，不然神仙也救不了！2.找到有用的恢复文件进行恢复，不要用一些三流软件，很容易让你被删除的文件损坏掉！ 软件介绍1. 都叫兽下载链接 这款软件能恢复50M以内的文件（免费版），一些比较简单的小文件可以直接下载这个恢复 2. 7-Data下载链接 这款是企业版的破解版，就可以无限使用，而且恢复也可能比都叫兽会有用 3. DiskGeniusPro专业版下载链接 *这款博主并未使用过，但是看起来效果不错，所以也推上来了。 写在最后其实只要平时做好数据备份和保护，根本用不上这个贴，当然，最坏情况如果真的出现了，也要保持冷静，因为不管怎么样，还是会有希望的存在的！ 希望这能帮助到你~]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[hdu-1024 Max Sum Plus Plus]]></title>
-    <url>%2F2017%2F06%2F06%2Fhdu-1024%2F</url>
-    <content type="text"><![CDATA[基础dp以及优化 Max Sum Plus Plus 原题链接：https://vjudge.net/contest/165707#problem/A 问题描述Now I think you have got an AC in Ignatius.L’s “Max Sum” problem. To be a brave ACMer, we always challenge ourselves to more difficult problems. Now you are faced with a more difficult problem. Given a consecutive number sequence S 1, S 2, S 3, S 4 … S x, … S n (1 ≤ x ≤ n ≤ 1,000,000, -32768 ≤ S x ≤ 32767). We define a function sum(i, j) = S i + … + S j (1 ≤ i ≤ j ≤ n). Now given an integer m (m &gt; 0), your task is to find m pairs of i and j which make sum(i 1, j 1) + sum(i 2, j 2) + sum(i 3, j 3) + … + sum(i m, j m) maximal (i x ≤ i y ≤ j x or i x ≤ j y ≤ j x is not allowed). But I`m lazy, I don’t want to write a special-judge module, so you don’t have to output m pairs of i and j, just output the maximal summation of sum(i x, j x)(1 ≤ x ≤ m) instead. 题意【问题描述】—-最大M子段和问题给定由 n个整数（可能为负整数）组成的序列a1，a2，a3，……，an，以及一个正整数 m，要求确定序列 a1，a2，a3，……，an的 m个不相交子段，使这m个子段的总和达到最大，求出最大和。 InputEach test case will begin with two integers m and n, followed by n integers S 1, S 2, S 3 … S n.Process to the end of file. OutputOutput the maximal summation described above in one line. Sample Input1 3 1 2 32 6 -1 4 -2 3 -2 3 Sample Output68 题解这里因为是最大问题，很容易联想到是dp做法。但是要怎么写状态转移方程呢？首先，我们可以发现，对于一个子问题而言，在j个数里面选i个字段做为最优解就可以了，那么细化到最后就是只有一个数，选一个字段，那对于下一状态来说，就是j+1这个数，是并入到j-1里面，还是独立一个字段的问题。所以状态转移方程为dp[i][j]=max(dp[i-1][t],dp[i][j-1])+a[j]; 其中（1&lt;=t&lt;=j-1),所以接下来我们要做的就是怎么去实现这个方程。由于方程里的dp[i-1][t]数组，如果每次都要重新找一次，那么时间复杂度就是O(mn²）远远超出了时间限制，因此我们需要优化。①优化时间在这里，我们可以发现，每个位置的dp[i-1][t]都是从它上一位置维护出来的，因此我们只需要用一个一维数组——maxn[]去维护这个dp[i-1][t]，其中maxn[j-1]就是表示j位的dp[i-1][t],因此方程变成了dp[i][j]=max(maxn[j-1],dp[i][j-1])+a[j];②优化空间我们知道了j的范围（即n）是1e6，可是没有给i（即m）的范围，因此，如果m超过了100，我们的dp[][]就会爆内存了，所以我们需要优化空间。在这里，手动模拟一遍，我们可以发现对于每一个dp[i][j]，它的dp[i][j-1]要么就是dp[i-1][t]，要么就是前i个数全部选择了，然后从i+1一直到j-1连续了过来。为什么是i？因为在第i层，我们需要构造i个字段，那么dp[][]这个数组也不需要存在了，直接用一个临时变量tmp就可以替换了。tmp表示dp[i][j-1]，所以现在的方程变成了*tmp=max(maxn[j-1],tmp)+a[j]; 代码里面最难理解的就是maxn这个数组怎么维护了，接下来可以边看我代码边看这边的解释，看多几遍估计就能理解了。（PS： maxn数组与代码中的dp数组是同一个数组，而代码里我的下标是从0开始的，所以读者可以自行缩减一位，当然这里有个坑，容我迟点再说）因为对于maxn这个数组来说，maxn[n]是永远不会用到的，因此它可以用来做临时储存变量。那么对每一层的maxn来说，它是用来维护下一层的tmp的，然后tmp又会用来维护它自己那层的maxn，所以我们是先用了maxn当前的值维护tmp，再用把这个maxn变成新的维护好的值。所以这里maxn[n]的作用就体现出来了，对j-1来说，它通过一次维护，可以得到一个新的maxn[j-1]，然而当前的maxn[j-1]对这层的j是有用的，因此我们把新的maxn[j-1]先暂时存放到maxn[n]里面，然后再在tmp在第j位用完了旧的maxn[j-1]（上一层维护出来的）后，再把maxn[n]赋给maxn[j-1]，为下一层做准备。 代码123456789101112131415#include&lt;cstdio&gt;#include&lt;cstring&gt;#include&lt;iostream&gt;#include&lt;cmath&gt;#include&lt;string&gt;#include&lt;algorithm&gt;#include&lt;queue&gt;#include&lt;vector&gt;#include&lt;map&gt;#include&lt;set&gt;#include&lt;cstdlib&gt;#include&lt;stack&gt;#include&lt;bitset&gt;#include&lt;cstdlib&gt;using namespace std; 12345678#define mem(a) memset(a,0,sizeof(a))#define rep(i,a,n) for(int i=a; i&lt;n; i++)#define rep1(i,a,n) for(int i=n-1; i&gt;=a; i--)#define s(a) scanf("%d",&amp;a)#define sll(a) scanf("%lld",&amp;a)#define test(a) cout&lt;&lt;a&lt;&lt;endl#define test2(a,b) cout&lt;&lt;a&lt;&lt;" "&lt;&lt;b&lt;&lt;endl#define IOS ios::sync_with_stdio(false);cin.tie(0) 123456typedef long long ll;const int MAX = 1016;const int N = 1e6+10;const int INF = 0x3f3f3f3f;const int mod = 1e9+7;ll a[N],dp[N]; 1234567891011121314151617181920212223242526272829int main()&#123; int n,m; while(scanf("%d%d",&amp;m,&amp;n)!=EOF) &#123; rep(i,0,n) &#123; sll(a[i]); &#125; mem(dp); rep(i,0,m) &#123; ll tmp=0; rep(j,0,i+1) &#123; tmp+=a[j]; &#125; dp[n-1]=tmp; rep(j,i+1,n) &#123; tmp=max(dp[j-1],tmp)+a[j]; dp[j-1]=dp[n-1]; dp[n-1]=max(dp[n-1],tmp); &#125; &#125; cout &lt;&lt; dp[n-1] &lt;&lt; endl; &#125; return 0;&#125; 写在最后这里面我wa了好几次，最后在认真模拟后找到了原因，因为我的下标是从0开始的，那么对于只有一个字段的时候来说，初始的tmp是要把第一个数加进去的然而我并没有加，导致了最后一直wa。]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>problem solve</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[POJ-2236 Wireless Network]]></title>
-    <url>%2F2017%2F05%2F31%2FPOJ-2236%2F</url>
-    <content type="text"><![CDATA[简单并查集题解 Wireless Network 原题链接：https://vjudge.net/contest/165746#problem/A 问题描述An earthquake takes place in Southeast Asia. The ACM (Asia Cooperated Medical team) have set up a wireless network with the lap computers, but an unexpected aftershock attacked, all computers in the network were all broken. The computers are repaired one by one, and the network gradually began to work again. Because of the hardware restricts, each computer can only directly communicate with the computers that are not farther than d meters from it. But every computer can be regarded as the intermediary of the communication between two other computers, that is to say computer A and computer B can communicate if computer A and computer B can communicate directly or there is a computer C that can communicate with both A and B. In the process of repairing the network, workers can take two kinds of operations at every moment, repairing a computer, or testing if two computers can communicate. Your job is to answer all the testing operations. 题意有n台电脑，给出这n台电脑的坐标，所有电脑的初始状态全部是断电的，电脑与电脑之间如果要直接相连，必须是距离相差在最大范围d以内。现在进行一系列操作，按要求输出。操作一共有2种：1.开启一台电脑的电源。2.查询两台电脑是否能相互联系（直接、间接），若能，则输出SUCCESS，若不能，则输出FAIL。 InputThe first line contains two integers N and d (1 &lt;= N &lt;= 1001, 0 &lt;= d &lt;= 20000). Here N is the number of computers, which are numbered from 1 to N, and D is the maximum distance two computers can communicate directly. In the next N lines, each contains two integers xi, yi (0 &lt;= xi, yi &lt;= 10000), which is the coordinate of N computers. From the (N+1)-th line to the end of input, there are operations, which are carried out one by one. Each line contains an operation in one of following two formats: “O p” (1 &lt;= p &lt;= N), which means repairing computer p. “S p q” (1 &lt;= p, q &lt;= N), which means testing whether computer p and q can communicate. The input will not exceed 300000 lines. OutputFor each Testing operation, print “SUCCESS” if the two computers can communicate, or “FAIL” if not. Sample Input4 10 10 20 30 4O 1O 2O 4S 1 4O 3S 1 4 Sample OutputFAILSUCCESS 题解 题意很简单，就是一个普通的并查集，我们要做的就是每次激活了一台电脑就从1-n扫一次，找到激活了，而且在它距离里的电脑，跟它做一次并查集。当然，这里的并查集做了优化，就是同时指向了它的最高级祖先，这样做的效果就是8秒的程序2秒跑完了。 代码123456789101112131415#include&lt;cstdio&gt;#include&lt;cstring&gt;#include&lt;iostream&gt;#include&lt;cmath&gt;#include&lt;string&gt;#include&lt;algorithm&gt;#include&lt;queue&gt;#include&lt;vector&gt;#include&lt;map&gt;#include&lt;set&gt;#include&lt;cstdlib&gt;#include&lt;stack&gt;#include&lt;bitset&gt;#include&lt;cstdlib&gt;using namespace std; 123456#define mem(a) memset(a,0,sizeof(a))#define rep(i,a,n) for(int i=a; i&lt;n; i++)#define rep1(i,a,n) for(int i=n-1; i&gt;=a; i--)#define s(a) scanf("%d",&amp;a)#define test(a) cout&lt;&lt;a&lt;&lt;endl#define test2(a,b) cout&lt;&lt;a&lt;&lt;" "&lt;&lt;b&lt;&lt;endl 123456typedef long long ll;const int MAX = 1016;const int MAX = 1016;const int N = 1e3+10;const int INF = 0x3f3f3f3f;const int mod = 1e9+7; 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465int a[N][2],v[N],f[N];int d;int calculate(int x1,int x2,int y1,int y2)&#123; return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);&#125;int find_father(int x)&#123; int root=x,temp; while(f[root]!=root) root=f[root]; while(f[x]!=x) &#123; temp=x; x=f[x]; f[temp]=root; &#125; return x;&#125;void combine_father(int i,int x)&#123; if(calculate(a[i][0],a[x][0],a[i][1],a[x][1])&gt;d*d) return; x=find_father(x); i=find_father(i); if(i!=x) f[x]=i;&#125;int main()&#123; mem(v); mem(a); int n; char choice; scanf("%d%d",&amp;n,&amp;d); rep(i,0,n) &#123; scanf("%d%d",&amp;a[i][0],&amp;a[i][1]); f[i]=i; &#125; getchar(); while(scanf("%c",&amp;choice)!=EOF) &#123; if(choice=='S') &#123; int x,y; scanf("%d%d",&amp;x,&amp;y); x--; y--; getchar(); if(find_father(x)==find_father(y)) cout &lt;&lt; "SUCCESS" &lt;&lt; endl; else cout &lt;&lt; "FAIL" &lt;&lt; endl; &#125; else &#123; int x; s(x); x--; getchar(); v[x]=true; rep(i,0,n) if(i!=x&amp;&amp;v[i]) combine_father(i,x); &#125; &#125; return 0;&#125; 写在最后 #define IOS ios::sync_with_stdio(false);cin.tie(0) 这句就是让我在这题里wa了5次的罪归祸首!!! 其实这句话是为了能让cin的扫入方式改变，然后它的速度就能媲美scanf，然而，因为它的存在，scanf和printf就不能使用了，否则会出现bug！！所以一句话，早用scanf，早accepted.]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>problem solve</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[最短路算法(2)]]></title>
-    <url>%2F2017%2F05%2F31%2Fdij-dui%2F</url>
-    <content type="text"><![CDATA[dijkstra+优先队列（小顶堆） Dijkstra(O(mlogn))算法叙述有了链式前向星，再来看Dijkstra算法，我们关注算法的第3)步，对和x直接相邻的点进行更新的时候，不再需要遍历所有的点，而是只更新和x直接相邻的点，这样总的更新次数就和顶点数n无关了，总更新次数就是总边数m，算法的复杂度变成了O(n²+m)，之前的复杂度是O(n²)，但是有两个n²的操作，而这里是一个，原因在于找d值最小的顶点的时候还是一个O(n)的轮询，总共n次查找。那么查找d值最小有什么好办法呢？数据结构中有一种树，它能够在O(log(n))的时间内插入和删除数据，并且在O(1)的时间内得到当前数据的最小值，这个和我们的需求不谋而合，它就是最小二叉堆(小顶堆)，具体实现不讲了，比较简单，可以参考堆排序。在C++中，可以利用STL的优先队列(priority_queue)来实现获取最小值的操作，这里直接给出利用优先队列优化的Dijkstra算法的类C++伪代码（请勿直接复制粘贴到C++编译器中编译执行），然后再进行讨论：12345678910111213141516171819void Dijkstra_Heap(s) &#123; for(i = 0; i &lt; n; i++) &#123; d[i] = (i == s) ? 0 : INF; // 注释1 &#125; q.push( (d[s], s) ); // 注释2 while( !q.empty() ) &#123; (dist, u) = q.top(); // 注释3 q.pop(); // 注释4 for (e = head[u]; e != INF; e = edge[e].next) &#123; v = edge[e].v; w = edge[e].w; if(d[u] + w &lt; d[v]) &#123; d[v] = d[u] + w; path[v] = u; q.push( (d[v], v) ); &#125; &#125; &#125; &#125; 注释1：初始化s到i的初始最短距离，d[s] = 0 注释2：q即优先队列，这里略去声明是为了将代码简化，让读者能够关注算法本身而不是关注具体实现，push是执行优先队列的插入操作，插入的数据为一个二元组(d[u], u) 注释3：执行优先队列的获取操作，获取的二元组为当前队列中d值最小的 注释4：执行优先队列的删除操作，删除队列顶部的元素（即注释3中d值最小的那个二元组） 以上伪代码中的主体部分竟然没有任何注释，这是因为我要用黑色的字来描述它的重要性，而注释只是注释一些和语法相关的内容。 详细讲解主体代码只有一个循环，这个循环就是遍历了u这个结点的边链表，其中e为边编号，edge[e].w即上文提到的w(u, v)，即u -&gt;v 这条边的权值，而d[u] + w(u, v) &lt; d[v]表示从起点s到u，再经过(u,v)这条边到达v的最短路比之前其它方式到达v的最短路还短，如图二-4-1所示，如果满足这个条件，那么就更新这条最短路，并且利用path数组来记录最短路中每个结点的前驱结点，path[v] = u，表示到达v的最短路的前驱结点为u。 时间复杂度分析以及Dijkstra算法适用范围说明补充一点，这个算法求出的是一棵最短路径树，其中s为根结点，结点之间的关系是通过path数组来建立的，path[v] = u，表明u为v的父结点（树的存储不一定要存儿子结点，也可以用存父结点的方式表示）。 考虑这个算法的复杂度，如果用n表示点数，m表示边数，那么优先队列中最多可能存在的点数有多少？因为我们在把顶点插入队列的时候并没有判断队列中有没有这个点，而且也不能进行这样的判断，因为新插入的点一定会取代之前的点（距离更短才会执行插入），所以同一时间队列中的点有可能重复，插入操作的上限是m次，所以最多有m个点，那么一次插入和删除的操作的平摊复杂度就是O(logm)，但是每次取距离最小的点，对于有多个相同点的情况，如果那个点已经出过一次队列了，下次同一个点出队列的时候它对应的距离一定比之前的大，不需要用它去更新其它点，因为一定不可能更新成功，所以真正执行更新操作的点的个数其实只有n个，所以总体下来的平均复杂度为O((m+n)logm)，而这个只是理论上界，一般问题中都是很快就能找到最短路的，所以实际复杂度会比这个小很多，相比O(n^2)的算法已经优化了很多了。 Dijkstra算法求的是正权图的单源最短路问题，对于权值有负数的情况就不能用Dijkstra求解了，因为如果图中存在负环，Dijkstra带优先队列优化的算法就会进入一个死循环，因为可以从起点走到负环处一直将权值变小。对于带负权的图的最短路问题就需要用到Bellman-Ford算法了。（这将会在下一个博客讲到）]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>data structures</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[最短路算法(1)]]></title>
-    <url>%2F2017%2F05%2F25%2Fdijkstra%2F</url>
-    <content type="text"><![CDATA[普通dijkstra Dijkstra(O(n²))算法叙述对于一个有向图或无向图，所有边权为正（边用邻接矩阵的形式给出），给定a和b，求a到b的最短路，保证a一定能够到达b。这条最短路是否一定存在呢？答案是肯定的。相反，最长路就不一定了，由于边权为正，如果遇到有环的时候，可以一直在这个环上走，因为要找最长的，这样就使得路径越变越长，永无止境，所以对于正权图，在可达的情况下最短路一定存在，最长路则不一定存在。这里先讨论正权图的最短路问题。 最短路满足最优子结构性质，所以是一个动态规划问题。最短路的最优子结构可以描述为： D(s, t) = {Vs … Vi … Vj … Vt}表示s到t的最短路，其中i和j是这条路径上的两个中间结点，那么D(i, j)必定是i到j的最短路，这个性质是显然的，可以用反证法证明。 基于上面的最优子结构性质，如果存在这样一条最短路D(s, t) = {Vs … Vi Vt}，其中i和t是最短路上相邻的点，那么D(s, i) = {Vs … Vi} 必定是s到i的最短路。Dijkstra算法就是基于这样一个性质，通过最短路径长度递增，逐渐生成最短路。 Dijkstra算法是最经典的最短路算法，用于计算正权图的单源最短路（Single Source Shortest Path，源点给定，通过该算法可以求出起点到所有点的最短路），它是基于这样一个事实：如果源点到x点的最短路已经求出，并且保存在d[x] ( 可以将它理解为D(s, x) )上，那么可以利用x去更新 x能够直接到达的点 的最短路。即： d[y] = min{ d[y], d[x] + w(x, y) } y为x能够直接到达的点，w(x, y) 则表示x-&gt;y这条有向边的边权 具体算法描述如下：对于图G = ，源点为s，d[i]表示s到i的最短路，visit[i]表示d[i]是否已经确定(布尔值)。 1) 初始化 所有顶点 d[i] = INF, visit[i] = false，令d[s] = 0； 2) 从所有visit[i]为false的顶点中找到一个d[i]值最小的，令x = i; 如果找不到，算法结束； 3) 标记visit[x] = true, 更新和x直接相邻的所有顶点y的最短路： d[y] = min{ d[y], d[x] + w(x, y) } （第三步中如果y和x并不是直接相邻，则令w(x, y) = INF） 图的存储以上算法的时间复杂度为O(n^2)，n为结点个数，即每次找一个d[i]值最小的，总共n次，每次找到后对其它所有顶点进行更新，更新n次。由于算法复杂度是和点有关，并且平方级别的，所以还是需要考虑一下点数较多而边数较少的情况，接下来以图一-2-1为例讨论一下边的存储方式。 邻接矩阵是直接利用一个二维数组对边的关系进行存储，矩阵的第i行第j列的值 表示 i -&gt; j 这条边的权值；特殊的，如果不存在这条边，用一个特殊标记来表示；如果i == j，则权值为0。它的优点是实现非常简单，而且很容易理解；缺点也很明显，如果这个图是一个非常稀疏的图，图中边很少，但是点很多，就会造成非常大的内存浪费，点数过大的时候根本就无法存储。图一-2-2展示了图一-2-1的邻接矩阵表示法。 邻接表是图中常用的存储结构之一，每个顶点都有一个链表，这个链表的数据表示和当前顶点直接相邻的顶点（如果边有权值，还需要保存边权信息）。邻接表的优点是对于稀疏图不会有数据浪费，缺点就是实现相对麻烦，需要自己实现链表，动态分配内存。图一-2-3展示了图一-2-1的邻接表表示法。 前向星是以存储边的方式来存储图，先将边读入并存储在连续的数组中，然后按照边的起点进行排序，这样数组中起点相等的边就能够在数组中进行连续访问了。它的优点是实现简单，容易理解，缺点是需要在所有边都读入完毕的情况下对所有边进行一次排序，带来了时间开销，实用性也较差，只适合离线算法。图一-2-4展示了图一-2-1的前向星表示法。 那么用哪种数据结构才能满足所有图的需求呢？这里介绍一种新的数据结构一一链式前向星。 初始化所有的head[i] = INF，当前边总数 edgeCount = 0每读入一条边，调用addEdge(u, v, w)，具体函数的实现如下：1234void addEdge(int u, int v, int w) &#123; edge[ edgeCount ] = EDGE(u, v, w, head[u]); head[u] = edgeCount ++; &#125; 这个函数的含义是每加入一条边(u, v)，就在原有的链表结构的首部插入这条边，使得每次插入的时间复杂度为O(1)，所以链表的边的顺序和读入顺序正好是逆序的。这种结构在无论是稠密的还是稀疏的图上都有非常好的表现，空间上没有浪费，时间上也是最小开销。 调用的时候只要通过head[i]就能访问到由 i 出发的第一条边的编号，通过编号到edge数组进行索引可以得到边的具体信息，然后根据这条边的next域可以得到第二条边的编号，以此类推，直到next域为INF（这里的INF即head数组初始化的那个值，一般取-1即可）。]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>data structures</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Takio的滑板鞋]]></title>
-    <url>%2F2017%2F05%2F24%2FTakiodhbx%2F</url>
-    <content type="text"><![CDATA[题解，方法：普通dfs 17973 Takio的滑板鞋时间限制:1000MS 内存限制:65535K提交次数:79 通过次数:15 收入:28 题型: 编程题 语言: G++;GCC;VC; Description某一天SCAU_ACM校队的Takio去了第二个城市打比赛这里的人们称它为魅力之都时间过的很快比赛已经打完 他想他必须要离开当他正要走时他看到了一家专卖店那就是他要的滑板鞋他的滑板鞋时尚时尚最时尚 回家的路上他情不自禁摩擦 摩擦在这光滑的地上摩擦 月光下他看到自己的身影有时很远有时很近感到一种力量驱使他的脚步 有了滑板鞋天黑都不怕一步两步一步两步一步一步似爪牙似魔鬼的步伐 Takio想知道他是否能找出一条回家的路径，使得他回家步伐的步长为一步两步一步两步……，若能，Takio则可解锁成就“魔鬼的步伐”。 Details：1.第奇数歩的步长为一步，第偶数歩的步长为两步，步数从1开始，第一步的步长为1，且Takio到家时的最后一步的步长必须为2（回家路径上的步长为1212……12）2.已经过的位置不能再次经过。3.不能经过或踩到障碍上。4.若当前歩的步长为2，则需向同一方向移动两步。 输入格式有多组测试数据（≤20）每组测试数据的第一行是两个正整数n, m（1 &lt;= n, m &lt;= 8），代表平面区域的大小。每组测试数据的第二行到第n + 1行是一个矩阵，代表二维平面的布局，s为Takio现在所在的位置，t为Takio的家，#为障碍，*为可到达区域输入以EOF结束。 输出格式对于每组测试数据，输出一行，若Takio可解锁成就“魔鬼的步伐”则输出”Yes”，否则输出”No”。 输入样例5 7######*#***s*#**#***#t#*#**#*****#* 5 7######*****s*#**#***#t#*#**#*****#* 输出样例NoYes 做题思路这是一道很经典的深搜题，没有用到剪枝是它成为水题的一大原因，下面讲讲思路。首先，我们需要扫图：可以用矩阵来储存（因为边界问题，矩阵需要开大两个单位，不然扫到边界会报错） 扫到#记录是0 扫到*和s和t都记录是1 然后用四个变量记住起点和终点的坐标。（扫图是很关键的，建议自己做完扫图后用输出语句检查自己的矩阵有没有打错）然后我们开始深度搜索，从起点开始往它周围的四个方向各走一步（如果没有障碍），将它走到的位置的坐标和走的步数传去下一个递归里，然后开头加个判断，如果坐标和步数符合终点要求就返回1，然后输出答案，如果不是的话，我们继续开始判断，会不会到了终点可是步数为1，这样我们就要返回0，代表这样走不行。然后我们通过上层递归传过来的步数和位置判断下一步要怎么走，记住，如果我们要走两步，两步都要判断是畅通的，而且两步的方向是不能改变的，再用新到的位置和走的步数进行传递，直到最后递归回来。 PS：记住走过的地方要暂时把点删掉，等递归回来后再把点复原，不然会重复走。至于那个表要怎么打出来，我是这样的，我先用一个while（1）做来回循环，然后最后那里加了一个if（（s=gechar（））==EOF） break；就可以实现不限次读取图了，然后用flag来记录找到路没有，方便打印。 代码1234567#include&lt;iostream&gt;#include&lt;cstdio&gt;#include&lt;cstring&gt;#include&lt;cmath&gt;#include&lt;algorithm&gt;#include&lt;cstdlib&gt;using namespace std; 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566int x2,y2,t[15][15];int dfs(int x,int y,int b)&#123; int flag=0; if(x==x2&amp;&amp;y==y2&amp;&amp;b==2) return 1; if(x==x2&amp;&amp;y==y2&amp;&amp;b==1) return 0; if(b==2) &#123; if(t[x-1][y]) &#123;t[x-1][y]=0; if(dfs(x-1,y,1)) return 1; t[x-1][y]=1;&#125; if(t[x+1][y]) &#123;t[x+1][y]=0; if(dfs(x+1,y,1)) return 1; t[x+1][y]=1;&#125; if(t[x][y-1]) &#123;t[x][y-1]=0; if(dfs(x,y-1,1)) return 1; t[x][y-1]=1;&#125; if(t[x][y+1]) &#123;t[x][y+1]=0; if(dfs(x,y+1,1)) return 1; t[x][y+1]=1;&#125; &#125; if(b==1) &#123; if(t[x-1][y]&amp;&amp;t[x-2][y]) &#123;t[x-1][y]=0; t[x-2][y]=0; if(dfs(x-2,y,2)) return 1; t[x-1][y]=1; t[x-2][y]=1;&#125; if(t[x+1][y]&amp;&amp;t[x+2][y]) &#123;t[x+1][y]=0; t[x+2][y]=0; if(dfs(x+2,y,2)) return 1; t[x+1][y]=1; t[x+2][y]=1;&#125; if(t[x][y-1]&amp;&amp;t[x][y-2]) &#123;t[x][y-1]=0; t[x][y-2]=0; if(dfs(x,y-2,2)) return 1; t[x][y-1]=1; t[x][y-2]=1;&#125; if(t[x][y+1]&amp;&amp;t[x][y+2]) &#123;t[x][y+1]=0; t[x][y+2]=0; if(dfs(x,y+2,2)) return 1; t[x][y+1]=1; t[x][y+2]=1;&#125; &#125; return 0;&#125;main()&#123; int n,m,i,j,k,l,x1,y1,flag; char s; while(1) &#123; flag=0; memset(t,0,sizeof(t)); scanf("%d%d",&amp;n,&amp;m); getchar(); for(i=1; i&lt;=n; i++) &#123; for(j=1; j&lt;=m; j++) &#123; s=getchar(); if(s=='#') continue; t[i][j]=1; if(s=='s') &#123; x1=i; y1=j; &#125; if(s=='t') &#123; x2=i; y2=j; &#125; &#125; getchar(); &#125; if(t[x1-1][y1]) &#123;t[x1-1][y1]=0; if(dfs(x1-1,y1,1)) flag=1; t[x1-1][y1]=1;&#125; if(!flag) if(t[x1+1][y1]) &#123;t[x1+1][y1]=0; if(dfs(x1+1,y1,1)) flag=1; t[x1+1][y1]=1;&#125; if(!flag) if(t[x1][y1-1]) &#123;t[x1][y1-1]=0; if(dfs(x1,y1-1,1)) flag=1; t[x1][y1-1]=1;&#125; if(!flag) if(t[x1][y1+1]) &#123;t[x1][y1+1]=0; if(dfs(x1,y1+1,1)) flag=1; t[x1][y1+1]=1;&#125; /*for(i=0;i&lt;n;i++) &#123;for(j=0;j&lt;m;j++) printf("%d",t[i][j]); printf("\n"); &#125;*/ if(flag) printf("Yes\n"); else printf("No\n"); if((s=getchar())==EOF) break; &#125;&#125; 写在最后这题只考到了普通dfs，而再深一层就是记忆化dfs了，因为有了记忆化，时间会进一步缩短，当然难度也会大一丢丢。]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>problem solve</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[堆排序]]></title>
-    <url>%2F2017%2F05%2F23%2Fdpx%2F</url>
-    <content type="text"><![CDATA[堆排序实现及讲解 堆排序 代码核心思想其实只要你的程序保证两点，代码就可以正确运行 1.根节点是最大的2.对图中所有的树而言，左子树和右子树是整棵树次大和第三大的数（最重要的） 我想说的是，堆排序已经有一种线段树的思想在里面了，只要加上延迟标记，它就是一棵线段树。 做法大顶堆： 一开始从树的最下方开始对每个节点的子树进行操作，使得左子树和右子树中最大的数和该子树根节点比较，如果是比根节点大的就交换，并且交换后将被换下来的根节点向下做同样操作。 如果是根节点最大，就不用继续向下比较了，因为下面的子树都满足了上述条件。 到达二叉树的根节点之后，将根节点输出，然后将根节点和最后一个节点的数交换，并删除最后一个节点。 对二叉树的根节点做一开始的操作，即：根节点的左右子树选出最大和根节点比较，根节点若比该数更小则交换，同时被向下交换后的根节点就跟它的新左右子树进行同样操作，直到无法操作。 代码1234567#include&lt;iostream&gt;#include&lt;cstdio&gt;#include&lt;algorithm&gt;#define rep(i,a,n) for(int i=a; i&lt;n; i++)#define rep1(i,a,n) for(int i=n-1; i&gt;=a; i--)#define s(a) scanf("%d",&amp;a)using namespace std; 123456789101112131415161718192021222324252627282930313233343536int a[100];void down(int x,int n)&#123; int temp=a[x]; int j=x*2+1; while(j&lt;n) &#123; if(j+1&lt;n&amp;&amp;a[j]&lt;a[j+1]) j++; if(a[j]&gt;temp) a[x]=a[j]; else break; x=j; j=x*2+1; &#125; a[x]=temp;&#125;int main()&#123; int n; s(n); rep(i,0,n) s(a[i]); rep1(i,0,n) down(i,n); rep1(i,0,n) &#123; down(0,i+1); rep(j,0,n) printf("%d ",a[j]); printf("\n"); int temp=a[i]; a[i]=a[0]; a[0]=temp; &#125;&#125;]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>data structures</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[差分约束]]></title>
-    <url>%2F2017%2F05%2F23%2Fcfys%2F</url>
-    <content type="text"><![CDATA[传送门]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>data structures</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[小明的密码]]></title>
-    <url>%2F2017%2F05%2F22%2Fxmdmm%2F</url>
-    <content type="text"><![CDATA[小明的密码题解 小明的密码题型: 编程题 语言: 无限制 问题描述描述小明的密码由N（1&lt;=N&lt;=12）个数字构成，每个数字都可以是0至9中任意一个数字，但小明的密码还有一个特点就是密码中连续的M（1&lt;=M&lt;=4）个数字的和是质数，现给定M和N，求满足条件的密码共有多少个？ 输入格式第1行是T，case数量，此后T行，每行两个数，N和M 输出格式每个case输出一个满足条件的密码总数 输入样例21 12 1 输出样例416 题解1.简单方法：用欧拉筛先找出质数，然后递归12345#include&lt;cstdio&gt;#include&lt;cstring&gt;#include&lt;cmath&gt;#include&lt;algorithm&gt;using namespace std; 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162long v[100]= &#123;0&#125;,prime[50]= &#123;0&#125;,prin=0,n,m,ans,a[20];void Euler()&#123; v[0]=1; v[1]=1; long i,j; for(i=2; i&lt;=100; i++) &#123; if(!v[i]) prime[prin++]=i; for(j=0; j&lt;prin; j++) &#123; if(i*prime[j]&gt;100) break; v[i*prime[j]]=prime[j]; if(!i%prime[j]) break; &#125; &#125;&#125;void solve(long w)&#123; long temp; if(w==n+1) &#123;ans++; return;&#125; if(w&lt;m) for(long i=0; i&lt;=9; i++) &#123; a[w]=i; solve(w+1); &#125; else for(long i=0; i&lt;=9; i++) &#123; temp=0; for(long j=m; j&gt;1; j--) temp+=a[w-j+1]; temp+=i; if(!v[temp]) &#123;a[w]=i; solve(w+1);&#125; &#125; return;&#125;main()&#123; long i,j,casen; scanf("%ld",&amp;casen); Euler(); while(casen--) &#123; ans=0; scanf("%ld%ld",&amp;n,&amp;m); if(m!=1) for(i=0; i&lt;=9; i++) &#123; a[1]=i; solve(2); &#125; else &#123; ans=1; for(i=1; i&lt;=n; i++) ans*=4; &#125; printf("%ld\n",ans); &#125;&#125; 2.用数位dp快速求解 写在最后 其实我们在面对同一道题的时候，往往会有多种解法，在这题里面，因为时间限制给的比较宽松，所以简单的递归就可以解决，当然正解应该是用数位dp。只能说，当你有更简单的方法水过去的时候，不要一开始就码正解。]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>problem solve</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[海豚加速器破解]]></title>
-    <url>%2F2017%2F05%2F19%2Fht%2F</url>
-    <content type="text"><![CDATA[海豚加速器破解教程 海豚加速器破解教程 在面对一些国外游戏，或者国内游戏，因为网络问题死活上不了的时候，你也许需要加速器啦~ 可是超级烦的就是，所有加速器都要钱，现在安利一个海豚加速器，当然它也是要钱的，可是现在有破解方法，这个教程会不定时更新。 1.下载海豚加速器2.下载破译软件3.安装完加速器之后，先别运行，解压破译软件，然后把压缩包里的所有东西都放到海豚加速器的根目录下（即与DolphinQ.exe同一个文件夹），然后运行T-T.exe（杀毒要关掉，用管理员身份运行，亲测无毒，因为要修改注册表，所以杀毒软件会判定为有毒）4.打开海豚加速器，输入账号和密码:haituntiyan haituntiyan5.选择喜欢的游戏进行加速，然后尽情游玩吧~ 测试效果：]]></content>
-      <categories>
-        <category>game</category>
-      </categories>
-      <tags>
-        <tag>game</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[MC游戏服加入教程以及安利~]]></title>
-    <url>%2F2017%2F05%2F19%2Fmcip%2F</url>
-    <content type="text"><![CDATA[加入我们的MC游戏服吧！ MC娱乐服欢迎加入~ 经过一轮的调试和试运行，我们的MC娱乐服已经稳定运行一段时间了，服务器有几大特点 服务器24小时稳定运行 插件全齐，因为是插件服不需要在客户端额外下载mod 插件种类多样，只有你想不到，没有我们做不到的 服务器地图 下面是服务器的截图 流程 下载MC1.8.7纯净版 安装Java（如果安装过了请跳过) 下载MC登录器 运行游戏 选择完中文后，在多人游戏中输入选择添加服务器，输入IP：139.199.186.146 那么就尽情地享受游戏吧~]]></content>
-      <categories>
-        <category>game</category>
-      </categories>
-      <tags>
-        <tag>game</tag>
-        <tag>MC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[KMP算法]]></title>
-    <url>%2F2017%2F05%2F19%2Fkmp%2F</url>
-    <content type="text"><![CDATA[关于KMP算法的next数组 KMP的next数组 一如既往先上代码：123456789void next()&#123; next[1]=0; next[2]=1; i=2; j=1; n=strlen(o); while(i&lt;n) &#123; if(j==0||o[i]==o[j]) &#123;i++; j++; next[i]=j;&#125; else j=next[j]; &#125;&#125; 说明 程序做到了两点: 寻找next数组 用KMP算法自调用 而只要稍加修改就可以用于判断最长字符串，代码如下12345678910while (i &lt; strlen(a) &amp;&amp; j &lt; strlen(user)) &#123; if (a[i] == user[j]) &#123; i++; j++; continue; &#125; else &#123; if (j != 0) j = next[j]; else &#123; i++; j = 1; &#125; &#125; &#125;if (j &gt;= strlen(user)) return i-strlen(user);else return -1;]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>data structures</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[邻接表]]></title>
-    <url>%2F2017%2F05%2F18%2Fljb%2F</url>
-    <content type="text"><![CDATA[简单讲解邻接表 邻接表 看完链式前向星之后，我们来看一下它的小伙伴————邻接表。邻接表相对于普通矩阵记录边和查找边速度会更加快，唯一的不同就是构造起来代码量会更多，下面直接先上代码 123456789101112for(i=1;i&lt;=m;i++) &#123; scanf("%d%d%d",&amp;ui,&amp;vi,&amp;ti); a[ui][0]++;/*ui是起点，这里记录以ui为起点的边的数量*/ a[vi][0]++;/*同上*/ a[ui][a[ui][0]]=i;/*这个是边的编号*/ a[vi][a[vi][0]]=i+m;/*同上*/ l[i+m][1]=ui;/*记录编号为i+m的边的终点*/ l[i+m][2]=ti;/*记录编号为i+m的边的权值*/ l[i][1]=vi;/*同上上*/ l[i][2]=ti;/*同上上*/ &#125; 简介 通过上面的代码我们可以发现，它跟链式前向星真的很像，因为同样是运用了链表的思想，这样做的缺点就是不能用O(1)的时间找到两点之间有没有边，可是这样做dfs和bfs却会比普通矩阵速度要快上不少，为什么呢？因为通常情况下，两个点之间未必会有边的，而对同一个点进行查询，邻接表只需要查O(x)次，x代表当前点所拥有的边，而普通矩阵要查O(n-1)次，n代表点的数量，所以结果出来就显而易见了，对一张图，普通矩阵要查O(n²),而邻接表最多不超过O(n*m)，如果还是不理解，可以看回链式前向星的图表，相信你会理解得更好的~]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>data structures</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[链式前向星]]></title>
-    <url>%2F2017%2F05%2F17%2Flsqxx%2F</url>
-    <content type="text"><![CDATA[简单讲解链式前向星 链式前向星 其实它的主要思想就是用数组建立邻接链表，链式前向星的主要就是下面这几行了1234567void add(int u,int v,int w)&#123; edge[cnt].c= w; edge[cnt].to = v; edge[cnt].next = head[u]; head[u] = cnt++;&#125; 介绍一下第一个出场的是edge.c——权重好的，我们看到紧随其后的是edge.to——这条边的终点/*前两个还是很好理解的然后就是最最大佬的部分，edge.next——它指向同一起点的上一条边我们使用链式前向星时常常会看到这么一条语句for(i=head[u];i;i=e[i].next)//插个介绍，head[u]代表以u为起点的边上一次出现的边的编号我们可以使用它进行一个bfs举个栗子]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-        <tag>data structures</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[教务信息管理系统]]></title>
-    <url>%2F2017%2F05%2F16%2Fhomework%2F</url>
-    <content type="text"><![CDATA[我的课程设计 课程设计：教务信息管理系统 花了大半个月总算把这个系统做好了，现在放上链接，大概是要windows8.1以上的机子才能正常使用。下载链接：Windows客户端说明:学生账号和密码是从201627010000-201627160000，教师账号密码从1000-9999，管理员分5个：招生，学生，选课，课程的拼音为账号，密码为8个8，还有账号管理员: admin 密码:admin 源码:点这里耐心等待一下网页加载，因为代码量比较大0.0]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>teach</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Something About This Blog]]></title>
-    <url>%2F2017%2F05%2F16%2Fsomething-about-this-blog%2F</url>
-    <content type="text"><![CDATA[关于本博客和博主的一些小事~ Something About This Blog 本人大一狗，在牛逼哄哄的室友带领下，一起学习怎么建blog，这也是第一篇文章啦，本博客主要用于： 整理知识，学习笔记 发布日记，杂文，所见所想 发布题解 博主竞赛中的经历 2013-10 初次接触Pascal2014-4 初次参加编程类竞赛2015-4 初次在编程类竞赛中获奖（NOIP二等）2016-9 开始接触C语言2017-1 在大学新生赛中获奖（第一）2017-1 开始接触C++2017-4 在大学校赛中获奖（二等）2017-5 在ACM广东省赛中获奖（银奖）2017-10 在CCPC秦皇岛赛区获奖（银奖）2018-4 在大学校赛中获奖（三等）2018-4 在华工校赛中获奖（银奖）2018-5 在ACM广东省赛中获奖（铜奖）至今 学习ing PS:博主这些都是上不了台面的小奖，所以还在认真学习T T 12345int main()&#123; printf("!(give up&amp;&amp;stopped)"); return 0;&#125; 写在最后 博主建起这个blog也不知道会不会持续更新，但是只要有时间就一定会坚持下去。 博主也愿意把自己一些微不足道的小见解和经历分享给大家。（当然多数是用来做题解） 不管怎么样，这blog也算是也是建起来啦~ 在此，本人由衷地说一句：欢迎你的到来！ end]]></content>
-      <categories>
-        <category>Normal</category>
-      </categories>
-      <tags>
-        <tag>Normal</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2017%2F05%2F12%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[How to build this blog?Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
-      <categories>
-        <category>teach</category>
-      </categories>
-      <tags>
-        <tag>Offical</tag>
-      </tags>
-  </entry>
+<search> 
+  
+    
+    <entry>
+      <title><![CDATA[一个微信管理多个微信消息]]></title>
+      <url>/2018/10/01/twowechat/</url>
+      <content type="html"><![CDATA[<p>微信的呼叫转移功能<br><a id="more"></a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Tool </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> Tool </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[python简单模拟几种磁道运行模式]]></title>
+      <url>/2018/09/07/os-track/</url>
+      <content type="html"><![CDATA[<p>回顾操作系统的磁道扫描<br><a id="more"></a></p>
+<h1 id="python简单模拟几种磁道运行模式"><a href="#python简单模拟几种磁道运行模式" class="headerlink" title="python简单模拟几种磁道运行模式"></a><font color="Blue">python简单模拟几种磁道运行模式</font></h1><hr>
+<h2 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a><font color="Blue">功能说明</font></h2><p>输入起始位置(不超过1500)，程序会自动随机生成400个磁道访问序列，按不同的方式进行访问。<br>由于实现起来比较简单，在此不详细讲解。</p>
+<p><a href="https://pastebin.ubuntu.com/p/dPVTX3GWjD/" target="_blank" rel="external">代码链接</a></p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[8086ASM实现DOSBOX下计算任意程序执行时间]]></title>
+      <url>/2018/06/02/excute-time/</url>
+      <content type="html"><![CDATA[<p>初学汇编<br><a id="more"></a></p>
+<h1 id="8086ASM实现DOSBOX下计算任意程序执行时间"><a href="#8086ASM实现DOSBOX下计算任意程序执行时间" class="headerlink" title="8086ASM实现DOSBOX下计算任意程序执行时间"></a><font color="Blue">8086ASM实现DOSBOX下计算任意程序执行时间</font></h1><hr>
+<h2 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a><font color="Blue">功能说明</font></h2><p>程序实现效果如下<br><img src="http://p04dvrje5.bkt.clouddn.com/J$K_%7BRK$%5DP0NQ3RS%7D0%282F1C.jpg" alt=""></p>
+<p><a href="http://139.199.186.146:8000/f/907267a1d7/?raw=1" target="_blank" rel="external">代码链接</a></p>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a><font color="Blue">参考资料</font></h2><p><a href="http://www.docin.com/p-1446341005.html" target="_blank" rel="external">传送门</a></p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> Tool </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> Tool </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[后缀自动机]]></title>
+      <url>/2018/05/12/hzzdj/</url>
+      <content type="html"><![CDATA[<p>后缀自动机例题<br><a id="more"></a></p>
+<h1 id="后缀自动机·基本概念"><a href="#后缀自动机·基本概念" class="headerlink" title="后缀自动机·基本概念"></a>后缀自动机·基本概念</h1><p>时间限制:10000ms<br>单点时限:1000ms<br>内存限制:256MB</p>
+<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>小Hi：今天我们来学习一个强大的字符串处理工具：后缀自动机（Suffix Automaton，简称SAM）。对于一个字符串S，它<strong>对应的后缀自动机是一个最小的确定有限状态自动机（DFA），接受且只接受S的后缀。</strong></p>
+<p>小Hi：比如对于字符串S=”aabbabd”，它的后缀自动机是：<br><img src="http://media.hihocoder.com/problem_images/20161203/14807564643248.png" alt=""></p>
+<p>其中红色状态是终结状态。你可以发现对于S的后缀，我们都可以从S出发沿着字符标示的路径（蓝色实线）转移，最终到达终结状态。例如”bd”对应的路径是S59，”abd”对应的路径是S189，”abbabd”对应的路径是S184679。而对于不是S后缀的字符串，你会发现从S出发，最后会到达非终结状态或者“无路可走”。<strong>特别的，对于S的子串，最终会到达一个合法状态。例如”abba”路径是S1846，”bbab”路径是S5467。而对于其他不是S子串的字符串，最终会“无路可走”。</strong>例如”aba”对应S18X，”aaba”对应S123X。（X表示没有转移匹配该字符）</p>
+<p>小Ho：好像很厉害的样子！对于任意字符串都能构造出一个SAM吗？另外图中那些绿色虚线是什么？</p>
+<p>小Hi：是的，任意字符串都能构造出一个SAM。我们知道SAM本质上是一个DFA，DFA可以用一个五元组<strong>&lt;字符集，状态集，转移函数、起始状态、终结状态集&gt;</strong>来表示。下面我们将依次介绍对于一个给定的字符串S如何确定它对应的 状态集 和 转移函数 。至于那些绿色虚线虽然不是DFA的一部分，却是SAM的重要部分，有了这些链接SAM是如虎添翼.</p>
+<h2 id="SAM的States"><a href="#SAM的States" class="headerlink" title="SAM的States"></a>SAM的States</h2><p>小Hi：这一节我们将介绍给定一个字符串S，如何确定S对应的SAM有哪些状态。首先我们先介绍一个概念 <strong>子串的结束位置集合</strong>endpos。对于S的一个子串s，endpos(s) = s在S中所有出现的结束位置集合。还是以S=”aabbabd”为例，endpos(“ab”) = {3, 6}，因为”ab”一共出现了2次，结束位置分别是3和6。同理endpos(“a”) = {1, 2, 5}, endpos(“abba”) = {5}。<br>小Hi：我们把S的所有子串的endpos都求出来。如果两个子串的endpos相等，就把这两个子串归为一类。最终这些endpos的等价类就构成的SAM的状态集合。例如对于S=”aabbabd”：</p>
+<table><br>        <tr><br>            <th>状态</th><br>            <th>子串</th><br>            <th>endpos</th><br>        </tr><br>        <tr><br>            <th>S</th><br>            <th>空串</th><br>            <th>{0,1,2,3,4,5,6}</th><br>        </tr><br>        <tr><br>            <th>1</th><br>            <th>a</th><br>            <th>{1,2,5}</th><br>        </tr><br>        <tr><br>            <th>2</th><br>            <th>aa</th><br>            <th>{2}</th><br>        </tr><br>        <tr><br>            <th>3</th><br>            <th>aab</th><br>            <th>{3}</th><br>        </tr><br>        <tr><br>            <th>4</th><br>            <th>aabb,abb,bb</th><br>            <th>{4}</th><br>        </tr><br>        <tr><br>            <th>5</th><br>            <th>b</th><br>            <th>{3,4,6}</th><br>        </tr><br>        <tr><br>            <th>6</th><br>            <th>aabba,abba,bba,ba</th><br>            <th>{5}</th><br>        </tr><br>        <tr><br>            <th>7</th><br>            <th>aabbab,abbab,bbab,bab</th><br>            <th>{6}</th><br>        </tr><br>        <tr><br>            <th>8</th><br>            <th>ab</th><br>            <th>{3,6}</th><br>        </tr><br>        <tr><br>            <th>9</th><br>            <th>aabbabd,abbabd,bbabd,babd,abd,bd,d</th><br>            <th>{7}</th><br>        </tr><br>    </table>
+
+<p>小Ho：这些状态恰好就是上面SAM图中的状态。</p>
+<p>小Hi：没错。此外，这些状态还有一些美妙的性质，且等我一一道来。首先对于S的两个子串s1和s2，不妨设length(s1) &lt;= length(s2)，那么 <strong>s1是s2的后缀当且仅当endpos(s1) ⊇ endpos(s2)，s1不是s2的后缀当且仅当endpos(s1) ∩ endpos(s2) = ∅。</strong></p>
+<p>小Ho：我验证一下啊… 比如”ab”是”aabbab”的后缀，而endpos(“ab”)={3,6}，endpos(“aabbab”)={6}，是成立的。”b”是”ab”的后缀，endpos(“b”)={3,4,6}, endpos(“ab”)={3,6}也是成立的。”ab”不是”abb”的后缀，endpos(“ab”)={3,6}，endpos(“abb”)={4}，两者没有交集也是成立的。怎么证明呢？</p>
+<p>小Hi：证明还是比较直观的。首先证明s1是s2的后缀=&gt;endpos(s1)⊇endpos(s2)：既然s1是s2后缀，所以每次s2出现时s1以必然伴随出现，所以有endpos(s1)⊇endpos(s2)。再证明endpos(s1)⊇endpos(s2)=&gt;s1是s2的后缀：我们知道对于S的子串s2，endpos(s2)不会是空集，所以endpos(s1)⊇endpos(s2)=&gt;存在结束位置x使得s1结束于x，并且s2也结束于x，又length(s1) &lt;=length(s2)，所以s1是s2的后缀。综上我们可知 <strong>s1是s2的后缀当且仅当endpos(s1) ⊇ endpos(s2)。s1不是s2的后缀当且仅当endpos(s1) ∩ endpos(s2) = ∅</strong>是一个简单的推论，不再赘述。</p>
+<p>小Ho：我好像对SAM的状态有一些认识了！我刚才看上面的表格就觉得SAM的一个状态里包含的子串好像有规律。考虑到SAM中的一个状态包含的子串都具有相同的endpos，那它们应该都互为后缀？</p>
+<p>小Hi：你观察力还挺敏锐的。下面我们就来讲讲一个状态包含的子串究竟有什么关系。上文提到我们把S的所有子串按endpos分类，每一类就代表一个状态，所以我们可以认为一个状态包含了若干个子串。我们用substrings(st)表示状态st中包含的所有子串的集合，longest(st)表示st包含的最长的子串，shortest(st)表示st包含的最短的子串。例如对于状态7，substring(7)={aabbab,abbab,bbab,bab}，longest(7)=aabbab，shortest(7)=bab。</p>
+<p>小Hi：<strong>对于一个状态st，以及任意s∈substrings(st)，都有s是longest(st)的后缀。</strong>证明比较容易，因为endpos(s)=endpos(longest(st))，所以endpos(s) ⊇ endpos(longest(st))，根据我们刚才证明的结论有s是longest(st)的后缀。</p>
+<p>小Hi：此外，<strong>对于一个状态st，以及任意的longest(st)的后缀s，如果s的长度满足：length(shortest(st)) &lt;= length(s) &lt;= length(longsest(st))，那么s∈substrings(st)。</strong>证明也是比较容易，因为：length(shortest(st)) &lt;= length(s) &lt;= length(longsest(st))，所以endpos(shortest(st)) ⊇ endpos(s) ⊇ endpos(longest(st))， 又endpos(shortest(st)) = endpos(longest(st))，所以endpos(shortest(st)) = endpos(s) = endpos(longest(st))，所以s∈substrings(st)。</p>
+<p>小Ho：这么说来，substrings(st)包含的是longest(st)的一系列<strong>连续</strong>后缀？</p>
+<p>小Hi：没错。比如你看状态7中包含的就是aabbab的长度分别是6，5，4，3的后缀；状态6包含的是aabba的长度分别是5，4，3，2的后缀。</p>
+<h2 id="SAM的Suffix-Links"><a href="#SAM的Suffix-Links" class="headerlink" title="SAM的Suffix Links"></a>SAM的Suffix Links</h2><p>小Hi：前面我们讲到substrings(st)包含的是longest(st)的一系列连续后缀。这连续的后缀在某个地方会“断掉”。比如状态7，包含的子串依次是aabbab,abbab,bbab,bab。按照连续的规律下一个子串应该是”ab”，但是”ab”没在状态7里，你能想到这是为什么么？</p>
+<p>小Ho：aabbab,abbab,bbab,bab的endpos都是{6}，下一个”ab”当然也在结束位置6出现过，但是”ab”还在结束位置3出现过，所以”ab”比aabbab,abbab,bbab,bab出现次数更多，于是就被分配到一个新的状态中了。</p>
+<p>小Hi：没错，当longest(st)的某个后缀s在新的位置出现时，就会“断掉”，s会属于新的状态。比如上例中”ab”就属于状态8，endpos(“ab”}={3,6}。当我们进一步考虑”ab”的下一个后缀”b”时，也会遇到相同的情况：”b”还在新的位置4出现过，所以endpos(“b”)={3,4,6}，b属于状态5。在接下去处理”b”的后缀我们会遇到空串，endpos(“”)={0,1,2,3,4,5,6}，状态是起始状态S。</p>
+<p>小Hi：于是我们可以发现一条状态序列：7-&gt;8-&gt;5-&gt;S。这个序列的意义是longest(7)即aabbab的后缀依次在状态7、8、5、S中。我们用Suffix Link这一串状态链接起来，这条link就是上图中的绿色虚线。</p>
+<p>小Ho：原来如此。</p>
+<p>小Hi：Suffix Links后面会有妙用，我们暂且按下不表。</p>
+<h2 id="SAM的Transition-Function"><a href="#SAM的Transition-Function" class="headerlink" title="SAM的Transition Function"></a>SAM的Transition Function</h2><p>小Hi：最后我们来介绍SAM的转移函数。对于一个状态st，我们首先找到从它开始下一个遇到的字符可能是哪些。我们将st遇到的下一个字符集合记作next(st)，有next(st) = {S[i+1] | i ∈ endpos(st)}。例如next(S)={S[1], S[2], S[3], S[4], S[5], S[6], S[7]}={a, b, d}，next(8)={S[4], S[7]}={b, d}。</p>
+<p>小Hi：对于一个状态st来说和一个next(st)中的字符c，你会发现substrings(st)中的所有子串后面接上一个字符c之后，新的子串仍然都属于同一个状态。比如对于状态4，next(4)={a}，aabb,abb,bb后面接上字符a得到aabba，abba，bba，这些子串都属于状态6。</p>
+<p>小Hi：所以我们对于一个状态st和一个字符c∈next(st)，可以定义转移函数trans(st, c) = x | longest(st) + c ∈ substrings(x) 。换句话说，我们在longest(st)（随便哪个子串都会得到相同的结果）后面接上一个字符c得到一个新的子串s，找到包含s的状态x，那么trans(st, c)就等于x。</p>
+<p>小Ho：吼~ 终于把SAM中各个部分搞明白了。</p>
+<p>小Hi：SAM的构造有时空复杂度均为O(length(S))的算法，我们将在后面介绍。这一期你可以先用暴力算法依照定义构造SAM，先对SAM有个直观认识再说。</p>
+<p>小Ho：没问题，暴力算法我最拿手了。我先写程序去了。</p>
+<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>第一行包含一个字符串S，S长度不超过50。</p>
+<p>第二行包含一个整数N，表示询问的数目。(1 &lt;= N &lt;= 10)</p>
+<p>以下N行每行包括一个S的子串s，s不为空串。</p>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>对于每一个询问s，求出包含s的状态st，输出一行依次包含shortest(st)、longest(st)和endpos(st)。其中endpos(st)由小到大输出，之间用一个空格分割。</p>
+<h2 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h2><pre><code>aabbabd  
+5  
+b  
+abbab  
+aa  
+aabbab  
+bb  
+</code></pre><h2 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h2><pre><code>b b 3 4 6  
+bab aabbab 6  
+aa aa 2  
+bab aabbab 6  
+bb aabb 4
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> problem solve </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[成绩分析系统（Javafx）]]></title>
+      <url>/2018/01/09/cjfx/</url>
+      <content type="html"><![CDATA[<p>简易成绩分析系统<br><a id="more"></a></p>
+<h1 id="成绩分析系统（Javafx）"><a href="#成绩分析系统（Javafx）" class="headerlink" title="成绩分析系统（Javafx）"></a>成绩分析系统（Javafx）</h1><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>最近闲着无聊，研究了一下用javafx的<a href="http://www.oracle.com/technetwork/java/javase/downloads/javafxscenebuilder-info-2157684.html" target="_blank" rel="external">scenebuilder</a>怎么写一些简易的程序，发现开发起来真的很容易，界面只要直接拖拉，只要自己用它提供的接口把功能补齐就好了，大大地缩短了开发时间，因此在这里给各位老铁一个简易的成绩分析系统提供使用参考。</p>
+<hr>
+<h3 id="软件介绍"><a href="#软件介绍" class="headerlink" title="软件介绍"></a>软件介绍</h3><p>程序可以动态分析用户提供的数据，实时修改统计表也能动态改变算是这个系统最大的卖点，同时，可以在表格里直接双击编辑成绩，并且表格可以自动排序（这个是javafx自带的功能）。不得不说，因为这些功能，做开发的时候是缩短了许多时间。同时，我也自己加了一些功能，例如直接可以查询表格里面的某些关键字，筛选出自己想找的某些人，然后可以即可修改他们的成绩（修改后返回全部人的表格的时候，会发现他们的成绩也会同步改变），方便用户操作，以及如果已存在该班该课程的成绩单，会提醒已经存在，是否覆盖，以防数据丢失。可以说是一个能实际应用的小程序了。</p>
+<hr>
+<blockquote>
+<h3 id="主界面"><a href="#主界面" class="headerlink" title="主界面"></a>主界面</h3><p><img src="http://p04dvrje5.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20171224214008.jpg" alt=""></p>
+<h3 id="修改操作"><a href="#修改操作" class="headerlink" title="修改操作"></a>修改操作</h3><p><img src="http://p04dvrje5.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20171224214404.jpg" alt=""></p>
+<h3 id="统计图动态改变"><a href="#统计图动态改变" class="headerlink" title="统计图动态改变"></a>统计图动态改变</h3><p><img src="http://p04dvrje5.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20171224215016.jpg" alt=""><br><img src="http://p04dvrje5.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20171224214925.jpg" alt=""></p>
+<h3 id="实时查询"><a href="#实时查询" class="headerlink" title="实时查询"></a>实时查询</h3><p><img src="http://p04dvrje5.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20171224214326.jpg" alt=""></p>
+<h3 id="防止覆盖提醒"><a href="#防止覆盖提醒" class="headerlink" title="防止覆盖提醒"></a>防止覆盖提醒</h3><p><img src="http://p04dvrje5.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20171224215406.jpg" alt=""></p>
+</blockquote>
+<h3 id="下载戳这-附源码"><a href="#下载戳这-附源码" class="headerlink" title="下载戳这(附源码)"></a><a href="https://pan.baidu.com/s/1i6ypekt" target="_blank" rel="external">下载戳这(附源码)</a></h3>]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[建立属于自己的私人网盘]]></title>
+      <url>/2017/11/13/buildseafile/</url>
+      <content type="html"><![CDATA[<p>建立Seafile网盘教程<br><a id="more"></a></p>
+<h1 id="Windows建立方法"><a href="#Windows建立方法" class="headerlink" title="Windows建立方法"></a>Windows建立方法</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>由于博主最近服务器有点多，于是就弄了个seafile来玩玩，谁知道一玩之下才发现，原来seafile使用起来是这么便捷！</p>
+<h3 id="Seafile介绍"><a href="#Seafile介绍" class="headerlink" title="Seafile介绍"></a>Seafile介绍</h3><p>这是我见过的第一款有客户端，网页版的私人网盘，关键是可以在线预览修改代码，并支持多人同时修改，留言，所以，它可以作为很好的一个多人合作的平台。<br><img src="https://s1.ax1x.com/2017/11/14/yXZXq.jpg" alt=""></p>
+<p>同时，它可以自动备份历史版本的文件！<br><img src="https://s1.ax1x.com/2017/11/14/yXlh4.jpg" alt=""></p>
+<p>当然，它还可以选择性共享给用户组，或者单独用户，甚至可以申请一个上传链接，让人免登陆把文件传到自己的文件夹里，这个功能也是得点赞，不过它作为客户端可以变成一个挂载盘，这样让我们使用起来更加方便了~！(PS: APP的功能也有照片自动备份等等)<br><img src="" alt=""></p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[优酷爱奇艺会员电影教程]]></title>
+      <url>/2017/09/16/ykhy/</url>
+      <content type="html"><![CDATA[<p>某些特殊的操作技巧！<br><a id="more"></a></p>
+<h1 id="想免费看会员电影吗？"><a href="#想免费看会员电影吗？" class="headerlink" title="想免费看会员电影吗？"></a><font color="Blue">想免费看会员电影吗？</font></h1><hr>
+<p>无意中发现一个网站，可以免费看优酷爱奇艺会员电影，或者是想免广告，都可以用哦~</p>
+<h2 id="以优酷会员电影为例"><a href="#以优酷会员电影为例" class="headerlink" title="以优酷会员电影为例"></a><font color="Blue">以优酷会员电影为例</font></h2><p><img src="https://s1.ax1x.com/2017/09/16/ugz6S.jpg" alt="ugz6S.jpg"></p>
+<blockquote>
+<ul>
+<li><p>我想看这部电影，首先要点进去这部电影，然后复制链接~</p>
+</li>
+<li><p>之后打开这个链接→<a href="http://www.a6a6.org/" target="_blank" rel="external">点我</a></p>
+</li>
+</ul>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2017/09/16/u2SOg.jpg" alt="u2SOg.jpg"></p>
+<blockquote>
+<ul>
+<li>把复制好的链接粘贴在这里</li>
+</ul>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2017/09/16/u29mQ.jpg" alt="u29mQ.jpg"></p>
+<blockquote>
+<ul>
+<li>输入223366</li>
+</ul>
+</blockquote>
+<p>最后尽情享受吧~</p>
+]]></content>
+      
+        <categories>
+            
+            <category> game </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> game </tag>
+            
+            <tag> Video </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[博客小挂件]]></title>
+      <url>/2017/08/20/bkgj/</url>
+      <content type="html"><![CDATA[<p>博客中的小插件分享<br><a id="more"></a></p>
+<h2 id="软件简介"><a href="#软件简介" class="headerlink" title="软件简介"></a><font color="#0099ff">软件简介</font></h2><pre><code>&gt; 由于手机只能开一个微信，而又不想下载多开应用，因此我花了点时间做了一个可以挂载在自己家中的电脑，或者服务器上的微信机器人，能够把微信收到的消息转发到另一个微信上，然后另一个微信也可以控制它进行回复消息，或者主动找朋友聊天。这样，手机上只需要登录一个微信，就能同时收到多个微信的消息并进行回复了。
+</code></pre><h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a><font color="#0099ff">使用说明</font></h2><h3 id="使用前准备"><a href="#使用前准备" class="headerlink" title="使用前准备:"></a>使用前准备:</h3><blockquote>
+<ol>
+<li>将接受微信消息的主微信(称作:B)备注名改为：黎明（第一步一定要先做好！！！ 不然程序会异常退出！！）</li>
+<li>双击启动器，启动软件</li>
+<li>把命令窗口调到适合大小，扫描二维码登录需要被操控的微信(称作:A)<br><img src="http://p04dvrje5.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180930170752.jpg" alt=""></li>
+</ol>
+</blockquote>
+<hr>
+<h3 id="接收消息功能"><a href="#接收消息功能" class="headerlink" title="接收消息功能:"></a>接收消息功能:</h3><blockquote>
+<ol>
+<li>当朋友发送消息给A时，A会在消息前面加上该朋友的备注名，并转发给B</li>
+<li>当群聊中有消息给A时，A会在消息前面加上群聊名称以及发送人的昵称，并转发给B<br><img src="http://p04dvrje5.bkt.clouddn.com/227678728070706722.jpg" alt=""></li>
+</ol>
+</blockquote>
+<hr>
+<h3 id="发送消息功能"><a href="#发送消息功能" class="headerlink" title="发送消息功能:"></a>发送消息功能:</h3><blockquote>
+<ol>
+<li>B输入回复命令，如: 回复路人甲，然后发送给A，A会将聊天对象设置为路人甲</li>
+<li>B输入回复群聊命令，如:回复群组1，然后发送给A，A会将聊天对象设为群组1</li>
+<li>B发送消息给A，A会自动把消息发送给聊天对象，聊天对象可以自行选择</li>
+</ol>
+</blockquote>
+<p><img src="http://p04dvrje5.bkt.clouddn.com/880931927602998110.jpg" alt=""><br><img src="http://p04dvrje5.bkt.clouddn.com/54300443044990034.jpg" alt=""></p>
+<h3 id="屏蔽消息功能"><a href="#屏蔽消息功能" class="headerlink" title="屏蔽消息功能:"></a>屏蔽消息功能:</h3><blockquote>
+<ol>
+<li>B输入屏蔽命令，如: 屏蔽路人甲/群组1，然后发送给A，A不会转发路人甲/群组1的所有消息</li>
+<li>B输入取消屏蔽命令，如:取消屏蔽路人甲/群组1，然后发送给A，A会开始转发路人甲/群组1的所有消息</li>
+</ol>
+</blockquote>
+<p><img src="http://p04dvrje5.bkt.clouddn.com/333847855467226009.jpg" alt=""><br><img src="http://p04dvrje5.bkt.clouddn.com/578987462056415841.jpg" alt=""></p>
+<h3 id="同一部手机中，微信手机端登出A账号，登录B账号教程："><a href="#同一部手机中，微信手机端登出A账号，登录B账号教程：" class="headerlink" title="同一部手机中，微信手机端登出A账号，登录B账号教程："></a>同一部手机中，微信手机端登出A账号，登录B账号教程：</h3><blockquote>
+<p>由于底层使用网页版微信实现，因此如果按常规登出了A账号之后，机器人也会跟着退出登录，因此需要按照以下步骤进行操作</p>
+<ol>
+<li>断开网络</li>
+<li>选择退出A微信账号（注意，不能联网退出！！！）</li>
+<li>等待20秒后，输入B账号的账号名和密码，再打开网络进行登录</li>
+</ol>
+</blockquote>
+<hr>
+<blockquote>
+<p>当电脑的命令窗口中，没有出现Log out字样时，表示网页版微信没有退出，以上步骤操作成功！<br>如果出现了Log out字样，需要重新进行操作</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>PS:目前机器人不能转发特殊消息，如红包，小程序，合并的聊天记录，其余消息均能转发，包括语音，视频等等。<br>为了更好地进行消息回复，建议给常用的聊天对象起容易输入的备注名。</p>
+</blockquote>
+<hr>
+<h2 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a><font color="#0099ff">下载链接</font></h2><p><a href="https://pan.baidu.com/s/1VXbadZk3c1icYITcKx6hpQ" target="_blank" rel="external">下载链接</a> 密码:adrq</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Tool </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> Tool </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[跨平台便签]]></title>
+      <url>/2017/08/12/t/</url>
+      <content type="html"><![CDATA[<p>跨平台便签共享<br><a id="more"></a></p>
+<h1 id="安利一发便利的便签网址"><a href="#安利一发便利的便签网址" class="headerlink" title="安利一发便利的便签网址"></a><font color="Blue">安利一发便利的便签网址</font></h1><hr>
+<blockquote>
+<ul>
+<li>电脑到手机</li>
+<li>安卓到苹果</li>
+</ul>
+</blockquote>
+<p>想要快速的传输网站或文本，只需要用这个跨平台便签，一键粘贴，巨方便！！！（室友做的安利一发）</p>
+<p><a href="http://123.207.34.114" target="_blank" rel="external">点这里</a></p>
+<p>代码粘贴网址:</p>
+<p><a href="http://pastebin.ubuntu.com/" target="_blank" rel="external">点这里</a></p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> Tool </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> Tool </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[敌兵布阵]]></title>
+      <url>/2017/07/17/dbbz/</url>
+      <content type="html"><![CDATA[<p>树状数组<br><a id="more"></a></p>
+<h1 id="敌兵布阵"><a href="#敌兵布阵" class="headerlink" title="敌兵布阵  "></a><font color="Blue">敌兵布阵  </font></h1><p>Time Limit: 2000/1000 MS (Java/Others)    Memory Limit: 65536/32768 K (Java/Others)<br>Total Submission(s): 85661    Accepted Submission(s): 36126</p>
+<hr>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><font color="Blue">问题描述</font></h2><p>C国的死对头A国这段时间正在进行军事演习，所以C国间谍头子Derek和他手下Tidy又开始忙乎了。A国在海岸线沿直线布置了N个工兵营地,Derek和Tidy的任务就是要监视这些工兵营地的活动情况。由于采取了某种先进的监测手段，所以每个工兵营地的人数C国都掌握的一清二楚,每个工兵营地的人数都有可能发生变动，可能增加或减少若干人手,但这些都逃不过C国的监视。<br>中央情报局要研究敌人究竟演习什么战术,所以Tidy要随时向Derek汇报某一段连续的工兵营地一共有多少人,例如Derek问:“Tidy,马上汇报第3个营地到第10个营地共有多少人!”Tidy就要马上开始计算这一段的总人数并汇报。但敌兵营地的人数经常变动，而Derek每次询问的段都不一样，所以Tidy不得不每次都一个一个营地的去数，很快就精疲力尽了，Derek对Tidy的计算速度越来越不满:”你个死肥仔，算得这么慢，我炒你鱿鱼!”Tidy想：“你自己来算算看，这可真是一项累人的工作!我恨不得你炒我鱿鱼呢!”无奈之下，Tidy只好打电话向计算机专家Windbreaker求救,Windbreaker说：“死肥仔，叫你平时做多点acm题和看多点算法书，现在尝到苦果了吧!”Tidy说：”我知错了。。。”但Windbreaker已经挂掉电话了。Tidy很苦恼，这么算他真的会崩溃的，聪明的读者，你能写个程序帮他完成这项工作吗？不过如果你的程序效率不够高的话，Tidy还是会受到Derek的责骂的.</p>
+<hr>
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a><font color="Blue">Input</font></h3><p>第一行一个整数T，表示有T组数据。<br>每组数据第一行一个正整数N（N&lt;=50000）,表示敌人有N个工兵营地，接下来有N个正整数,第i个正整数ai代表第i个工兵营地里开始时有ai个人（1&lt;=ai&lt;=50）。<br>接下来每行有一条命令，命令有4种形式：<br>(1) Add i j,i和j为正整数,表示第i个营地增加j个人（j不超过30）<br>(2)Sub i j ,i和j为正整数,表示第i个营地减少j个人（j不超过30）;<br>(3)Query i j ,i和j为正整数,i&lt;=j，表示询问第i到第j个营地的总人数;<br>(4)End 表示结束，这条命令在每组数据最后出现;<br>每组数据最多有40000条命令</p>
+<hr>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a><font color="Blue">Output</font></h3><p>对第i组数据,首先输出“Case i:”和回车,<br>对于每个Query询问，输出一个整数并回车,表示询问的段中的总人数,这个数保持在int以内。</p>
+<hr>
+<h3 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a><font color="Blue">Sample Input</font></h3><p>1<br>10<br>1 2 3 4 5 6 7 8 9 10<br>Query 1 3<br>Add 3 6<br>Query 2 7<br>Sub 10 2<br>Add 6 3<br>Query 3 10<br>End</p>
+<hr>
+<h3 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a><font color="Blue">Sample Output</font></h3><p>Case 1:<br>6<br>33<br>59</p>
+<hr>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="Blue">代码</font></h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;set&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stack&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i,a,n) for(i=a; i&lt;n; i++)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep1(i,a,n) for(i=n-1; i&gt;=a; i--)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> mem(a) memset(a,0,sizeof(a))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> memb(a) memset(a,false,sizeof(a))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 0x3f3f3f3f</span></div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a[<span class="number">50005</span>];</div><div class="line"><span class="keyword">int</span> n;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> i)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> i&amp;(-i);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> v)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(i&lt;=n)</div><div class="line">    &#123;</div><div class="line">        a[i]+=v;</div><div class="line">        i+=lowbit(i);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> i)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ans=<span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>(i&gt;<span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        ans+=a[i];</div><div class="line">        i-=lowbit(i);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> ans;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> test</span></div><div class="line">    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="built_in">stdin</span>);</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> </span></div><div class="line">    <span class="keyword">int</span> casen,t=<span class="number">1</span>,i,j,temp,num;</div><div class="line">    <span class="built_in">string</span> s;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;casen);</div><div class="line">    <span class="keyword">while</span>(casen--)</div><div class="line">    &#123;</div><div class="line">        mem(a);</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</div><div class="line">        rep(i,<span class="number">1</span>,n+<span class="number">1</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">scanf</span>(<span class="string">"%ld"</span>,&amp;temp);</div><div class="line">            update(i,temp);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Case %d:\n"</span>,t);</div><div class="line">        <span class="built_in">cin</span> &gt;&gt; s;</div><div class="line">        <span class="keyword">while</span>(s!=<span class="string">"End"</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(s==<span class="string">"Add"</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;i,&amp;num);</div><div class="line">                update(i,num);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s==<span class="string">"Query"</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;i,&amp;j);</div><div class="line">                temp=sum(j)-sum(i<span class="number">-1</span>);</div><div class="line">                <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,temp);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s==<span class="string">"Sub"</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;i,&amp;num);</div><div class="line">                update(i,-num);</div><div class="line">            &#125;</div><div class="line">            <span class="built_in">cin</span> &gt;&gt; s;</div><div class="line">        &#125;</div><div class="line">        t++;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>记得清空数组</p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> problem solve </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[邝斌的ACM模板]]></title>
+      <url>/2017/07/17/kuangbin/</url>
+      <content type="html"><![CDATA[<p>在线预览以及下载<br><a id="more"></a></p>
+<h1 id="资源分享：邝斌的模板"><a href="#资源分享：邝斌的模板" class="headerlink" title="资源分享：邝斌的模板"></a>资源分享：邝斌的模板</h1><p>下载地址:<a href="http://www.yunzhan365.com/78391187.html" target="_blank" rel="external">点这里</a></p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[背包九讲]]></title>
+      <url>/2017/07/17/bbjj/</url>
+      <content type="html"><![CDATA[<p>背包九讲<br><a id="more"></a></p>
+<h1 id="资源分享：背包九讲"><a href="#资源分享：背包九讲" class="headerlink" title="资源分享：背包九讲"></a>资源分享：背包九讲</h1><p>下载地址:<a href="http://www.yunzhan365.com/read/eoph/daev/index.html#p=1" target="_blank" rel="external">点这里</a></p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[shadowsocks的简单介绍]]></title>
+      <url>/2017/07/01/shadowsocks/</url>
+      <content type="html"><![CDATA[<p>在VPN即将被封的情况下，我们要怎么继续翻墙<br><a id="more"></a></p>
+<h1 id="用Shadowsocks的简易教程"><a href="#用Shadowsocks的简易教程" class="headerlink" title="用Shadowsocks的简易教程"></a><font color="Blue">用Shadowsocks的简易教程</font></h1><p>先做一个比较简单的新手帖，毕竟博主也是刚接触这没多久，各位大佬请轻喷</p>
+<hr>
+<h2 id="故事背景"><a href="#故事背景" class="headerlink" title="故事背景"></a><font color="Blue">故事背景</font></h2><p>GFW对于VPN的封杀无时无刻不在进行，最典型的就是GFW早已可以准确识别OpenVPN，原理是利用协议在握手阶段的某些特征来检测，从而可以达成瞬间阻断OpenVPN连接，很有可能你连第一次连接都连不上就被检测到了。而且这还没完，你胆敢用OpenVPN的后果，就是服务器IP立马被照顾，所有不能被识别的加密流量均会被阻断。所以现在使用VPN，不能使用原生的OpenVPN。必须使用变式的OpenVPN或者其他类的VPN软件。比如说给流量做混淆，再比如使用GFW目前无法识别的VPN，比如：SoftEther VPN。</p>
+<p>GFW对于VPN是坚决封杀的，目前引入的<strong>流量检测</strong>技术，识别流量类型，导致很多VPN都跪了。加之目前的“有罪推定”这一蛋疼的方式，导致一切加密手段都变成了浮云。无论你使用多复杂的加密手段都没用，GFW会认为所有他认不出来的加密浏览都是“犯罪嫌疑人”，并对这些流量进行监控。如果满足<strong>一定的条件</strong>，GFW将会判定“罪名成立”并处“暂时截断所有不能识别的加密浏览”等类似处罚，也就是“死缓”，如果屡教不改者判以“死刑立即执行”，予以永久封IP处罚。</p>
+<p>总之能代理就先代理，代理不行再挂VPN，VPN要少用，万一被检测出来，后果很严重。。说不定你花钱买的VPN就这么跪了，钱就白瞎进去了。</p>
+<hr>
+<h2 id="shadowsocks介绍"><a href="#shadowsocks介绍" class="headerlink" title="shadowsocks介绍"></a><font color="Blue">shadowsocks介绍</font></h2><p>shadowsocks是一款轻量级socks5代理，在安卓机子上很出名。使用Linux服务器做代理，必须有国外代理服务器，<font color="Red">手机版提供了一个公共代理，速度尚可。</font></p>
+<h3 id="注意，注意！！"><a href="#注意，注意！！" class="headerlink" title="注意，注意！！"></a><font color="Red">注意，注意！！</font></h3><p>也就是说，当你发现你手机提供的公共代理是能让你翻墙的，如果对速度没有过多要求，你就可以不用再看部署教程了！</p>
+<p>优点：使用完整Linux服务器代理而不是GAE这种功能受限的Web host，shadowsocks可以完整代理你所有类型的流量。跨平台，主流操作系统均有支持的客户端。</p>
+<p>缺点：受限于代理服务器的连接速度，除非你使用离你所在地距离较近的国外代理服务器，否则速度上很难达到goagent的速度。</p>
+<hr>
+<h2 id="部署教程"><a href="#部署教程" class="headerlink" title="部署教程"></a><font color="Blue">部署教程</font></h2><h3 id="服务端部分"><a href="#服务端部分" class="headerlink" title="服务端部分"></a>服务端部分</h3><blockquote>
+<p>首先你需要有一台在国外，也就是不会被墙的服务器，那么这些服务器大都比较廉价，而想要找到一台物美价廉的则需要你耐心去等待啦，这里博主分享的是<a href="https://bandwagonhost.com/" target="_blank" rel="external">搬瓦工</a>的服务器。（PS：请翻墙后点开链接）</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/5957131fb9015.jpg" alt=""><br><img src="https://ooo.0o0.ooo/2017/07/01/5957165fb1105.png" alt=""></p>
+<blockquote>
+<p>在注册完账号和选择好自己想要的配置之后，购买完毕，就可以开始部署了~（PS：配置就看一下是多少个人用的吧，一般小水管也能在Youtube上看看视频的。)</p>
+<p>先在SERVERICE里面找到自己刚刚购买的服务器，然后选KiwiVM进入界面</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/5957186e82658.jpg" alt=""></p>
+<blockquote>
+<p>在这里，我们可以选择让自己的服务器定位在哪里，当然地方不一样，网速体验也不一样</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/5957186e70a2c.jpg" alt=""></p>
+<blockquote>
+<p>然后，我们可以在shadsocks server里面，找到自己服务器ss的password，还有IP以及端口。</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/5957186ecd28c.jpg" alt=""></p>
+<blockquote>
+<p>那么，我们的服务端就搞定了~</p>
+</blockquote>
+<hr>
+<h3 id="客户端部分"><a href="#客户端部分" class="headerlink" title="客户端部分"></a>客户端部分</h3><p>先下载shadowsocks<br><a href="https://5mmmmm.ctfile.com/fs/4gF177649166" target="_blank" rel="external">Windows版</a><br><a href="https://5mmmmm.ctfile.com/fs/oNe177655462" target="_blank" rel="external">Mac版</a><br><a href="https://5mmmmm.ctfile.com/fs/L13177659278" target="_blank" rel="external">Andorid版</a><br>iOS请直接应用商店搜索 Wingy（免费）或者Shadowrocket(收费)或者Potatso（收费）</p>
+<p>博主比较懒，因此只用Windows版做例子，其他包括手机也是同样方法配置就好</p>
+<blockquote>
+<p>首先，运行shadsocks</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/59571c080ab6a.jpg" alt=""></p>
+<blockquote>
+<p>选择服务器一栏，编辑服务器</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/59571dced673d.jpg" alt=""></p>
+<blockquote>
+<p>按照在服务器上面已经填好的配置，依次填入IP，端口，密码，验证方式，其他可以自动忽略，然后点击添加</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/59571e35ef9d2.jpg" alt=""></p>
+<blockquote>
+<p>系统代理模式可以选择PAC模式（就是它会智能识别，是用你的代理上某个网站快，还是直接上这个网站快），或者全局模式（PAC上不了的网就直接换全局，全部走代理来上，一般问题都能解决）</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/59571ee0ebf3d.jpg" alt=""></p>
+<blockquote>
+<p>最后就可以尽情享受翻墙的乐趣啦~</p>
+</blockquote>
+<p><img src="https://ooo.0o0.ooo/2017/07/01/59571f8038296.jpg" alt=""></p>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a><font color="Blue">写在最后</font></h2><p>用了代理来翻墙，我们是会有流量加密的，也就是说，GFW是看不到你在上什么网站的（嘿嘿），那么如果你想知道连着自己的代理的人在上什么网站，你也可以去自己的服务器上看（嘿嘿），最后，别忘了给你的服务器续费哦~</p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> application </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[STL之优先队列]]></title>
+      <url>/2017/06/14/priority-queue/</url>
+      <content type="html"><![CDATA[<p>优先队列简单教程<br><a id="more"></a></p>
+<h1 id="STL之优先队列"><a href="#STL之优先队列" class="headerlink" title="STL之优先队列"></a>STL之优先队列</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>先做一个超级简单的新手帖，教教大家怎么正确的使用STL里面的优先队列priority_queue.</p>
+<hr>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>priority_queue是STL里面事先已经实现好的<a href="http://shineleon.cn/2017/05/23/dpx/" target="_blank" rel="external">堆排序</a>，构成了一个可以直接输出最大值或者最小值，查询时间只需要<strong>O(logn)</strong>的调用函数，它的基本语句如下</p>
+<blockquote>
+<p>priority_queue<int,vector<int>,less<int>&gt; q; //&lt;需要存储的类型,不定长数组,是小顶堆还是大顶堆&gt; q:优先队列的名字<br>(PS: less是从大到小输出，greater是从小到大输出，最后两项可以不写，默认是大顶堆，也就是less)<br>q.empty()//查询队列是否有元素，有就返回true，否则false<br>q.push(a)//让a入队<br>q.pop()//让队头元素出队<br>q.top()//查询现在队头的元素</int></int,vector<int></p>
+</blockquote>
+<hr>
+<h2 id="简单应用"><a href="#简单应用" class="headerlink" title="简单应用"></a>简单应用</h2><h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
+<h3 id="队列声明"><a href="#队列声明" class="headerlink" title="队列声明"></a>队列声明</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">priority_queue&lt;<span class="keyword">int</span>&gt; q;</div></pre></td></tr></table></figure>
+<h3 id="队列操作"><a href="#队列操作" class="headerlink" title="队列操作"></a>队列操作</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(!q.empty()) q.pop();<span class="comment">/*先清空队列（好习惯要有）*/</span></div><div class="line">    q.push(<span class="number">1</span>);<span class="comment">/*将1放入队列*/</span></div><div class="line">    <span class="keyword">int</span> a=<span class="number">3</span>;</div><div class="line">    q.push(a);<span class="comment">/*将3放入队列*/</span></div><div class="line">    <span class="built_in">cout</span> &lt;&lt; q.top() &lt;&lt; <span class="built_in">endl</span>;<span class="comment">/*将队头元素3输出*/</span></div><div class="line">    q.pop();<span class="comment">/*将队头元素3弹出队列*/</span></div><div class="line">    <span class="built_in">cout</span> &lt;&lt; q.top() &lt;&lt; <span class="built_in">endl</span>;<span class="comment">/*将队头元素1输出*/</span></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>当然强大的STL里面除了优先队列还有普通队列，还有栈，还有pair，map之类的，在后续的题目里面，更多更好的操作就是把它们联合起来一起用，这也会在我之后的blog里写到~</p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[数据恢复]]></title>
+      <url>/2017/06/14/sjhf/</url>
+      <content type="html"><![CDATA[<p>数据恢复教程<br><a id="more"></a></p>
+<h1 id="数据恢复"><a href="#数据恢复" class="headerlink" title="数据恢复"></a>数据恢复</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>由于博主今天要恢复一些被误删了的文件，特地花了一个下午去找免费，有效的数据恢复软件，皇天不负有心人，不少文件都被抢救回来了，但是还有很多没有T T</p>
+<hr>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><blockquote>
+<p>1.在文件被误删后，立刻停止对该盘的读写操作，要保证文件不会被覆盖损坏掉，不然神仙也救不了！<br>2.找到有用的恢复文件进行恢复，不要用一些三流软件，很容易让你被删除的文件损坏掉！</p>
+</blockquote>
+<hr>
+<h2 id="软件介绍"><a href="#软件介绍" class="headerlink" title="软件介绍"></a>软件介绍</h2><h3 id="1-都叫兽"><a href="#1-都叫兽" class="headerlink" title="1. 都叫兽"></a>1. 都叫兽</h3><p><a href="https://www.reneelab.com.cn/product-new-land-151.html" target="_blank" rel="external">下载链接</a></p>
+<p>这款软件能恢复50M以内的文件（免费版），一些比较简单的小文件可以直接下载这个恢复</p>
+<p><img src="https://ooo.0o0.ooo/2017/06/14/59401197c6203.jpg" alt=""></p>
+<h3 id="2-7-Data"><a href="#2-7-Data" class="headerlink" title="2. 7-Data"></a>2. 7-Data</h3><p><a href="https://pan.baidu.com/s/1miG7PZ6" target="_blank" rel="external">下载链接</a></p>
+<p>这款是企业版的破解版，就可以无限使用，而且恢复也可能比都叫兽会有用</p>
+<p><img src="https://ooo.0o0.ooo/2017/06/14/5940128b6e408.jpg" alt=""></p>
+<h3 id="3-DiskGeniusPro专业版"><a href="#3-DiskGeniusPro专业版" class="headerlink" title="3. DiskGeniusPro专业版"></a>3. DiskGeniusPro专业版</h3><p><a href="https://pan.baidu.com/s/1o8MHPqE" target="_blank" rel="external">下载链接</a></p>
+<blockquote>
+<p>*这款博主并未使用过，但是看起来效果不错，所以也推上来了。</p>
+</blockquote>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>其实只要平时做好数据备份和保护，根本用不上这个贴，当然，最坏情况如果真的出现了，也要保持冷静，因为不管怎么样，还是会有希望的存在的！ 希望这能帮助到你~</p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[hdu-1024 Max Sum Plus Plus]]></title>
+      <url>/2017/06/06/hdu-1024/</url>
+      <content type="html"><![CDATA[<p>基础dp以及优化<br><a id="more"></a></p>
+<h1 id="Max-Sum-Plus-Plus"><a href="#Max-Sum-Plus-Plus" class="headerlink" title="Max Sum Plus Plus  "></a><font color="Blue">Max Sum Plus Plus  </font></h1><p>原题链接：<a href="https://vjudge.net/contest/165707#problem/A" target="_blank" rel="external">https://vjudge.net/contest/165707#problem/A</a></p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><font color="Blue">问题描述</font></h2><p>Now I think you have got an AC in Ignatius.L’s “Max Sum” problem. To be a brave ACMer, we always challenge ourselves to more difficult problems. Now you are faced with a more difficult problem. </p>
+<p>Given a consecutive number sequence S 1, S 2, S 3, S 4 … S x, … S n (1 ≤ x ≤ n ≤ 1,000,000, -32768 ≤ S x ≤ 32767). We define a function sum(i, j) = S i + … + S j (1 ≤ i ≤ j ≤ n). </p>
+<p>Now given an integer m (m &gt; 0), your task is to find m pairs of i and j which make sum(i 1, j 1) + sum(i 2, j 2) + sum(i 3, j 3) + … + sum(i m, j m) maximal (i x ≤ i y ≤ j x or i x ≤ j y ≤ j x is not allowed). </p>
+<p>But I`m lazy, I don’t want to write a special-judge module, so you don’t have to output m pairs of i and j, just output the maximal summation of sum(i x, j x)(1 ≤ x ≤ m) instead.</p>
+<hr>
+<h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a><font color="Blue">题意</font></h3><p>【问题描述】—-最大M子段和问题<br>给定由 n个整数（可能为负整数）组成的序列a1，a2，a3，……，an，以及一个正整数 m，要求确定序列 a1，a2，a3，……，an的 m个不相交子段，<br>使这m个子段的总和达到最大，求出最大和。</p>
+<hr>
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a><font color="Blue">Input</font></h3><p>Each test case will begin with two integers m and n, followed by n integers S 1, S 2, S 3 … S n.<br>Process to the end of file. </p>
+<hr>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a><font color="Blue">Output</font></h3><p>Output the maximal summation described above in one line.</p>
+<hr>
+<h3 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a><font color="Blue">Sample Input</font></h3><p>1 3 1 2 3<br>2 6 -1 4 -2 3 -2 3</p>
+<hr>
+<h3 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a><font color="Blue">Sample Output</font></h3><p>6<br>8</p>
+<hr>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a><font color="Blue">题解</font></h2><p>这里因为是最大问题，很容易联想到是dp做法。但是要怎么写状态转移方程呢？<br>首先，我们可以发现，对于一个子问题而言，在j个数里面选i个字段做为最优解就可以了，那么细化到最后就是只有一个数，选一个字段，那对于下一状态来说，就是j+1这个数，是并入到j-1里面，还是独立一个字段的问题。所以状态转移方程为<strong>dp[i][j]=max(dp[<font color="Red">i-1</font>][t],dp[<font color="Blue">i</font>][j-1])+a[j]</strong>; 其中（1&lt;=t&lt;=j-1),所以接下来我们要做的就是怎么去实现这个方程。<br>由于方程里的dp[i-1][t]数组，如果每次都要重新找一次，那么时间复杂度就是O(m<em>n²）远远超出了时间限制，因此我们需要优化。<br>①优化时间<br>在这里，我们可以发现，每个位置的dp[i-1][t]都是从它上一位置维护出来的，因此我们只需要用一个一维数组——maxn[]去维护这个dp[i-1][t]，其中maxn[j-1]就是表示j位的dp[i-1][t],因此方程变成了<strong>dp[i][j]=max(maxn[<font color="Red">j-1</font>],dp[<font color="Blue">i</font>][j-1])+a[j]</strong>;<br>②优化空间<br>我们知道了j的范围（即n）是1e6，可是没有给i（即m）的范围，因此，如果m超过了100，我们的dp[][]就会爆内存了，所以我们需要优化空间。<br>在这里，手动模拟一遍，我们可以发现对于每一个dp[i][j]，它的dp[i][j-1]要么就是dp[i-1][t]，要么就是前<strong>i</strong>个数全部选择了，然后从i+1一直到j-1连续了过来。为什么是i？因为在第i层，我们需要构造i个字段，那么dp[][]这个数组也不需要存在了，直接用一个临时变量tmp就可以替换了。tmp表示dp[i][j-1]，所以现在的方程变成了<em>*tmp=max(maxn[<font color="Red">j-1</font>],tmp)+a[j]</em></em>;</p>
+<p>代码里面最难理解的就是maxn这个数组怎么维护了，接下来可以边看我代码边看这边的解释，看多几遍估计就能理解了。（PS： maxn数组与代码中的dp数组是同一个数组，而代码里我的下标是从0开始的，所以读者可以自行缩减一位，当然这里有个坑，容我迟点再说）<br>因为对于maxn这个数组来说，maxn[n]是永远不会用到的，因此它可以用来做临时储存变量。<br>那么对每一层的maxn来说，它是用来维护下一层的tmp的，然后tmp又会用来维护它自己那层的maxn，所以我们是先用了maxn当前的值维护tmp，再用把这个maxn变成新的维护好的值。所以这里maxn[n]的作用就体现出来了，对j-1来说，它通过一次维护，可以得到一个新的maxn[j-1]，然而当前的maxn[j-1]对这层的j是有用的，因此我们把新的maxn[j-1]先暂时存放到maxn[n]里面，然后再在tmp在第j位用完了旧的maxn[j-1]（上一层维护出来的）后，再把maxn[n]赋给maxn[j-1]，为下一层做准备。</p>
+<hr>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="Blue">代码</font></h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;set&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stack&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bitset&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> mem(a) memset(a,0,sizeof(a))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i,a,n) for(int i=a; i&lt;n; i++)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep1(i,a,n) for(int i=n-1; i&gt;=a; i--)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> s(a) scanf(<span class="meta-string">"%d"</span>,&amp;a)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> sll(a) scanf(<span class="meta-string">"%lld"</span>,&amp;a)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> test(a) cout&lt;&lt;a&lt;&lt;endl</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> test2(a,b) cout&lt;&lt;a&lt;&lt;<span class="meta-string">" "</span>&lt;&lt;b&lt;&lt;endl</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> IOS ios::sync_with_stdio(false);cin.tie(0)</span></div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAX = <span class="number">1016</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">1e6</span>+<span class="number">10</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">0x3f3f3f3f</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod = <span class="number">1e9</span>+<span class="number">7</span>;</div><div class="line">ll a[N],dp[N];</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> n,m;</div><div class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;m,&amp;n)!=EOF)</div><div class="line">    &#123;</div><div class="line">        rep(i,<span class="number">0</span>,n)</div><div class="line">          &#123;</div><div class="line">              sll(a[i]);</div><div class="line">          &#125;</div><div class="line">        mem(dp);</div><div class="line">        rep(i,<span class="number">0</span>,m)</div><div class="line">        &#123;</div><div class="line">            ll tmp=<span class="number">0</span>;</div><div class="line">            rep(j,<span class="number">0</span>,i+<span class="number">1</span>)</div><div class="line">            &#123;</div><div class="line">                tmp+=a[j];</div><div class="line">            &#125;</div><div class="line">            dp[n<span class="number">-1</span>]=tmp;</div><div class="line">            rep(j,i+<span class="number">1</span>,n)</div><div class="line">            &#123;</div><div class="line">                tmp=max(dp[j<span class="number">-1</span>],tmp)+a[j];</div><div class="line">                dp[j<span class="number">-1</span>]=dp[n<span class="number">-1</span>];</div><div class="line">                dp[n<span class="number">-1</span>]=max(dp[n<span class="number">-1</span>],tmp);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; dp[n<span class="number">-1</span>] &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>这里面我wa了好几次，最后在认真模拟后找到了原因，因为我的下标是从0开始的，那么对于只有一个字段的时候来说，初始的tmp是要把第一个数加进去的然而我并没有加，导致了最后一直wa。</p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> problem solve </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[POJ-2236 Wireless Network]]></title>
+      <url>/2017/05/31/POJ-2236/</url>
+      <content type="html"><![CDATA[<p>简单并查集题解<br><a id="more"></a></p>
+<h1 id="Wireless-Network"><a href="#Wireless-Network" class="headerlink" title="Wireless Network "></a><font color="Blue">Wireless Network </font></h1><p>原题链接：<a href="https://vjudge.net/contest/165746#problem/A" target="_blank" rel="external">https://vjudge.net/contest/165746#problem/A</a></p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><font color="Blue">问题描述</font></h2><p>An earthquake takes place in Southeast Asia. The ACM (Asia Cooperated Medical team) have set up a wireless network with the lap computers, but an unexpected aftershock attacked, all computers in the network were all broken. The computers are repaired one by one, and the network gradually began to work again. Because of the hardware restricts, each computer can only directly communicate with the computers that are not farther than d meters from it. But every computer can be regarded as the intermediary of the communication between two other computers, that is to say computer A and computer B can communicate if computer A and computer B can communicate directly or there is a computer C that can communicate with both A and B. </p>
+<p>In the process of repairing the network, workers can take two kinds of operations at every moment, repairing a computer, or testing if two computers can communicate. Your job is to answer all the testing operations. </p>
+<hr>
+<h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a><font color="Blue">题意</font></h3><p>有n台电脑，给出这n台电脑的坐标，所有电脑的初始状态全部是断电的，电脑与电脑之间如果要直接相连，必须是距离相差在最大范围d以内。现在进行一系列操作，按要求输出。<br>操作一共有2种：<br>1.开启一台电脑的电源。<br>2.查询两台电脑是否能相互联系（直接、间接），若能，则输出SUCCESS，若不能，则输出FAIL。</p>
+<hr>
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a><font color="Blue">Input</font></h3><p>The first line contains two integers N and d (1 &lt;= N &lt;= 1001, 0 &lt;= d &lt;= 20000). Here N is the number of computers, which are numbered from 1 to N, and D is the maximum distance two computers can communicate directly. In the next N lines, each contains two integers xi, yi (0 &lt;= xi, yi &lt;= 10000), which is the coordinate of N computers. From the (N+1)-th line to the end of input, there are operations, which are carried out one by one. Each line contains an operation in one of following two formats: </p>
+<ol>
+<li>“O p” (1 &lt;= p &lt;= N), which means repairing computer p. </li>
+<li>“S p q” (1 &lt;= p, q &lt;= N), which means testing whether computer p and q can communicate. </li>
+</ol>
+<p>The input will not exceed 300000 lines. </p>
+<hr>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a><font color="Blue">Output</font></h3><p>For each Testing operation, print “SUCCESS” if the two computers can communicate, or “FAIL” if not.</p>
+<hr>
+<h3 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a><font color="Blue">Sample Input</font></h3><p>4 1<br>0 1<br>0 2<br>0 3<br>0 4<br>O 1<br>O 2<br>O 4<br>S 1 4<br>O 3<br>S 1 4</p>
+<hr>
+<h3 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a><font color="Blue">Sample Output</font></h3><p>FAIL<br>SUCCESS</p>
+<hr>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a><font color="Blue">题解</font></h2><blockquote>
+<p>题意很简单，就是一个普通的并查集，我们要做的就是每次激活了一台电脑就从1-n扫一次，找到激活了，而且在它距离里的电脑，跟它做一次并查集。当然，这里的并查集做了优化，就是同时指向了它的最高级祖先，这样做的效果就是8秒的程序2秒跑完了。</p>
+</blockquote>
+<hr>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="Blue">代码</font></h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;set&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stack&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bitset&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> mem(a) memset(a,0,sizeof(a))</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i,a,n) for(int i=a; i&lt;n; i++)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep1(i,a,n) for(int i=n-1; i&gt;=a; i--)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> s(a) scanf(<span class="meta-string">"%d"</span>,&amp;a)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> test(a) cout&lt;&lt;a&lt;&lt;endl</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> test2(a,b) cout&lt;&lt;a&lt;&lt;<span class="meta-string">" "</span>&lt;&lt;b&lt;&lt;endl</span></div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAX = <span class="number">1016</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAX = <span class="number">1016</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">1e3</span>+<span class="number">10</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">0x3f3f3f3f</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod = <span class="number">1e9</span>+<span class="number">7</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a[N][<span class="number">2</span>],v[N],f[N];</div><div class="line"><span class="keyword">int</span> d;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">calculate</span><span class="params">(<span class="keyword">int</span> x1,<span class="keyword">int</span> x2,<span class="keyword">int</span> y1,<span class="keyword">int</span> y2)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">find_father</span><span class="params">(<span class="keyword">int</span> x)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> root=x,temp;</div><div class="line">    <span class="keyword">while</span>(f[root]!=root) root=f[root];</div><div class="line">    <span class="keyword">while</span>(f[x]!=x)</div><div class="line">    &#123;</div><div class="line">        temp=x;</div><div class="line">        x=f[x];</div><div class="line">        f[temp]=root;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> x;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">combine_father</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> x)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(calculate(a[i][<span class="number">0</span>],a[x][<span class="number">0</span>],a[i][<span class="number">1</span>],a[x][<span class="number">1</span>])&gt;d*d) <span class="keyword">return</span>;</div><div class="line">    x=find_father(x);</div><div class="line">    i=find_father(i);</div><div class="line">    <span class="keyword">if</span>(i!=x) f[x]=i;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    mem(v);</div><div class="line">    mem(a);</div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    <span class="keyword">char</span> choice;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;d);</div><div class="line">    rep(i,<span class="number">0</span>,n)</div><div class="line">     &#123;</div><div class="line">         <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;a[i][<span class="number">0</span>],&amp;a[i][<span class="number">1</span>]);</div><div class="line">         f[i]=i;</div><div class="line">     &#125;</div><div class="line">    getchar();</div><div class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%c"</span>,&amp;choice)!=EOF)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(choice==<span class="string">'S'</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> x,y;</div><div class="line">            <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;x,&amp;y);</div><div class="line">            x--; y--;</div><div class="line">            getchar();</div><div class="line">            <span class="keyword">if</span>(find_father(x)==find_father(y))</div><div class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">"SUCCESS"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            <span class="keyword">else</span></div><div class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">"FAIL"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> x;</div><div class="line">            s(x);</div><div class="line">            x--;</div><div class="line">            getchar();</div><div class="line">            v[x]=<span class="literal">true</span>;</div><div class="line">            rep(i,<span class="number">0</span>,n)</div><div class="line">            <span class="keyword">if</span>(i!=x&amp;&amp;v[i])</div><div class="line">             combine_father(i,x);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2> #define IOS ios::sync_with_stdio(false);cin.tie(0) 
+<p>这句就是让我在这题里wa了5次的罪归祸首!!! 其实这句话是为了能让cin的扫入方式改变，然后它的速度就能媲美scanf，然而，因为它的存在，<font color="Red">scanf和printf就不能使用了</font>，否则会出现bug！！<br>所以一句话，早用scanf，早accepted.</p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> problem solve </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[最短路算法(2)]]></title>
+      <url>/2017/05/31/dij-dui/</url>
+      <content type="html"><![CDATA[<p>dijkstra+优先队列（小顶堆）<br><a id="more"></a></p>
+<h1 id="Dijkstra-O-mlogn"><a href="#Dijkstra-O-mlogn" class="headerlink" title="Dijkstra(O(mlogn))"></a><font color="Blue">Dijkstra(O(mlogn))</font></h1><h2 id="算法叙述"><a href="#算法叙述" class="headerlink" title="算法叙述"></a><font color="Blue">算法叙述</font></h2><p>有了<a href="http://shineleon.cn/2017/05/17/lsqxx/" target="_blank" rel="external">链式前向星</a>，再来看<a href="http://shineleon.cn/2017/05/25/dijkstra/" target="_blank" rel="external">Dijkstra算法</a>，我们关注算法的第3)步，对和x直接相邻的点进行更新的时候，不再需要遍历所有的点，而是只更新和x直接相邻的点，这样总的更新次数就和顶点数n无关了，总更新次数就是总边数m，算法的复杂度变成了O(n²+m)，之前的复杂度是O(n²)，但是有两个n²的操作，而这里是一个，原因在于找d值最小的顶点的时候还是一个O(n)的轮询，总共n次查找。那么查找d值最小有什么好办法呢？<br>数据结构中有一种树，它能够在O(log(n))的时间内插入和删除数据，并且在O(1)的时间内得到当前数据的最小值，这个和我们的需求不谋而合，它就是最小二叉堆(小顶堆)，具体实现不讲了，比较简单，可以参考<a href="http://shineleon.cn/2017/05/23/dpx/" target="_blank" rel="external">堆排序</a>。<br>在C++中，可以利用STL的优先队列(priority_queue)来实现获取最小值的操作，这里直接给出利用优先队列优化的Dijkstra算法的类C++伪代码（请勿直接复制粘贴到C++编译器中编译执行），然后再进行讨论：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra_Heap</span><span class="params">(s)</span> </span>&#123;</div><div class="line">                   <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; n; i++) &#123;   </div><div class="line">           d[i] = (i == s) ? <span class="number">0</span> : INF;  <span class="comment">// 注释1</span></div><div class="line">       &#125;</div><div class="line">       q.push( (d[s], s) );            <span class="comment">// 注释2</span></div><div class="line">                   <span class="keyword">while</span>( !q.empty() ) &#123;</div><div class="line">           (dist, u) = q.top();        <span class="comment">// 注释3</span></div><div class="line">           q.pop();                    <span class="comment">// 注释4</span></div><div class="line">                             <span class="keyword">for</span> (e = head[u]; e != INF; e = edge[e].next) &#123;</div><div class="line">               v = edge[e].v;</div><div class="line">               w = edge[e].w;</div><div class="line">                                       <span class="keyword">if</span>(d[u] + w &lt; d[v]) &#123;</div><div class="line">                   d[v] = d[u] + w;</div><div class="line">                   path[v] = u;</div><div class="line">                   q.push( (d[v], v) );</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>  注释1：初始化s到i的初始最短距离，d[s] = 0<br>  注释2：q即优先队列，这里略去声明是为了将代码简化，让读者能够关注算法本身而不是关注具体实现，push是执行优先队列的插入操作，插入的数据为一个二元组(d[u], u)<br>  注释3：执行优先队列的获取操作，获取的二元组为当前队列中d值最小的<br>  注释4：执行优先队列的删除操作，删除队列顶部的元素（即注释3中d值最小的那个二元组）</p>
+</blockquote>
+<p>以上伪代码中的主体部分竟然没有任何注释，这是因为我要用黑色的字来描述它的重要性，而注释只是注释一些和语法相关的内容。</p>
+<hr>
+<h2 id="详细讲解"><a href="#详细讲解" class="headerlink" title="详细讲解"></a><font color="Blue">详细讲解</font></h2><p>主体代码只有一个循环，这个循环就是遍历了u这个结点的边链表，其中e为边编号，edge[e].w即上文提到的w(u, v)，即u -&gt;v 这条边的权值，而d[u] + w(u, v) &lt; d[v]表示从起点s到u，再经过(u,v)这条边到达v的最短路比之前其它方式到达v的最短路还短，如图二-4-1所示，如果满足这个条件，那么就更新这条最短路，并且利用path数组来记录最短路中每个结点的前驱结点，path[v] = u，表示到达v的最短路的前驱结点为u。</p>
+<p><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_007.png" alt=""></p>
+<hr>
+<h2 id="时间复杂度分析以及Dijkstra算法适用范围说明"><a href="#时间复杂度分析以及Dijkstra算法适用范围说明" class="headerlink" title="时间复杂度分析以及Dijkstra算法适用范围说明"></a><font color="Blue">时间复杂度分析以及Dijkstra算法适用范围说明</font></h2><p>补充一点，这个算法求出的是一棵最短路径树，其中s为根结点，结点之间的关系是通过path数组来建立的，path[v] = u，表明u为v的父结点（树的存储不一定要存儿子结点，也可以用存父结点的方式表示）。<br>      考虑这个算法的复杂度，如果用n表示点数，m表示边数，那么优先队列中最多可能存在的点数有多少？因为我们在把顶点插入队列的时候并没有判断队列中有没有这个点，而且也不能进行这样的判断，因为新插入的点一定会取代之前的点（距离更短才会执行插入），所以同一时间队列中的点有可能重复，插入操作的上限是m次，所以最多有m个点，那么一次插入和删除的操作的平摊复杂度就是O(logm)，但是每次取距离最小的点，对于有多个相同点的情况，如果那个点已经出过一次队列了，下次同一个点出队列的时候它对应的距离一定比之前的大，不需要用它去更新其它点，因为一定不可能更新成功，所以真正执行更新操作的点的个数其实只有n个，所以总体下来的平均复杂度为O((m+n)logm)，而这个只是理论上界，一般问题中都是很快就能找到最短路的，所以实际复杂度会比这个小很多，相比O(n^2)的算法已经优化了很多了。<br>      Dijkstra算法求的是正权图的单源最短路问题，对于权值有负数的情况就不能用Dijkstra求解了，因为如果图中存在负环，Dijkstra带优先队列优化的算法就会进入一个死循环，因为可以从起点走到负环处一直将权值变小。对于带负权的图的最短路问题就需要用到Bellman-Ford算法了。（这将会在下一个博客讲到）</p>
+<hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> data structures </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[最短路算法(1)]]></title>
+      <url>/2017/05/25/dijkstra/</url>
+      <content type="html"><![CDATA[<p>普通dijkstra<br><a id="more"></a></p>
+<h1 id="Dijkstra-O-n²"><a href="#Dijkstra-O-n²" class="headerlink" title="Dijkstra(O(n²))"></a><font color="Blue">Dijkstra(O(n²))</font></h1><h2 id="算法叙述"><a href="#算法叙述" class="headerlink" title="算法叙述"></a><font color="Blue">算法叙述</font></h2><p>对于一个有向图或无向图，所有边权为正（边用邻接矩阵的形式给出），给定a和b，求a到b的最短路，保证a一定能够到达b。这条最短路是否一定存在呢？答案是肯定的。相反，最长路就不一定了，由于边权为正，如果遇到有环的时候，可以一直在这个环上走，因为要找最长的，这样就使得路径越变越长，永无止境，所以对于正权图，在可达的情况下最短路一定存在，最长路则不一定存在。这里先讨论正权图的最短路问题。<br>      最短路满足最优子结构性质，所以是一个<strong>动态规划</strong>问题。最短路的最优子结构可以描述为：<br>      D(s, t) = {Vs … Vi … Vj … Vt}表示s到t的最短路，其中i和j是这条路径上的两个中间结点，那么D(i, j)必定是i到j的最短路，这个性质是显然的，可以用反证法证明。<br>      基于上面的最优子结构性质，如果存在这样一条最短路D(s, t) = {Vs … Vi Vt}，其中i和t是最短路上相邻的点，那么D(s, i) = {Vs … Vi} 必定是s到i的最短路。Dijkstra算法就是基于这样一个性质，通过最短路径长度递增，逐渐生成最短路。<br>      Dijkstra算法是最经典的最短路算法，用于计算正权图的<strong>单源最短路</strong>（Single Source Shortest Path，源点给定，通过该算法可以求出起点到所有点的最短路），它是基于这样一个事实：如果源点到x点的最短路已经求出，并且保存在d[x] ( 可以将它理解为D(s, x) )上，那么可以利用x去更新 x能够直接到达的点 的最短路。即：<br>      d[y] = min{ d[y], d[x] + w(x, y) }<br>      y为x能够直接到达的点，w(x, y) 则表示x-&gt;y这条有向边的边权<br>      具体算法描述如下：对于图G = <v, e="">，源点为s，d[i]表示s到i的最短路，visit[i]表示d[i]是否已经确定(布尔值)。</v,></p>
+<blockquote>
+<pre><code> 1) 初始化 所有顶点 d[i] = INF, visit[i] = false，令d[s] = 0；
+ 2) 从所有visit[i]为false的顶点中找到一个d[i]值最小的，令x = i; 如果找不到，算法结束；
+ 3) 标记visit[x] = true, 更新和x直接相邻的所有顶点y的最短路： d[y] = min{ d[y], d[x] + w(x, y) }
+（第三步中如果y和x并不是直接相邻，则令w(x, y) = INF）
+</code></pre></blockquote>
+<hr>
+<h2 id="图的存储"><a href="#图的存储" class="headerlink" title="图的存储"></a><font color="Blue">图的存储</font></h2><p>以上算法的时间复杂度为<strong>O(n^2)</strong>，n为结点个数，即每次找一个d[i]值最小的，总共n次，每次找到后对其它所有顶点进行更新，更新n次。由于算法复杂度是和点有关，并且平方级别的，所以还是需要考虑一下点数较多而边数较少的情况，接下来以图一-2-1为例讨论一下边的存储方式。<br><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_003.png" alt=""></p>
+<hr>
+<p>邻接矩阵是直接利用一个二维数组对边的关系进行存储，矩阵的第i行第j列的值 表示 i -&gt; j 这条边的权值；特殊的，如果不存在这条边，用一个特殊标记来表示；如果i == j，则权值为0。它的优点是实现非常简单，而且很容易理解；缺点也很明显，如果这个图是一个非常稀疏的图，图中边很少，但是点很多，就会造成非常大的内存浪费，点数过大的时候根本就无法存储。图一-2-2展示了图一-2-1的邻接矩阵表示法。<br><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_004.png" alt=""></p>
+<hr>
+<p><a href="http://shineleon.cn/2017/05/18/ljb/" target="_blank" rel="external">邻接表</a>是图中常用的存储结构之一，每个顶点都有一个链表，这个链表的数据表示和当前顶点直接相邻的顶点（如果边有权值，还需要保存边权信息）。邻接表的优点是对于稀疏图不会有数据浪费，缺点就是实现相对麻烦，需要自己实现链表，动态分配内存。图一-2-3展示了图一-2-1的邻接表表示法。<br><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_005.png" alt=""></p>
+<hr>
+<p>前向星是以存储边的方式来存储图，先将边读入并存储在连续的数组中，然后按照边的起点进行排序，这样数组中起点相等的边就能够在数组中进行连续访问了。它的优点是实现简单，容易理解，缺点是需要在所有边都读入完毕的情况下对所有边进行一次排序，带来了时间开销，实用性也较差，只适合离线算法。图一-2-4展示了图一-2-1的前向星表示法。<br><img src="http://images.cppblog.com/cppblog_com/menjitianya/cfys_006.png" alt=""></p>
+<hr>
+<p>那么用哪种数据结构才能满足所有图的需求呢？这里介绍一种新的数据结构一一<a href="http://shineleon.cn/2017/05/17/lsqxx/" target="_blank" rel="external">链式前向星</a>。</p>
+<p>初始化所有的head[i] = INF，当前边总数 edgeCount = 0<br>每读入一条边，调用addEdge(u, v, w)，具体函数的实现如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> w)</span> </span>&#123;</div><div class="line">        edge[ edgeCount ] = EDGE(u, v, w, head[u]);</div><div class="line">        head[u] = edgeCount ++;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这个函数的含义是每加入一条边(u, v)，就在原有的链表结构的首部插入这条边，使得每次插入的时间复杂度为O(1)，所以链表的边的顺序和读入顺序正好是逆序的。这种结构在无论是稠密的还是稀疏的图上都有非常好的表现，空间上没有浪费，时间上也是最小开销。<br>       调用的时候只要通过head[i]就能访问到由 i 出发的第一条边的编号，通过编号到edge数组进行索引可以得到边的具体信息，然后根据这条边的next域可以得到第二条边的编号，以此类推，直到next域为INF（这里的INF即head数组初始化的那个值，一般取-1即可）。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> data structures </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Takio的滑板鞋]]></title>
+      <url>/2017/05/24/Takiodhbx/</url>
+      <content type="html"><![CDATA[<p>题解，方法：普通dfs<br><a id="more"></a></p>
+<h1 id="17973-Takio的滑板鞋"><a href="#17973-Takio的滑板鞋" class="headerlink" title="17973 Takio的滑板鞋"></a><font color="Blue">17973 Takio的滑板鞋</font></h1><p>时间限制:1000MS  内存限制:65535K<br>提交次数:79 通过次数:15 收入:28</p>
+<p>题型: 编程题   语言: G++;GCC;VC;</p>
+<h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a><font color="Blue">Description</font></h2><p>某一天SCAU_ACM校队的Takio去了第二个城市打比赛<br>这里的人们称它为魅力之都<br>时间过的很快比赛已经打完</p>
+<p>他想他必须要离开<br>当他正要走时他看到了一家专卖店<br>那就是他要的滑板鞋<br>他的滑板鞋时尚时尚最时尚</p>
+<p>回家的路上他情不自禁<br>摩擦 摩擦<br>在这光滑的地上摩擦</p>
+<p>月光下他看到自己的身影<br>有时很远有时很近<br>感到一种力量驱使他的脚步</p>
+<p>有了滑板鞋天黑都不怕<br>一步两步一步两步<br>一步一步似爪牙<br>似魔鬼的步伐</p>
+<p>Takio想知道他是否能找出一条回家的路径，使得他回家步伐的步长为一步两步一步两步……，若能，Takio则可解锁成就“魔鬼的步伐”。</p>
+<p>Details：<br>1.第奇数歩的步长为一步，第偶数歩的步长为两步，步数从1开始，第一步的步长为1，且Takio到家时的最后一步的步长必须为2（回家路径上的步长为1212……12）<br>2.已经过的位置不能再次经过。<br>3.不能经过或踩到障碍上。<br>4.若当前歩的步长为2，则需向同一方向移动两步。</p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a><font color="Blue">输入格式</font></h2><p>有多组测试数据（≤20）<br>每组测试数据的第一行是两个正整数n, m（1 &lt;= n, m &lt;= 8），代表平面区域的大小。<br>每组测试数据的第二行到第n + 1行是一个矩阵，代表二维平面的布局，s为Takio现在所在的位置，t为Takio的家，#为障碍，*为可到达区域<br>输入以EOF结束。</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a><font color="Blue">输出格式</font></h2><p>对于每组测试数据，输出一行，若Takio可解锁成就“魔鬼的步伐”则输出”Yes”，否则输出”No”。</p>
+<h2 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例"></a><font color="Blue">输入样例</font></h2><p>5 7<br>######*<br>#***s*#<br>**#***#<br>t#*#**#<br>*****#*</p>
+<p>5 7<br>######*<br>****s*#<br>**#***#<br>t#*#**#<br>*****#*</p>
+<h2 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例"></a><font color="Blue">输出样例</font></h2><p>No<br>Yes</p>
+<hr>
+<h2 id="做题思路"><a href="#做题思路" class="headerlink" title="做题思路"></a><font color="Blue">做题思路</font></h2><p>这是一道很经典的深搜题，没有用到剪枝是它成为水题的一大原因，下面讲讲思路。<br>首先，我们需要扫图：可以用矩阵来储存（因为边界问题，矩阵需要开大两个单位，不然扫到边界会报错） 扫到#记录是0 扫到*和s和t都记录是1 然后用四个变量记住起点和终点的坐标。（扫图是很关键的，建议自己做完扫图后用输出语句检查自己的矩阵有没有打错）<br>然后我们开始深度搜索，从起点开始往它周围的四个方向各走一步（如果没有障碍），将它走到的位置的坐标和走的步数传去下一个递归里，然后开头加个判断，如果坐标和步数符合终点要求就返回1，然后输出答案，如果不是的话，我们继续开始判断，会不会到了终点可是步数为1，这样我们就要返回0，代表这样走不行。然后我们通过上层递归传过来的步数和位置判断下一步要怎么走，记住，如果我们要走两步，两步都要判断是畅通的，而且两步的方向是不能改变的，再用新到的位置和走的步数进行传递，直到最后递归回来。 PS：记住走过的地方要暂时把点删掉，等递归回来后再把点复原，不然会重复走。<br>至于那个表要怎么打出来，我是这样的，我先用一个while（1）做来回循环，然后最后那里加了一个if（（s=gechar（））==EOF） break；就可以实现不限次读取图了，然后用flag来记录找到路没有，方便打印。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="Blue">代码</font></h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> x2,y2,t[<span class="number">15</span>][<span class="number">15</span>];</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> flag=<span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span>(x==x2&amp;&amp;y==y2&amp;&amp;b==<span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(x==x2&amp;&amp;y==y2&amp;&amp;b==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span>(b==<span class="number">2</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(t[x<span class="number">-1</span>][y]) &#123;t[x<span class="number">-1</span>][y]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x<span class="number">-1</span>,y,<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x<span class="number">-1</span>][y]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x+<span class="number">1</span>][y]) &#123;t[x+<span class="number">1</span>][y]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x+<span class="number">1</span>,y,<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x+<span class="number">1</span>][y]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x][y<span class="number">-1</span>]) &#123;t[x][y<span class="number">-1</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x,y<span class="number">-1</span>,<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x][y<span class="number">-1</span>]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x][y+<span class="number">1</span>]) &#123;t[x][y+<span class="number">1</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x,y+<span class="number">1</span>,<span class="number">1</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x][y+<span class="number">1</span>]=<span class="number">1</span>;&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(b==<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(t[x<span class="number">-1</span>][y]&amp;&amp;t[x<span class="number">-2</span>][y]) &#123;t[x<span class="number">-1</span>][y]=<span class="number">0</span>; t[x<span class="number">-2</span>][y]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x<span class="number">-2</span>,y,<span class="number">2</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x<span class="number">-1</span>][y]=<span class="number">1</span>; t[x<span class="number">-2</span>][y]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x+<span class="number">1</span>][y]&amp;&amp;t[x+<span class="number">2</span>][y]) &#123;t[x+<span class="number">1</span>][y]=<span class="number">0</span>; t[x+<span class="number">2</span>][y]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x+<span class="number">2</span>,y,<span class="number">2</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x+<span class="number">1</span>][y]=<span class="number">1</span>; t[x+<span class="number">2</span>][y]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x][y<span class="number">-1</span>]&amp;&amp;t[x][y<span class="number">-2</span>]) &#123;t[x][y<span class="number">-1</span>]=<span class="number">0</span>; t[x][y<span class="number">-2</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x,y<span class="number">-2</span>,<span class="number">2</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x][y<span class="number">-1</span>]=<span class="number">1</span>; t[x][y<span class="number">-2</span>]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(t[x][y+<span class="number">1</span>]&amp;&amp;t[x][y+<span class="number">2</span>]) &#123;t[x][y+<span class="number">1</span>]=<span class="number">0</span>; t[x][y+<span class="number">2</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x,y+<span class="number">2</span>,<span class="number">2</span>)) <span class="keyword">return</span> <span class="number">1</span>; t[x][y+<span class="number">1</span>]=<span class="number">1</span>; t[x][y+<span class="number">2</span>]=<span class="number">1</span>;&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line">main()</div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> n,m,i,j,k,l,x1,y1,flag;</div><div class="line">    <span class="keyword">char</span> s;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        flag=<span class="number">0</span>;</div><div class="line">        <span class="built_in">memset</span>(t,<span class="number">0</span>,<span class="keyword">sizeof</span>(t));</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;m);</div><div class="line">        getchar();</div><div class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>; i&lt;=n; i++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">for</span>(j=<span class="number">1</span>; j&lt;=m; j++)</div><div class="line">            &#123;</div><div class="line">                s=getchar();</div><div class="line">                <span class="keyword">if</span>(s==<span class="string">'#'</span>) <span class="keyword">continue</span>;</div><div class="line">                t[i][j]=<span class="number">1</span>;</div><div class="line">                <span class="keyword">if</span>(s==<span class="string">'s'</span>)</div><div class="line">                &#123;</div><div class="line">                    x1=i;</div><div class="line">                    y1=j;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(s==<span class="string">'t'</span>)</div><div class="line">                &#123;</div><div class="line">                    x2=i;</div><div class="line">                    y2=j;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            getchar();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(t[x1<span class="number">-1</span>][y1]) &#123;t[x1<span class="number">-1</span>][y1]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x1<span class="number">-1</span>,y1,<span class="number">1</span>)) flag=<span class="number">1</span>; t[x1<span class="number">-1</span>][y1]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(!flag) <span class="keyword">if</span>(t[x1+<span class="number">1</span>][y1]) &#123;t[x1+<span class="number">1</span>][y1]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x1+<span class="number">1</span>,y1,<span class="number">1</span>)) flag=<span class="number">1</span>; t[x1+<span class="number">1</span>][y1]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(!flag) <span class="keyword">if</span>(t[x1][y1<span class="number">-1</span>]) &#123;t[x1][y1<span class="number">-1</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x1,y1<span class="number">-1</span>,<span class="number">1</span>)) flag=<span class="number">1</span>; t[x1][y1<span class="number">-1</span>]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="keyword">if</span>(!flag) <span class="keyword">if</span>(t[x1][y1+<span class="number">1</span>]) &#123;t[x1][y1+<span class="number">1</span>]=<span class="number">0</span>; <span class="keyword">if</span>(dfs(x1,y1+<span class="number">1</span>,<span class="number">1</span>)) flag=<span class="number">1</span>; t[x1][y1+<span class="number">1</span>]=<span class="number">1</span>;&#125;</div><div class="line">        <span class="comment">/*for(i=0;i&lt;n;i++)</span></div><div class="line">        &#123;for(j=0;j&lt;m;j++)</div><div class="line">            printf("%d",t[i][j]);</div><div class="line">          printf("\n");</div><div class="line">        &#125;*/</div><div class="line">        <span class="keyword">if</span>(flag) <span class="built_in">printf</span>(<span class="string">"Yes\n"</span>); <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"No\n"</span>);</div><div class="line">        <span class="keyword">if</span>((s=getchar())==EOF) <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>这题只考到了普通dfs，而再深一层就是记忆化dfs了，因为有了记忆化，时间会进一步缩短，当然难度也会大一丢丢。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> problem solve </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[堆排序]]></title>
+      <url>/2017/05/23/dpx/</url>
+      <content type="html"><![CDATA[<p>堆排序实现及讲解<br><a id="more"></a></p>
+<h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><hr>
+<h2 id="代码核心思想"><a href="#代码核心思想" class="headerlink" title="代码核心思想"></a>代码核心思想</h2><p>其实只要你的程序保证两点，代码就可以正确运行</p>
+<blockquote>
+<p>1.根节点是最大的<br>2.对图中所有的树而言，左子树和右子树是整棵树<strong>次大和第三大的数</strong>（最重要的）</p>
+</blockquote>
+<p>我想说的是，堆排序已经有一种线段树的思想在里面了，只要加上延迟标记，它就是一棵线段树。</p>
+<hr>
+<h2 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h2><p>大顶堆：<br>    一开始从树的最下方开始对每个节点的子树进行操作，使得左子树和右子树中最大的数和该子树根节点比较，如果是比根节点大的就交换，并且交换后将被换下来的根节点向下做同样操作。<br>    如果是根节点最大，就不用继续向下比较了，因为下面的子树都满足了上述条件。<br>    到达二叉树的根节点之后，将根节点输出，然后将根节点和最后一个节点的数交换，并删除最后一个节点。<br>    对二叉树的根节点做一开始的操作，即：根节点的左右子树选出最大和根节点比较，根节点若比该数更小则交换，<strong>同时被向下交换后的根节点就跟它的新左右子树进行同样操作</strong>，直到无法操作。</p>
+<hr>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i,a,n) for(int i=a; i&lt;n; i++)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> rep1(i,a,n) for(int i=n-1; i&gt;=a; i--)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> s(a) scanf(<span class="meta-string">"%d"</span>,&amp;a)</span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a[<span class="number">100</span>];</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">down</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> n)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> temp=a[x];</div><div class="line">    <span class="keyword">int</span> j=x*<span class="number">2</span>+<span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span>(j&lt;n)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(j+<span class="number">1</span>&lt;n&amp;&amp;a[j]&lt;a[j+<span class="number">1</span>])</div><div class="line">           j++;</div><div class="line">        <span class="keyword">if</span>(a[j]&gt;temp)</div><div class="line">            a[x]=a[j];</div><div class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        x=j;</div><div class="line">        j=x*<span class="number">2</span>+<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    a[x]=temp;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    s(n);</div><div class="line">    rep(i,<span class="number">0</span>,n)</div><div class="line">      s(a[i]);</div><div class="line">    rep1(i,<span class="number">0</span>,n)</div><div class="line">      down(i,n);</div><div class="line">    rep1(i,<span class="number">0</span>,n)</div><div class="line">    &#123;</div><div class="line">        down(<span class="number">0</span>,i+<span class="number">1</span>);</div><div class="line">        rep(j,<span class="number">0</span>,n)</div><div class="line">          <span class="built_in">printf</span>(<span class="string">"%d "</span>,a[j]);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">        <span class="keyword">int</span> temp=a[i];</div><div class="line">        a[i]=a[<span class="number">0</span>];</div><div class="line">        a[<span class="number">0</span>]=temp;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> data structures </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[差分约束]]></title>
+      <url>/2017/05/23/cfys/</url>
+      <content type="html"><![CDATA[<p><a href="http://www.cppblog.com/menjitianya/archive/2015/11/19/212292.html" target="_blank" rel="external">传送门</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> data structures </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[小明的密码]]></title>
+      <url>/2017/05/22/xmdmm/</url>
+      <content type="html"><![CDATA[<p>小明的密码题解<br><a id="more"></a></p>
+<h1 id="小明的密码"><a href="#小明的密码" class="headerlink" title="小明的密码"></a><font color="Blue">小明的密码</font></h1><p>题型: 编程题   语言: 无限制</p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><font color="Blue">问题描述</font></h2><p>描述小明的密码由N（1&lt;=N&lt;=12）个数字构成，每个数字都可以是0至9中任意一个数字，但小明的密码还有<br>一个特点就是密码中连续的M（1&lt;=M&lt;=4）个数字的和是质数，现给定M和N，求满足条件的密码共有多少<br>个？</p>
+<hr>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a><font color="Blue">输入格式</font></h2><p>第1行是T，case数量，此后T行，每行两个数，N和M</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a><font color="Blue">输出格式</font></h2><p>每个case输出一个满足条件的密码总数</p>
+<p>输入样例2<br>1 1<br>2 1</p>
+<p>输出样例4<br>16</p>
+<hr>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a><font color="Blue">题解</font></h2><p>1.简单方法：用欧拉筛先找出质数，然后递归<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div></pre></td></tr></table></figure></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">long</span> v[<span class="number">100</span>]= &#123;<span class="number">0</span>&#125;,prime[<span class="number">50</span>]= &#123;<span class="number">0</span>&#125;,prin=<span class="number">0</span>,n,m,ans,a[<span class="number">20</span>];</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Euler</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    v[<span class="number">0</span>]=<span class="number">1</span>; v[<span class="number">1</span>]=<span class="number">1</span>;</div><div class="line">    <span class="keyword">long</span> i,j;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">2</span>; i&lt;=<span class="number">100</span>; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(!v[i]) prime[prin++]=i;</div><div class="line">        <span class="keyword">for</span>(j=<span class="number">0</span>; j&lt;prin; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(i*prime[j]&gt;<span class="number">100</span>) <span class="keyword">break</span>;</div><div class="line">            v[i*prime[j]]=prime[j];</div><div class="line">            <span class="keyword">if</span>(!i%prime[j])</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">long</span> w)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">long</span> temp;</div><div class="line">    <span class="keyword">if</span>(w==n+<span class="number">1</span>) &#123;ans++; <span class="keyword">return</span>;&#125;</div><div class="line">    <span class="keyword">if</span>(w&lt;m)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">long</span> i=<span class="number">0</span>; i&lt;=<span class="number">9</span>; i++)</div><div class="line">        &#123;</div><div class="line">            a[w]=i;</div><div class="line">            solve(w+<span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">for</span>(<span class="keyword">long</span> i=<span class="number">0</span>; i&lt;=<span class="number">9</span>; i++)</div><div class="line">    &#123;</div><div class="line">        temp=<span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">long</span> j=m; j&gt;<span class="number">1</span>; j--)</div><div class="line">            temp+=a[w-j+<span class="number">1</span>];</div><div class="line">        temp+=i;</div><div class="line">        <span class="keyword">if</span>(!v[temp]) &#123;a[w]=i; solve(w+<span class="number">1</span>);&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line">main()</div><div class="line">&#123;</div><div class="line">  <span class="keyword">long</span> i,j,casen;</div><div class="line">  <span class="built_in">scanf</span>(<span class="string">"%ld"</span>,&amp;casen);</div><div class="line">  Euler();</div><div class="line">  <span class="keyword">while</span>(casen--)</div><div class="line"> &#123;</div><div class="line">  ans=<span class="number">0</span>;</div><div class="line">  <span class="built_in">scanf</span>(<span class="string">"%ld%ld"</span>,&amp;n,&amp;m);</div><div class="line">  <span class="keyword">if</span>(m!=<span class="number">1</span>)</div><div class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;=<span class="number">9</span>; i++)</div><div class="line">  &#123;</div><div class="line">      a[<span class="number">1</span>]=i;</div><div class="line">      solve(<span class="number">2</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">else</span></div><div class="line">  &#123;</div><div class="line">      ans=<span class="number">1</span>;</div><div class="line">      <span class="keyword">for</span>(i=<span class="number">1</span>; i&lt;=n; i++)</div><div class="line">      ans*=<span class="number">4</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>,ans);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.用数位dp快速求解</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a><font color="Blue">写在最后</font></h2><hr>
+<p>其实我们在面对同一道题的时候，往往会有多种解法，在这题里面，因为时间限制给的比较宽松，所以简单的递归就可以解决，当然正解应该是用数位dp。只能说，当你有更简单的方法水过去的时候，不要一开始就码正解。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> problem solve </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[海豚加速器破解]]></title>
+      <url>/2017/05/19/ht/</url>
+      <content type="html"><![CDATA[<p>海豚加速器破解教程<br><a id="more"></a></p>
+<h1 id="海豚加速器破解教程"><a href="#海豚加速器破解教程" class="headerlink" title="海豚加速器破解教程"></a>海豚加速器破解教程</h1><hr>
+<p><img src="http://i1.buimg.com/1949/9f04448f618ace3b.jpg" alt="Markdown"><br>在面对一些国外游戏，或者国内游戏，因为网络问题死活上不了的时候，你也许需要加速器啦~  可是超级烦的就是，所有加速器都要钱，现在安利一个海豚加速器，当然它也是要钱的，可是现在有破解方法，这个教程会不定时更新。</p>
+<blockquote>
+<p>1.下载<a href="http://www.htjsq.com/" target="_blank" rel="external">海豚加速器</a><br>2.下载<a href="https://pan.baidu.com/s/1i5h3dnJ" target="_blank" rel="external">破译软件</a><br>3.安装完加速器之后，先别运行，解压破译软件，然后把压缩包里的所有东西都放到海豚加速器的根目录下（即与DolphinQ.exe同一个文件夹），然后运行T-T.exe（<font color="Red">杀毒要关掉，用管理员身份运行</font>，亲测无毒，因为要修改注册表，所以杀毒软件会判定为有毒）<br>4.打开海豚加速器，输入账号和密码:haituntiyan haituntiyan<br>5.选择喜欢的游戏进行加速，然后尽情游玩吧~</p>
+</blockquote>
+<h3 id="测试效果："><a href="#测试效果：" class="headerlink" title="测试效果："></a>测试效果：</h3><p><img src="http://i1.buimg.com/1949/3b1078db47bbb43a.jpg" alt="Markdown"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> game </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> game </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[MC游戏服加入教程以及安利~]]></title>
+      <url>/2017/05/19/mcip/</url>
+      <content type="html"><![CDATA[<p>加入我们的MC游戏服吧！<br><a id="more"></a></p>
+<h1 id="MC娱乐服欢迎加入"><a href="#MC娱乐服欢迎加入" class="headerlink" title="MC娱乐服欢迎加入~"></a><font color="Blue">MC娱乐服欢迎加入~</font></h1><hr>
+<p>经过一轮的调试和试运行，我们的MC娱乐服已经稳定运行一段时间了，服务器有几大特点</p>
+<blockquote>
+<ul>
+<li>服务器24小时稳定运行</li>
+<li>插件全齐，因为是插件服不需要在客户端额外下载mod</li>
+<li>插件种类多样，只有你想不到，没有我们做不到的</li>
+<li><a href="http://www.gzshyz.cn:8123/" target="_blank" rel="external">服务器地图</a></li>
+</ul>
+</blockquote>
+<h2 id="下面是服务器的截图"><a href="#下面是服务器的截图" class="headerlink" title="下面是服务器的截图"></a><font color="Blue">下面是服务器的截图</font></h2><p><img src="http://i2.muimg.com/588926/3e8010e2bf229dc6.jpg" alt=""></p>
+<p><img src="http://ww2.sinaimg.cn/large/006HJ39wgy1ffqhwweh98j31hc0smn0p.jpg" alt=""></p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a><font color="Blue">流程</font></h2><hr>
+<blockquote>
+<ol>
+<li>下载<a href="http://minecraft.yxzoo.com/151742" target="_blank" rel="external">MC1.8.7纯净版</a></li>
+<li>安装<a href="https://www.java.com/en/download/manual.jsp" target="_blank" rel="external">Java</a>（如果安装过了请跳过)</li>
+<li>下载<a href="http://pan.baidu.com/s/1bpfBek3" target="_blank" rel="external">MC登录器</a></li>
+<li>运行游戏</li>
+<li>选择完中文后，在多人游戏中输入选择添加服务器，输入IP：139.199.186.146</li>
+</ol>
+</blockquote>
+<p>那么就尽情地享受游戏吧~</p>
+]]></content>
+      
+        <categories>
+            
+            <category> game </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> game </tag>
+            
+            <tag> MC </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[KMP算法]]></title>
+      <url>/2017/05/19/kmp/</url>
+      <content type="html"><![CDATA[<p>关于KMP算法的next数组<br><a id="more"></a></p>
+<h1 id="KMP的next数组"><a href="#KMP的next数组" class="headerlink" title="KMP的next数组"></a><font color="Blue">KMP的next数组</font></h1><hr>
+<p>一如既往先上代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">next</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">   next[<span class="number">1</span>]=<span class="number">0</span>; next[<span class="number">2</span>]=<span class="number">1</span>; i=<span class="number">2</span>; j=<span class="number">1</span>; n=<span class="built_in">strlen</span>(o);</div><div class="line">   <span class="keyword">while</span>(i&lt;n)</div><div class="line">   &#123;</div><div class="line">      <span class="keyword">if</span>(j==<span class="number">0</span>||o[i]==o[j]) &#123;i++; j++; next[i]=j;&#125;</div><div class="line">      <span class="keyword">else</span> j=next[j];</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><blockquote>
+<p>程序做到了两点:</p>
+<ol>
+<li>寻找next数组</li>
+<li>用KMP算法自调用</li>
+</ol>
+</blockquote>
+<p>而只要稍加修改就可以用于判断最长字符串，代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (i &lt; <span class="built_in">strlen</span>(a) &amp;&amp; j &lt; <span class="built_in">strlen</span>(user))</div><div class="line">					&#123;</div><div class="line">						<span class="keyword">if</span> (a[i] == user[j]) &#123; i++; j++; <span class="keyword">continue</span>; &#125;</div><div class="line">						<span class="keyword">else</span> &#123;</div><div class="line">							<span class="keyword">if</span> (j != <span class="number">0</span>) j = next[j];</div><div class="line">							<span class="keyword">else</span> &#123; i++; j = <span class="number">1</span>; &#125;</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line"><span class="keyword">if</span> (j &gt;= <span class="built_in">strlen</span>(user)) <span class="keyword">return</span> i-<span class="built_in">strlen</span>(user);</div><div class="line"><span class="keyword">else</span> <span class="keyword">return</span> <span class="number">-1</span>;</div></pre></td></tr></table></figure></p>
+<p><img src="http://i2.muimg.com/588926/a75b151e22458bd7.jpg" alt=""></p>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> data structures </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[邻接表]]></title>
+      <url>/2017/05/18/ljb/</url>
+      <content type="html"><![CDATA[<p>简单讲解邻接表<br><a id="more"></a></p>
+<h1 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a><font color="Blue">邻接表</font></h1><hr>
+<p>看完链式前向星之后，我们来看一下它的小伙伴————邻接表。邻接表相对于普通矩阵记录边和查找边速度会更加快，唯一的不同就是构造起来代码量会更多，下面直接先上代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=m;i++)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;ui,&amp;vi,&amp;ti);</div><div class="line">            a[ui][<span class="number">0</span>]++;<span class="comment">/*ui是起点，这里记录以ui为起点的边的数量*/</span></div><div class="line">            a[vi][<span class="number">0</span>]++;<span class="comment">/*同上*/</span></div><div class="line">            a[ui][a[ui][<span class="number">0</span>]]=i;<span class="comment">/*这个是边的编号*/</span></div><div class="line">            a[vi][a[vi][<span class="number">0</span>]]=i+m;<span class="comment">/*同上*/</span></div><div class="line">            l[i+m][<span class="number">1</span>]=ui;<span class="comment">/*记录编号为i+m的边的终点*/</span></div><div class="line">            l[i+m][<span class="number">2</span>]=ti;<span class="comment">/*记录编号为i+m的边的权值*/</span></div><div class="line">            l[i][<span class="number">1</span>]=vi;<span class="comment">/*同上上*/</span></div><div class="line">            l[i][<span class="number">2</span>]=ti;<span class="comment">/*同上上*/</span></div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><hr>
+<h4 id="通过上面的代码我们可以发现，它跟链式前向星真的很像，因为同样是运用了链表的思想，这样做的缺点就是不能用O-1-的时间找到两点之间有没有边，可是这样做dfs和bfs却会比普通矩阵速度要快上不少，为什么呢？"><a href="#通过上面的代码我们可以发现，它跟链式前向星真的很像，因为同样是运用了链表的思想，这样做的缺点就是不能用O-1-的时间找到两点之间有没有边，可是这样做dfs和bfs却会比普通矩阵速度要快上不少，为什么呢？" class="headerlink" title="通过上面的代码我们可以发现，它跟链式前向星真的很像，因为同样是运用了链表的思想，这样做的缺点就是不能用O(1)的时间找到两点之间有没有边，可是这样做dfs和bfs却会比普通矩阵速度要快上不少，为什么呢？"></a>通过上面的代码我们可以发现，它跟链式前向星真的很像，因为同样是运用了链表的思想，这样做的缺点就是不能用O(1)的时间找到两点之间有没有边，可是这样做dfs和bfs却会比普通矩阵速度要快上不少，为什么呢？</h4><h4 id="因为通常情况下，两个点之间未必会有边的，而对同一个点进行查询，邻接表只需要查O-x-次，x代表当前点所拥有的边，而普通矩阵要查O-n-1-次，n代表点的数量，所以结果出来就显而易见了，对一张图，普通矩阵要查O-n²-而邻接表最多不超过O-n-m-，如果还是不理解，可以看回链式前向星的图表，相信你会理解得更好的"><a href="#因为通常情况下，两个点之间未必会有边的，而对同一个点进行查询，邻接表只需要查O-x-次，x代表当前点所拥有的边，而普通矩阵要查O-n-1-次，n代表点的数量，所以结果出来就显而易见了，对一张图，普通矩阵要查O-n²-而邻接表最多不超过O-n-m-，如果还是不理解，可以看回链式前向星的图表，相信你会理解得更好的" class="headerlink" title="因为通常情况下，两个点之间未必会有边的，而对同一个点进行查询，邻接表只需要查O(x)次，x代表当前点所拥有的边，而普通矩阵要查O(n-1)次，n代表点的数量，所以结果出来就显而易见了，对一张图，普通矩阵要查O(n²),而邻接表最多不超过O(n*m)，如果还是不理解，可以看回链式前向星的图表，相信你会理解得更好的~"></a>因为通常情况下，两个点之间未必会有边的，而对同一个点进行查询，邻接表只需要查<font color="Red">O(x)次</font>，x代表当前点所拥有的边，而普通矩阵要查<font color="Red">O(n-1)</font>次，n代表点的数量，所以结果出来就显而易见了，对一张图，普通矩阵要查<font color="Red">O(n²)</font>,而邻接表最多不超过<font color="Red">O(n*m)</font>，如果还是不理解，可以看回<a href="http://shineleon.cn/2017/05/17/lsqxx/" target="_blank" rel="external">链式前向星</a>的图表，相信你会理解得更好的~</h4><hr>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> data structures </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[链式前向星]]></title>
+      <url>/2017/05/17/lsqxx/</url>
+      <content type="html"><![CDATA[<p>简单讲解链式前向星<br><a id="more"></a></p>
+<h1 id="链式前向星"><a href="#链式前向星" class="headerlink" title="链式前向星"></a>链式前向星</h1><hr>
+<p>其实它的主要思想就是用数组建立邻接链表，链式前向星的主要就是下面这几行了<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v,<span class="keyword">int</span> w)</span></span></div><div class="line">&#123;</div><div class="line">    edge[cnt].c= w;</div><div class="line">    edge[cnt].to = v;</div><div class="line">    edge[cnt].next = head[u];</div><div class="line">    head[u] = cnt++;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="介绍一下"><a href="#介绍一下" class="headerlink" title="介绍一下"></a>介绍一下</h3><p>第一个出场的是edge.c——权重<br>好的，我们看到紧随其后的是edge.to——这条边的终点/*前两个还是很好理解的<br>然后就是最最大佬的部分，edge.next——它指向同一起点的上一条边<br>我们使用链式前向星时常常会看到这么一条语句for(i=head[u];i;i=e[i].next)//插个介绍，head[u]代表以u为起点的边上一次出现的边的编号<br>我们可以使用它进行一个bfs<br>举个栗子<br><img src="http://i2.muimg.com/588926/a4a294814e79454d.jpg" alt=""></p>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+            <tag> data structures </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[教务信息管理系统]]></title>
+      <url>/2017/05/16/homework/</url>
+      <content type="html"><![CDATA[<p>我的课程设计<br><a id="more"></a></p>
+<h1 id="课程设计：教务信息管理系统"><a href="#课程设计：教务信息管理系统" class="headerlink" title="课程设计：教务信息管理系统"></a>课程设计：教务信息管理系统</h1><hr>
+<h3 id="花了大半个月总算把这个系统做好了，现在放上链接，大概是要windows8-1以上的机子才能正常使用。"><a href="#花了大半个月总算把这个系统做好了，现在放上链接，大概是要windows8-1以上的机子才能正常使用。" class="headerlink" title="花了大半个月总算把这个系统做好了，现在放上链接，大概是要windows8.1以上的机子才能正常使用。"></a>花了大半个月总算把这个系统做好了，现在放上链接，大概是要windows8.1以上的机子才能正常使用。</h3><h3 id="下载链接："><a href="#下载链接：" class="headerlink" title="下载链接："></a><font color="Grey">下载链接：</font></h3><h4 id="Windows客户端"><a href="#Windows客户端" class="headerlink" title="Windows客户端"></a><a href="https://pan.baidu.com/s/1bo60y8v" target="_blank" rel="external">Windows客户端</a></h4><h4 id="说明-学生账号和密码是从201627010000-201627160000，教师账号密码从1000-9999，管理员分5个：招生，学生，选课，课程的拼音为账号，密码为8个8，还有账号管理员-admin-密码-admin"><a href="#说明-学生账号和密码是从201627010000-201627160000，教师账号密码从1000-9999，管理员分5个：招生，学生，选课，课程的拼音为账号，密码为8个8，还有账号管理员-admin-密码-admin" class="headerlink" title="说明:学生账号和密码是从201627010000-201627160000，教师账号密码从1000-9999，管理员分5个：招生，学生，选课，课程的拼音为账号，密码为8个8，还有账号管理员: admin 密码:admin"></a>说明:学生账号和密码是从201627010000-201627160000，教师账号密码从1000-9999，管理员分5个：招生，学生，选课，课程的拼音为账号，密码为8个8，还有账号管理员: admin 密码:admin</h4><hr>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码:"></a>源码:</h2><h3 id="点这里"><a href="#点这里" class="headerlink" title="点这里"></a><a href="http://paste.ubuntu.com/24833438/" target="_blank" rel="external">点这里</a></h3><h2 id="耐心等待一下网页加载，因为代码量比较大0-0"><a href="#耐心等待一下网页加载，因为代码量比较大0-0" class="headerlink" title="耐心等待一下网页加载，因为代码量比较大0.0"></a><font color="Grey" size="4">耐心等待一下网页加载，因为代码量比较大0.0</font></h2>]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> teach </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Something About This Blog]]></title>
+      <url>/2017/05/16/something-about-this-blog/</url>
+      <content type="html"><![CDATA[<p>关于本博客和博主的一些小事~<br><a id="more"></a></p>
+<h1 id="Something-About-This-Blog"><a href="#Something-About-This-Blog" class="headerlink" title="Something About This Blog"></a><font color="Blue">Something About This Blog</font></h1><hr>
+<p>本人大一狗，在<font color="Red">牛逼哄哄的室友</font>带领下，一起学习怎么建blog，这也是第一篇文章啦，本博客主要用于：</p>
+<blockquote>
+<ul>
+<li>整理知识，学习笔记</li>
+<li>发布日记，杂文，所见所想</li>
+<li>发布题解</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="博主竞赛中的经历"><a href="#博主竞赛中的经历" class="headerlink" title="博主竞赛中的经历"></a><font color="Blue">博主竞赛中的经历</font></h2><hr>
+<blockquote>
+<p>2013-10  初次接触Pascal<br>2014-4   初次参加编程类竞赛<br>2015-4   初次在编程类竞赛中获奖（NOIP二等）<br>2016-9   开始接触C语言<br>2017-1   在大学新生赛中获奖（第一）<br>2017-1   开始接触C++<br>2017-4   在大学校赛中获奖（二等）<br>2017-5   在ACM广东省赛中获奖（银奖）<br>2017-10  在CCPC秦皇岛赛区获奖（银奖）<br>2018-4  在大学校赛中获奖（三等）<br>2018-4  在华工校赛中获奖（银奖）<br>2018-5  在ACM广东省赛中获奖（铜奖）<br>至今     学习ing</p>
+<font color="Black">PS:博主这些都是上不了台面的小奖，所以还在认真学习T T</font>
+
+
+
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">   <span class="built_in">printf</span>(<span class="string">"!(give up&amp;&amp;stopped)"</span>);</div><div class="line">   <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><hr>
+<p>博主建起这个blog也不知道会不会持续更新，但是只要有时间就一定会坚持下去。 博主也愿意把自己一些微不足道的小见解和经历分享给大家。（当然多数是用来做题解） 不管怎么样，这blog也算是也是建起来啦~ 在此，本人由衷地说一句：欢迎你的到来！</p>
+<p>end</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Normal </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Normal </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hello World]]></title>
+      <url>/2017/05/12/hello-world/</url>
+      <content type="html"><![CDATA[<p>How to build this blog?<br><a id="more"></a><br>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> teach </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Offical </tag>
+            
+        </tags>
+        
+    </entry>
+    
+  
+  
 </search>

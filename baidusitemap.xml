@@ -4,6 +4,50 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/08/20/bkgj/</loc>
+    <lastmod>2018-10-01T06:03:07.604Z</lastmod>
+    <data>
+        <display>
+        <title>博客小挂件</title>
+        <pubTime>2017-08-20T14:37:49.000Z</pubTime>
+        
+        <tag>teach</tag>
+         
+        <tag>Tool</tag>
+         
+         
+           
+             
+              <breadCrumb title="Tool" url="http://yoursite.com/categories/Tool/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2018/10/01/twowechat/</loc>
+    <lastmod>2018-10-01T06:02:13.625Z</lastmod>
+    <data>
+        <display>
+        <title>一个微信管理多个微信消息</title>
+        <pubTime>2018-10-01T06:00:58.000Z</pubTime>
+        
+        <tag>teach</tag>
+         
+        <tag>Tool</tag>
+         
+         
+           
+             
+              <breadCrumb title="Tool" url="http://yoursite.com/categories/Tool/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2018/09/07/os-track/</loc>
     <lastmod>2018-09-07T12:47:58.798Z</lastmod>
     <data>
@@ -141,28 +185,6 @@
            
              
               <breadCrumb title="teach" url="http://yoursite.com/categories/teach/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/08/20/bkgj/</loc>
-    <lastmod>2017-09-24T16:21:48.451Z</lastmod>
-    <data>
-        <display>
-        <title>博客小挂件</title>
-        <pubTime>2017-08-20T14:37:49.000Z</pubTime>
-        
-        <tag>teach</tag>
-         
-        <tag>Tool</tag>
-         
-         
-           
-             
-              <breadCrumb title="Tool" url="http://yoursite.com/categories/Tool/"/>
           
         </display>
     </data>
