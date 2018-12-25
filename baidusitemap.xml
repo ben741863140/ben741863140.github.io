@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/05/16/something-about-this-blog/</loc>
+    <lastmod>2018-12-25T15:46:31.243Z</lastmod>
+    <data>
+        <display>
+        <title>Something About This Blog</title>
+        <pubTime>2017-05-16T04:00:29.000Z</pubTime>
+        
+        <tag>Normal</tag>
+         
+         
+           
+             
+              <breadCrumb title="Normal" url="http://yoursite.com/categories/Normal/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2018/10/01/twowechat/</loc>
-    <lastmod>2018-10-01T06:03:41.387Z</lastmod>
+    <lastmod>2018-10-01T06:16:09.449Z</lastmod>
     <data>
         <display>
         <title>一个微信管理多个微信消息</title>
@@ -105,26 +125,6 @@
            
              
               <breadCrumb title="teach" url="http://yoursite.com/categories/teach/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/05/16/something-about-this-blog/</loc>
-    <lastmod>2018-05-11T15:29:03.547Z</lastmod>
-    <data>
-        <display>
-        <title>Something About This Blog</title>
-        <pubTime>2017-05-16T04:00:29.000Z</pubTime>
-        
-        <tag>Normal</tag>
-         
-         
-           
-             
-              <breadCrumb title="Normal" url="http://yoursite.com/categories/Normal/"/>
           
         </display>
     </data>
